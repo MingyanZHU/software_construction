@@ -1,0 +1,181 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Vertex</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">vertex</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Vertex (vertex)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Vertex</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (21/ 21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package vertex;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import exception.IllegalVertexParamsException;
+<i>4</i>&nbsp;import exception.InputFileAgainException;
+<i>5</i>&nbsp;import java.util.Objects;
+<i>6</i>&nbsp;import java.util.regex.Matcher;
+<i>7</i>&nbsp;import java.util.regex.Pattern;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * A abstract class of vertex which defined the Spec all kinds of vertices should be obeyed.
+<i>11</i>&nbsp; *
+<i>12</i>&nbsp; * @author Zhu Mingyan
+<i>13</i>&nbsp; */
+<b class="fc"><i>14</i>&nbsp;public abstract class Vertex implements Cloneable {</b>
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;  /*
+<i>17</i>&nbsp;  AF: Represents the node of Graph.
+<i>18</i>&nbsp;  RI: All the label of vertex instance is unique.
+<i>19</i>&nbsp;      label of vertex is non-null and non-empty String.
+<i>20</i>&nbsp;  Safety for Rep Exposure:
+<i>21</i>&nbsp;      The label filed is modified by private and final.
+<i>22</i>&nbsp;      Clients can not access it outside this class.
+<i>23</i>&nbsp;   */
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;  private final String label;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;  /**
+<i>28</i>&nbsp;   * Constructor of Vertex with its label as param.
+<i>29</i>&nbsp;   */
+<b class="fc"><i>30</i>&nbsp;  public Vertex(String label) {</b>
+<b class="fc"><i>31</i>&nbsp;    this.label = label;</b>
+<b class="fc"><i>32</i>&nbsp;  }</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;  protected void checkRep() throws IllegalVertexParamsException {
+<b class="fc"><i>35</i>&nbsp;    if (label == null) {</b>
+<b class="fc"><i>36</i>&nbsp;      throw new IllegalVertexParamsException(&quot;Label is null!&quot;);</b>
+<i>37</i>&nbsp;    }
+<b class="fc"><i>38</i>&nbsp;    assert label != null;</b>
+<i>39</i>&nbsp;    //    assert label.length() != 0;
+<b class="fc"><i>40</i>&nbsp;    Pattern pattern = Pattern.compile(&quot;^[\\w]+$&quot;);</b>
+<i>41</i>&nbsp;    // All label consists of [A-Za-z_0-9]
+<b class="fc"><i>42</i>&nbsp;    Matcher matcher = pattern.matcher(label);</b>
+<i>43</i>&nbsp;    //    assert matcher.matches();
+<b class="fc"><i>44</i>&nbsp;    if (label.length() == 0 || !matcher.matches()) {</b>
+<b class="fc"><i>45</i>&nbsp;      throw new IllegalVertexParamsException(&quot;Label is illegal!&quot;);</b>
+<i>46</i>&nbsp;    }
+<b class="fc"><i>47</i>&nbsp;  }</b>
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;  /**
+<i>50</i>&nbsp;   * Fill the vertex other fields except label with an array of String.
+<i>51</i>&nbsp;   *
+<i>52</i>&nbsp;   * @param args String array
+<i>53</i>&nbsp;   * @throws InputFileAgainException if there are some errors occur which need to choose another
+<i>54</i>&nbsp;   *          input file.
+<i>55</i>&nbsp;   */
+<i>56</i>&nbsp;  public abstract void fillVertexInfo(String[] args) throws InputFileAgainException;
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;  /**
+<i>59</i>&nbsp;   * Get the label of vertex instance.
+<i>60</i>&nbsp;   *
+<i>61</i>&nbsp;   * @return label of vertex
+<i>62</i>&nbsp;   */
+<i>63</i>&nbsp;  public String getLabel() {
+<b class="fc"><i>64</i>&nbsp;    return this.label;</b>
+<i>65</i>&nbsp;  }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;  // 由于Vertex为抽象类并且所有继承Vertex类的子类均重写了toString方法
+<i>68</i>&nbsp;  // 因此 Vertex类中的toString方法可以删去
+<i>69</i>&nbsp;  //    @Override
+<i>70</i>&nbsp;  //    public String toString() {
+<i>71</i>&nbsp;  //        return &quot;Vertex{&quot; +
+<i>72</i>&nbsp;  //                &quot;label=&#39;&quot; + getLabel() + &#39;\&#39;&#39; +
+<i>73</i>&nbsp;  //                &#39;}&#39;;
+<i>74</i>&nbsp;  //    }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;  @Override
+<i>77</i>&nbsp;  public boolean equals(Object o) {
+<b class="fc"><i>78</i>&nbsp;    if (this == o) {</b>
+<b class="fc"><i>79</i>&nbsp;      return true;</b>
+<i>80</i>&nbsp;    }
+<b class="fc"><i>81</i>&nbsp;    if (!(o instanceof Vertex)) {</b>
+<b class="fc"><i>82</i>&nbsp;      return false;</b>
+<i>83</i>&nbsp;    }
+<b class="fc"><i>84</i>&nbsp;    Vertex vertex = (Vertex) o;</b>
+<b class="fc"><i>85</i>&nbsp;    return label.equals(vertex.label);</b>
+<i>86</i>&nbsp;  }
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;  @Override
+<i>89</i>&nbsp;  public int hashCode() {
+<i>90</i>&nbsp;
+<b class="fc"><i>91</i>&nbsp;    return Objects.hash(label);</b>
+<i>92</i>&nbsp;  }
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;  @Override
+<i>95</i>&nbsp;  public Vertex clone() throws CloneNotSupportedException {
+<b class="fc"><i>96</i>&nbsp;    return (Vertex) super.clone();</b>
+<i>97</i>&nbsp;  }
+<i>98</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

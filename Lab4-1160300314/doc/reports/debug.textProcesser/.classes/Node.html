@@ -1,0 +1,167 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Node</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">debug.textProcesser</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Node (debug.textProcesser)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Node</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.6%
+  </span>
+  <span class="absValue">
+    (31/ 35)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package debug.textProcesser;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+<i>4</i>&nbsp;import java.util.LinkedList;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;public class Node {
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;  //Trie that the current node belongs to
+<i>9</i>&nbsp;  Trie t;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;  //Linked list of characters
+<b class="fc"><i>12</i>&nbsp;  LinkedList&lt;Character&gt; c = new LinkedList&lt;&gt;();</b>
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;  //All of the nodes who are children of this node
+<b class="fc"><i>15</i>&nbsp;  LinkedList&lt;Node&gt; children = new LinkedList&lt;&gt;();</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;  //Boolean storing whether or not this node is a leaf
+<b class="fc"><i>18</i>&nbsp;  boolean isLeaf = false;</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;  //Value of the node if it is a leaf
+<i>21</i>&nbsp;  // 此处由于不明确Node(boolean b, int lv)是否可以删除 所以不能删掉此处未用代码
+<i>22</i>&nbsp;  // 而findbugs会将未使用的代码作为错误 故将其忽略
+<b class="fc"><i>23</i>&nbsp;  @SuppressFBWarnings(&quot;URF_UNREAD_FIELD&quot;)</b>
+<i>24</i>&nbsp;  int leafValue = 0;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;
+<b class="fc"><i>27</i>&nbsp;  public Node(boolean b, int lv) {</b>
+<b class="fc"><i>28</i>&nbsp;    isLeaf = b;</b>
+<b class="fc"><i>29</i>&nbsp;    leafValue = lv;</b>
+<b class="fc"><i>30</i>&nbsp;  }</b>
+<i>31</i>&nbsp;
+<b class="fc"><i>32</i>&nbsp;  public Node(Trie tv) {</b>
+<b class="fc"><i>33</i>&nbsp;    t = tv;</b>
+<b class="fc"><i>34</i>&nbsp;  }</b>
+<i>35</i>&nbsp;
+<b class="fc"><i>36</i>&nbsp;  public Node(char cv, Trie tv) {</b>
+<b class="fc"><i>37</i>&nbsp;    c.add(cv);</b>
+<b class="fc"><i>38</i>&nbsp;    t = tv;</b>
+<b class="fc"><i>39</i>&nbsp;  }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;  public void addChild(char c) {
+<b class="fc"><i>42</i>&nbsp;    if (t.pointer.childValues().contains(c)) {</b>
+<i>43</i>&nbsp;      //Check all the children of the currently pointed at node (root at start)
+<b class="nc"><i>44</i>&nbsp;      for (Node n : children) {</b>
+<i>45</i>&nbsp;        //Check if currently pointed to node already has a child whose value is c
+<i>46</i>&nbsp;        //if so, then shift the pointer to that node
+<b class="nc"><i>47</i>&nbsp;        if (n.c.contains(c)) {</b>
+<b class="nc"><i>48</i>&nbsp;          t.pointer = n;</b>
+<i>49</i>&nbsp;        }
+<b class="nc"><i>50</i>&nbsp;      }</b>
+<i>51</i>&nbsp;    } else {
+<i>52</i>&nbsp;      //Otherwise add a new child to that node and set the pointer to that node
+<b class="fc"><i>53</i>&nbsp;      Node n = new Node(c, t.pointer.getTrie());</b>
+<b class="fc"><i>54</i>&nbsp;      t.pointer.children.add(n);</b>
+<b class="fc"><i>55</i>&nbsp;      t.nodeSet.add(n);</b>
+<b class="fc"><i>56</i>&nbsp;      t.pointer = n;</b>
+<i>57</i>&nbsp;    }
+<b class="fc"><i>58</i>&nbsp;  }</b>
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;  //Method to add a leaf to the tree when a leaf node is required
+<i>61</i>&nbsp;  public void addLeafChild(Node n) {
+<b class="fc"><i>62</i>&nbsp;    children.add(n);</b>
+<b class="fc"><i>63</i>&nbsp;  }</b>
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;  //Getter method for the trie this node currently belongs to
+<i>66</i>&nbsp;  public Trie getTrie() {
+<b class="fc"><i>67</i>&nbsp;    return this.t;</b>
+<i>68</i>&nbsp;  }
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;  //Method that returns a linked list of characters containing all the values of
+<i>71</i>&nbsp;  //of the children of the node
+<i>72</i>&nbsp;  public LinkedList&lt;Character&gt; childValues() {
+<b class="fc"><i>73</i>&nbsp;    LinkedList&lt;Character&gt; l = new LinkedList&lt;&gt;();</b>
+<b class="fc"><i>74</i>&nbsp;    for (Node n : children) {</b>
+<b class="fc"><i>75</i>&nbsp;      if (n.isLeaf) {</b>
+<b class="fc"><i>76</i>&nbsp;        l.add(&#39;*&#39;);</b>
+<i>77</i>&nbsp;      } else {
+<b class="fc"><i>78</i>&nbsp;        l.add(n.c.getFirst());</b>
+<i>79</i>&nbsp;      }
+<b class="fc"><i>80</i>&nbsp;    }</b>
+<b class="fc"><i>81</i>&nbsp;    return l;</b>
+<i>82</i>&nbsp;  }
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

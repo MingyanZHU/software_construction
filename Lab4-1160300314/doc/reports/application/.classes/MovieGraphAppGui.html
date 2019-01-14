@@ -1,0 +1,134 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MovieGraphAppGui</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">application</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MovieGraphAppGui (application)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MovieGraphAppGui</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package application;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import application.guihelper.GraphGui;
+<i>4</i>&nbsp;import edge.Edge;
+<i>5</i>&nbsp;import edge.MovieActorRelation;
+<i>6</i>&nbsp;import edge.MovieDirectorRelation;
+<i>7</i>&nbsp;import edge.SameMovieHyperEdge;
+<i>8</i>&nbsp;import exception.InputFileAgainException;
+<i>9</i>&nbsp;import graph.Graph;
+<i>10</i>&nbsp;import vertex.Actor;
+<i>11</i>&nbsp;import vertex.Director;
+<i>12</i>&nbsp;import vertex.Movie;
+<i>13</i>&nbsp;import vertex.Vertex;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;/**
+<i>16</i>&nbsp; * Create a GUI visualization of MovieGraph.
+<i>17</i>&nbsp; *
+<i>18</i>&nbsp; * @author Zhu Mingyan
+<i>19</i>&nbsp; */
+<i>20</i>&nbsp;class MovieGraphAppGui extends GraphGui {
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;  MovieGraphAppGui(Graph graph) {
+<b class="nc"><i>23</i>&nbsp;    super(graph);</b>
+<i>24</i>&nbsp;  }
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;  /**
+<i>27</i>&nbsp;   * Add vertex into MovieGraph.
+<i>28</i>&nbsp;   *
+<i>29</i>&nbsp;   * @param vertex its type should be CastMember or Movie Class we have defined before and is
+<i>30</i>&nbsp;   *        non-null
+<i>31</i>&nbsp;   * @return true if we add it successfully, otherwise false
+<i>32</i>&nbsp;   */
+<i>33</i>&nbsp;  @Override
+<i>34</i>&nbsp;  public boolean addVertexInGraph(Vertex vertex) {
+<b class="nc"><i>35</i>&nbsp;    return (vertex instanceof Movie || vertex instanceof Actor</b>
+<b class="nc"><i>36</i>&nbsp;        || vertex instanceof Director) &amp;&amp; super.addVertexInGraph(vertex);</b>
+<i>37</i>&nbsp;  }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;  /**
+<i>40</i>&nbsp;   * Add edge into MovieGraph.
+<i>41</i>&nbsp;   *
+<i>42</i>&nbsp;   * @param edge its type should be SameMovieHyperEdge, MovieDirectorRelation and MovieActorRelation
+<i>43</i>&nbsp;   *        we have defined and is non-null
+<i>44</i>&nbsp;   * @return true if we add it successfully, otherwise false
+<i>45</i>&nbsp;   */
+<i>46</i>&nbsp;  @Override
+<i>47</i>&nbsp;  public boolean addEdgeInGraph(Edge edge) throws InputFileAgainException {
+<b class="nc"><i>48</i>&nbsp;    return (edge instanceof SameMovieHyperEdge || edge instanceof MovieDirectorRelation</b>
+<b class="nc"><i>49</i>&nbsp;        || edge instanceof MovieActorRelation) &amp;&amp; super.addEdgeInGraph(edge);</b>
+<i>50</i>&nbsp;  }
+<i>51</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

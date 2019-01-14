@@ -1,0 +1,136 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Circle</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">debug.geometryProcessor</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Circle (debug.geometryProcessor)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Circle</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (18/ 18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package debug.geometryProcessor;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;public class Circle implements Shape {
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;  double length;
+<i>6</i>&nbsp;  double area;
+<i>7</i>&nbsp;  String colour;
+<i>8</i>&nbsp;  String name;
+<i>9</i>&nbsp;
+<b class="fc"><i>10</i>&nbsp;  public Circle(double l, String c, String n) {</b>
+<b class="fc"><i>11</i>&nbsp;    length = l;</b>
+<b class="fc"><i>12</i>&nbsp;    colour = c;</b>
+<b class="fc"><i>13</i>&nbsp;    area = Math.PI * (l / 2) * (l / 2);</b>
+<b class="fc"><i>14</i>&nbsp;    name = n;</b>
+<b class="fc"><i>15</i>&nbsp;  }</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;  public String getShape() {
+<b class="fc"><i>18</i>&nbsp;    return &quot;Circle&quot;;</b>
+<i>19</i>&nbsp;  }
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;  public String getName() {
+<b class="fc"><i>23</i>&nbsp;    return name;</b>
+<i>24</i>&nbsp;  }
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;  @Override
+<i>27</i>&nbsp;  public String getColour() {
+<b class="fc"><i>28</i>&nbsp;    return colour;</b>
+<i>29</i>&nbsp;  }
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;  public double getLength() {
+<b class="fc"><i>32</i>&nbsp;    return length;</b>
+<i>33</i>&nbsp;  }
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;  //Get the area of this circle
+<i>36</i>&nbsp;  public double getArea() {
+<b class="fc"><i>37</i>&nbsp;    return area;</b>
+<i>38</i>&nbsp;  }
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;  public void setLength(double l) {
+<b class="fc"><i>41</i>&nbsp;    length = l;</b>
+<b class="fc"><i>42</i>&nbsp;    area = Math.PI * (l / 2) * (l / 2);</b>
+<b class="fc"><i>43</i>&nbsp;  }</b>
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;  public void setColour(String c) {
+<b class="fc"><i>46</i>&nbsp;    colour = c;</b>
+<b class="fc"><i>47</i>&nbsp;  }</b>
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;  public void setName(String n) {
+<b class="fc"><i>50</i>&nbsp;    name = n;</b>
+<b class="fc"><i>51</i>&nbsp;  }</b>
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

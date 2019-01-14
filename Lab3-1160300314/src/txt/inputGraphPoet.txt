@@ -1,0 +1,15 @@
+GraphType = "GraphPoet"
+GraphName = "PoetGraph"
+
+VertexType = "Word"
+Vertex = <"Word1", "Word">
+Vertex = <"Word2", "Word">
+Vertex = <"Word3", "Word">
+Vertex = <"Word4", "Word">
+
+EdgeType = "WordEdge"
+Edge = <"edge", "WordEdge", "1", "Word1", "Word2", "Yes">
+Edge = <"edge2", "WordEdge", "2", "Word2", "Word4", "Yes">
+Edge = <"edge3", "WordEdge", "3", "Word1", "Word3", "Yes">
+Edge = <"edge4", "WordEdge", "4", "Word3", "Word2", "Yes">
+Edge = <"edge5", "WordEdge", "4", "Word1", "Word4", "Yes">

@@ -1,0 +1,135 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: LogRecord</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">application.guihelper</a> ]
+</div>
+
+<h1>Coverage Summary for Class: LogRecord (application.guihelper)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LogRecord</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package application.guihelper;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.time.Instant;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;class LogRecord {
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;  private Instant time;
+<i>8</i>&nbsp;  private String className;
+<i>9</i>&nbsp;  private Type type;
+<i>10</i>&nbsp;  //    private String method;
+<i>11</i>&nbsp;  private String position;
+<i>12</i>&nbsp;  private String message;
+<i>13</i>&nbsp;
+<b class="nc"><i>14</i>&nbsp;  public LogRecord(Instant time, String className, String type, String position, String message) {</b>
+<b class="nc"><i>15</i>&nbsp;    this.time = time;</b>
+<b class="nc"><i>16</i>&nbsp;    this.className = className;</b>
+<b class="nc"><i>17</i>&nbsp;    this.type = Type.valueOf(type);</b>
+<i>18</i>&nbsp;    //        this.method = method;
+<b class="nc"><i>19</i>&nbsp;    this.position = position;</b>
+<b class="nc"><i>20</i>&nbsp;    this.message = message;</b>
+<i>21</i>&nbsp;  }
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;  public Instant getTime() {
+<b class="nc"><i>24</i>&nbsp;    return time;</b>
+<i>25</i>&nbsp;  }
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;  public String getClassName() {
+<b class="nc"><i>28</i>&nbsp;    return className;</b>
+<i>29</i>&nbsp;  }
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;  //    public String getMethod() {
+<i>32</i>&nbsp;  //        return method;
+<i>33</i>&nbsp;  //    }
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;  public String getType() {
+<i>36</i>&nbsp;
+<b class="nc"><i>37</i>&nbsp;    return type.name();</b>
+<i>38</i>&nbsp;  }
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;  public String getPosition() {
+<b class="nc"><i>41</i>&nbsp;    return position;</b>
+<i>42</i>&nbsp;  }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;  public String getMessage() {
+<b class="nc"><i>45</i>&nbsp;    return message;</b>
+<i>46</i>&nbsp;  }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;  @Override
+<i>49</i>&nbsp;  public String toString() {
+<b class="nc"><i>50</i>&nbsp;    return message + &quot; at &quot; + position + &quot; in &quot; + time + &quot;\n&quot;;</b>
+<i>51</i>&nbsp;  }
+<i>52</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

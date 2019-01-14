@@ -1,0 +1,128 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: UserState</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">state</a> ]
+</div>
+
+<h1>Coverage Summary for Class: UserState (state)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserState</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package state;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import exception.IllegalStateOpeationException;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * The state of nodes of Social Network.
+<i>7</i>&nbsp; *
+<i>8</i>&nbsp; * @author Zhu Mingyan
+<i>9</i>&nbsp; */
+<b class="fc"><i>10</i>&nbsp;public abstract class UserState implements State {</b>
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;  /**
+<i>13</i>&nbsp;   * Lock the user from the deactive or active state to locked state. And if locking in the locked
+<i>14</i>&nbsp;   * state it will still in the locked state.
+<i>15</i>&nbsp;   *
+<i>16</i>&nbsp;   * @return Locked State
+<i>17</i>&nbsp;   */
+<i>18</i>&nbsp;  public abstract UserState lock();
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;  /**
+<i>21</i>&nbsp;   * Deactive the user from active state to Deactive state. And if deactiving in the deactive state
+<i>22</i>&nbsp;   * it will still in the deactive state. Prohibited deactive in the locked state.
+<i>23</i>&nbsp;   *
+<i>24</i>&nbsp;   * @return Deactive State
+<i>25</i>&nbsp;   * @throws IllegalStateOpeationException if deactive on locked state.
+<i>26</i>&nbsp;   */
+<i>27</i>&nbsp;  public abstract UserState deactive() throws IllegalStateOpeationException;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;  /**
+<i>30</i>&nbsp;   * Active the user from deactive state to Active state. And if active in the active state it will
+<i>31</i>&nbsp;   * still in the active state. Prohibited deactive in the locked state.
+<i>32</i>&nbsp;   *
+<i>33</i>&nbsp;   * @return Active State
+<i>34</i>&nbsp;   * @throws IllegalStateOpeationException if active on locked state.
+<i>35</i>&nbsp;   */
+<i>36</i>&nbsp;  public abstract UserState active() throws IllegalStateOpeationException;
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;  /**
+<i>39</i>&nbsp;   * Unlock the user from locked state to unlocked state. And if it in other states with unlocking
+<i>40</i>&nbsp;   * operation it will still in the state.
+<i>41</i>&nbsp;   *
+<i>42</i>&nbsp;   * @return Unlocked State
+<i>43</i>&nbsp;   */
+<i>44</i>&nbsp;  public abstract UserState unlock();
+<i>45</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

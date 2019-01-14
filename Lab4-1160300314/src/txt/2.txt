@@ -1,0 +1,15 @@
+GraphType = "GraphPoet"
+GraphName = "PoetGraph"
+
+VertexType = "Word"
+Vertex = <"Word4", "Word">
+Vertex = <"Word3", "Word">
+Vertex = <"Word2", "Word">
+Vertex = <"Word1", "Word">
+
+EdgeType = "WordNeighborhood"
+Edge = <"edge2", "WordNeighborhood", "2.0", "Word2", "Word4", "Yes">
+Edge = <"edge4", "WordNeighborhood", "4.0", "Word3", "Word2", "Yes">
+Edge = <"sfdklj", "WordNeighborhood", "2.0", "Word4", "Word4", "Yes">
+Edge = <"edge3", "WordNeighborhood", "3.0", "Word1", "Word3", "Yes">
+Edge = <"edge5", "WordNeighborhood", "4.0", "Word1", "Word4", "Yes">

@@ -1,0 +1,108 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: NetworkState</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">state</a> ]
+</div>
+
+<h1>Coverage Summary for Class: NetworkState (state)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NetworkState</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package state;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;/**
+<i>4</i>&nbsp; * The state of nodes of network state.
+<i>5</i>&nbsp; *
+<i>6</i>&nbsp; * @author Zhu Mingyan
+<i>7</i>&nbsp; */
+<b class="fc"><i>8</i>&nbsp;public abstract class NetworkState implements State {</b>
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;  /**
+<i>11</i>&nbsp;   * Open the network equipment from close state to open state. And if open in the open state it
+<i>12</i>&nbsp;   * will still in the open state.
+<i>13</i>&nbsp;   *
+<i>14</i>&nbsp;   * @return Open State
+<i>15</i>&nbsp;   */
+<i>16</i>&nbsp;  public abstract NetworkState open();
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;  /**
+<i>19</i>&nbsp;   * Close the Network equipment from open state to close state. And if close in the close state it
+<i>20</i>&nbsp;   * will still in the close state
+<i>21</i>&nbsp;   *
+<i>22</i>&nbsp;   * @return Close State
+<i>23</i>&nbsp;   */
+<i>24</i>&nbsp;  public abstract NetworkState close();
+<i>25</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

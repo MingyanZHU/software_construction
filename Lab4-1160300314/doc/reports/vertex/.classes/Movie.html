@@ -1,0 +1,214 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Movie</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">vertex</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Movie (vertex)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Movie</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (37/ 37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package vertex;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import exception.IllegalParamsNumberException;
+<i>4</i>&nbsp;import exception.IllegalVertexParamsException;
+<i>5</i>&nbsp;import java.util.Objects;
+<i>6</i>&nbsp;import java.util.regex.Matcher;
+<i>7</i>&nbsp;import java.util.regex.Pattern;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * Describe a movie with its name, releasing year, nation and IMDB score.
+<i>11</i>&nbsp; *
+<i>12</i>&nbsp; * @author Zhu Mingyan
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public class Movie extends Vertex {
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;  /*
+<i>17</i>&nbsp;  AF: Represents a node of movie in movie Graph
+<i>18</i>&nbsp;  RI: The releasing year of any movie is between 1900 and 2018.
+<i>19</i>&nbsp;      The nation of any movie is an non-empty and non-null string.
+<i>20</i>&nbsp;      The score of any movie is two decimal places between 0.0 and 10.0
+<i>21</i>&nbsp;  Safety for Rep Exposure:
+<i>22</i>&nbsp;      All other kinds of fields except label(name) in movie are modified by key word private.
+<i>23</i>&nbsp;      Clients can access it by the getter function and there no other function can changer the
+<i>24</i>&nbsp;      fields except fillVertexInfo which is strictly limited.
+<i>25</i>&nbsp;   */
+<i>26</i>&nbsp;  private int releaseYear;
+<i>27</i>&nbsp;  private String nation;
+<i>28</i>&nbsp;  private double score;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;  public Movie(String label) throws IllegalVertexParamsException {
+<b class="fc"><i>31</i>&nbsp;    super(label);</b>
+<b class="fc"><i>32</i>&nbsp;    super.checkRep();</b>
+<b class="fc"><i>33</i>&nbsp;  }</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;  @Override
+<i>36</i>&nbsp;  protected void checkRep() throws IllegalVertexParamsException {
+<b class="fc"><i>37</i>&nbsp;    super.checkRep();</b>
+<b class="fc"><i>38</i>&nbsp;    if (releaseYear &lt; 1900 || releaseYear &gt; 2018) {</b>
+<b class="fc"><i>39</i>&nbsp;      throw new IllegalVertexParamsException(&quot;Release year is before 1900 or after 2018!&quot;);</b>
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;    //        assert releaseYear &gt;= 1900 &amp;&amp; releaseYear &lt;= 2018;
+<i>42</i>&nbsp;    //        assert nation != null &amp;&amp; nation.length() != 0;
+<b class="fc"><i>43</i>&nbsp;    if (nation == null) {</b>
+<b class="fc"><i>44</i>&nbsp;      throw new IllegalVertexParamsException(&quot;Nation of movie is null pointer!&quot;);</b>
+<i>45</i>&nbsp;    }
+<b class="fc"><i>46</i>&nbsp;    Pattern pattern = Pattern.compile(&quot;^([0-9]\\.[1-9]?\\d|10|\\d|10.0|10.00)*$&quot;);</b>
+<b class="fc"><i>47</i>&nbsp;    Matcher matcher = pattern.matcher(String.valueOf(score));</b>
+<i>48</i>&nbsp;    //        assert matcher.matches();
+<b class="fc"><i>49</i>&nbsp;    if (nation.length() == 0 || !matcher.matches()) {</b>
+<b class="fc"><i>50</i>&nbsp;      throw new IllegalVertexParamsException(&quot;Nation name is illegal!&quot;);</b>
+<i>51</i>&nbsp;    }
+<b class="fc"><i>52</i>&nbsp;  }</b>
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;  /**
+<i>55</i>&nbsp;   * Get the releasing year of this movie.
+<i>56</i>&nbsp;   *
+<i>57</i>&nbsp;   * @return an integer between 1900 and 2018.
+<i>58</i>&nbsp;   */
+<i>59</i>&nbsp;  public int getReleaseYear() {
+<b class="fc"><i>60</i>&nbsp;    return releaseYear;</b>
+<i>61</i>&nbsp;  }
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;  /**
+<i>64</i>&nbsp;   * get the releasing nation of this movie.
+<i>65</i>&nbsp;   *
+<i>66</i>&nbsp;   * @return name of releasing nation
+<i>67</i>&nbsp;   */
+<i>68</i>&nbsp;  public String getNation() {
+<b class="fc"><i>69</i>&nbsp;    return nation;</b>
+<i>70</i>&nbsp;  }
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;  /**
+<i>73</i>&nbsp;   * Get the IMDB score of this movie.
+<i>74</i>&nbsp;   *
+<i>75</i>&nbsp;   * @return decimals between 0.0 and 10.0
+<i>76</i>&nbsp;   */
+<i>77</i>&nbsp;  public double getScore() {
+<b class="fc"><i>78</i>&nbsp;    return score;</b>
+<i>79</i>&nbsp;  }
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;  /**
+<i>82</i>&nbsp;   * Fill other fields in movie with a string array of three strings, which are the releasing year,
+<i>83</i>&nbsp;   * nation and IMDB score in order.
+<i>84</i>&nbsp;   *
+<i>85</i>&nbsp;   * @param args String array
+<i>86</i>&nbsp;   */
+<i>87</i>&nbsp;  @Override
+<i>88</i>&nbsp;  public void fillVertexInfo(String[] args)
+<i>89</i>&nbsp;      throws IllegalParamsNumberException, IllegalVertexParamsException {
+<b class="fc"><i>90</i>&nbsp;    if (args == null) {</b>
+<b class="fc"><i>91</i>&nbsp;      throw new IllegalVertexParamsException(&quot;Fill Movie vertex with a null args!&quot;);</b>
+<i>92</i>&nbsp;    }
+<b class="fc"><i>93</i>&nbsp;    if (args.length != 3) {</b>
+<b class="fc"><i>94</i>&nbsp;      throw new IllegalParamsNumberException(&quot;Fill Movie vertex with &quot; + args.length + &quot; param(s)&quot;);</b>
+<i>95</i>&nbsp;    }
+<i>96</i>&nbsp;    //        this.releaseYear = Integer.valueOf(args[0]);
+<b class="fc"><i>97</i>&nbsp;    this.releaseYear = Integer.parseInt(args[0]);</b>
+<b class="fc"><i>98</i>&nbsp;    this.nation = args[1];</b>
+<b class="fc"><i>99</i>&nbsp;    this.score = Double.valueOf(args[2]);</b>
+<b class="fc"><i>100</i>&nbsp;    checkRep();</b>
+<b class="fc"><i>101</i>&nbsp;  }</b>
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;  @Override
+<i>104</i>&nbsp;  public String toString() {
+<b class="fc"><i>105</i>&nbsp;    return &quot;Movie{&quot; + &quot;name=&#39;&quot; + getLabel() + &#39;\&#39;&#39; + &quot;, releaseYear=&quot; + releaseYear</b>
+<i>106</i>&nbsp;        + &quot;, nation=&#39;&quot; + nation + &#39;\&#39;&#39; + &quot;, score=&quot; + score + &#39;}&#39;;
+<i>107</i>&nbsp;  }
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;  @Override
+<i>110</i>&nbsp;  public boolean equals(Object o) {
+<b class="fc"><i>111</i>&nbsp;    if (this == o) {</b>
+<b class="fc"><i>112</i>&nbsp;      return true;</b>
+<i>113</i>&nbsp;    }
+<b class="fc"><i>114</i>&nbsp;    if (!(o instanceof Movie)) {</b>
+<b class="fc"><i>115</i>&nbsp;      return false;</b>
+<i>116</i>&nbsp;    }
+<b class="fc"><i>117</i>&nbsp;    if (!super.equals(o)) {</b>
+<b class="fc"><i>118</i>&nbsp;      return false;</b>
+<i>119</i>&nbsp;    }
+<b class="fc"><i>120</i>&nbsp;    Movie movie = (Movie) o;</b>
+<b class="fc"><i>121</i>&nbsp;    return releaseYear == movie.releaseYear</b>
+<b class="fc"><i>122</i>&nbsp;        &amp;&amp; Double.compare(movie.score, score) == 0</b>
+<b class="fc"><i>123</i>&nbsp;        &amp;&amp; this.nation.equalsIgnoreCase(movie.nation);</b>
+<i>124</i>&nbsp;  }
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;  @Override
+<i>127</i>&nbsp;  public int hashCode() {
+<i>128</i>&nbsp;
+<b class="fc"><i>129</i>&nbsp;    return Objects.hash(super.hashCode(), releaseYear, nation, score, &quot;Movie&quot;);</b>
+<i>130</i>&nbsp;  }
+<i>131</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

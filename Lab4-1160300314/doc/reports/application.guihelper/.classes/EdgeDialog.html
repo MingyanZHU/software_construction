@@ -1,0 +1,201 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: EdgeDialog</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">application.guihelper</a> ]
+</div>
+
+<h1>Coverage Summary for Class: EdgeDialog (application.guihelper)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EdgeDialog</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 59)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package application.guihelper;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import edge.Edge;
+<i>4</i>&nbsp;import java.awt.Component;
+<i>5</i>&nbsp;import java.util.Arrays;
+<i>6</i>&nbsp;import java.util.Set;
+<i>7</i>&nbsp;import javax.swing.GroupLayout;
+<i>8</i>&nbsp;import javax.swing.JButton;
+<i>9</i>&nbsp;import javax.swing.JComboBox;
+<i>10</i>&nbsp;import javax.swing.JDialog;
+<i>11</i>&nbsp;import javax.swing.JLabel;
+<i>12</i>&nbsp;import javax.swing.JPanel;
+<i>13</i>&nbsp;import javax.swing.JTextField;
+<i>14</i>&nbsp;import vertex.Vertex;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;/**
+<i>17</i>&nbsp; * A dialog when add or modify edge.
+<i>18</i>&nbsp; *
+<i>19</i>&nbsp; * @author Zhu Mingyan
+<i>20</i>&nbsp; */
+<i>21</i>&nbsp;class EdgeDialog {
+<i>22</i>&nbsp;  /*
+<i>23</i>&nbsp;  AF: Represents a dialog using when add or modify edge
+<i>24</i>&nbsp;  RI: The instance of JDialog is non-null
+<i>25</i>&nbsp;  Safety for Rep Exposure:
+<i>26</i>&nbsp;      All fields are modified by private and using defencive copy when needed something field
+<i>27</i>&nbsp;   */
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;  private JDialog dialog;
+<b class="nc"><i>30</i>&nbsp;  private JComboBox&lt;Vertex&gt; source = new JComboBox&lt;&gt;();</b>
+<b class="nc"><i>31</i>&nbsp;  private JComboBox&lt;Vertex&gt; destination = new JComboBox&lt;&gt;();</b>
+<b class="nc"><i>32</i>&nbsp;  private JTextField label = new JTextField();</b>
+<b class="nc"><i>33</i>&nbsp;  private JTextField weight = new JTextField();</b>
+<i>34</i>&nbsp;
+<b class="nc"><i>35</i>&nbsp;  private JButton button = new JButton(&quot;OK&quot;);</b>
+<i>36</i>&nbsp;
+<b class="nc"><i>37</i>&nbsp;  private JLabel label1 = new JLabel(&quot;Vertex1:&quot;);</b>
+<b class="nc"><i>38</i>&nbsp;  private JLabel label2 = new JLabel(&quot;Vertex2:&quot;);</b>
+<b class="nc"><i>39</i>&nbsp;  private JLabel label3 = new JLabel(&quot;Label:&quot;);</b>
+<b class="nc"><i>40</i>&nbsp;  private JLabel label4 = new JLabel(&quot;Weight&quot;);</b>
+<i>41</i>&nbsp;
+<b class="nc"><i>42</i>&nbsp;  private JPanel panel = new JPanel();</b>
+<b class="nc"><i>43</i>&nbsp;  private GroupLayout layout = new GroupLayout(panel);</b>
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;  /**
+<i>46</i>&nbsp;   * Create an instance of EdgeDialog with parent Component, parent Frame and the modified edge.
+<i>47</i>&nbsp;   *
+<i>48</i>&nbsp;   * @param owner parent Frame and non-null
+<i>49</i>&nbsp;   * @param parentComponent parent Component and non-null
+<i>50</i>&nbsp;   */
+<i>51</i>&nbsp;
+<b class="nc"><i>52</i>&nbsp;  EdgeDialog(GraphGui owner, Component parentComponent) {</b>
+<b class="nc"><i>53</i>&nbsp;    this.dialog = new JDialog(owner, &quot;Edge&quot;, true);</b>
+<b class="nc"><i>54</i>&nbsp;    ini(owner, parentComponent);</b>
+<i>55</i>&nbsp;  }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;  /**
+<i>58</i>&nbsp;   * Create an instance of EdgeDialog with parent Component, parent Frame and the modified edge.
+<i>59</i>&nbsp;   *
+<i>60</i>&nbsp;   * @param owner parent Frame and non-null
+<i>61</i>&nbsp;   * @param parentComponent parent Component and non-null
+<i>62</i>&nbsp;   * @param edge edge that added or modified
+<i>63</i>&nbsp;   */
+<b class="nc"><i>64</i>&nbsp;  EdgeDialog(GraphGui owner, Component parentComponent, Edge edge) {</b>
+<b class="nc"><i>65</i>&nbsp;    this.dialog = new JDialog(owner, &quot;Edge&quot;, true);</b>
+<b class="nc"><i>66</i>&nbsp;    label = new JTextField(edge.getLabel());</b>
+<b class="nc"><i>67</i>&nbsp;    weight = new JTextField(String.valueOf(edge.getWeight()));</b>
+<b class="nc"><i>68</i>&nbsp;    ini(owner, parentComponent);</b>
+<i>69</i>&nbsp;  }
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;  private void ini(GraphGui owner, Component parentComponent) {
+<b class="nc"><i>72</i>&nbsp;    this.dialog.setSize(600, 250);</b>
+<b class="nc"><i>73</i>&nbsp;    dialog.setLocationRelativeTo(parentComponent);</b>
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;    Set&lt;Vertex&gt; vertexSet = owner.getVertices();</b>
+<b class="nc"><i>76</i>&nbsp;    for (Vertex vertex : vertexSet) {</b>
+<b class="nc"><i>77</i>&nbsp;      source.addItem(vertex);</b>
+<b class="nc"><i>78</i>&nbsp;      destination.addItem(vertex);</b>
+<b class="nc"><i>79</i>&nbsp;    }</b>
+<i>80</i>&nbsp;
+<b class="nc"><i>81</i>&nbsp;    panel.setLayout(layout);</b>
+<b class="nc"><i>82</i>&nbsp;    GroupLayout.SequentialGroup hgroup = layout.createSequentialGroup();</b>
+<b class="nc"><i>83</i>&nbsp;    hgroup.addGap(5);</b>
+<b class="nc"><i>84</i>&nbsp;    hgroup.addGroup(</b>
+<b class="nc"><i>85</i>&nbsp;        layout.createParallelGroup().addComponent(label3).addComponent(label1).addComponent(label2)</b>
+<b class="nc"><i>86</i>&nbsp;            .addComponent(label4));</b>
+<b class="nc"><i>87</i>&nbsp;    hgroup.addGap(5);</b>
+<b class="nc"><i>88</i>&nbsp;    hgroup.addGroup(layout.createParallelGroup().addComponent(label).addComponent(source)</b>
+<b class="nc"><i>89</i>&nbsp;        .addComponent(destination)</b>
+<b class="nc"><i>90</i>&nbsp;        .addComponent(weight).addComponent(button));</b>
+<b class="nc"><i>91</i>&nbsp;    hgroup.addGap(5);</b>
+<b class="nc"><i>92</i>&nbsp;    layout.setHorizontalGroup(hgroup);</b>
+<i>93</i>&nbsp;
+<b class="nc"><i>94</i>&nbsp;    GroupLayout.SequentialGroup vgroup = layout.createSequentialGroup();</b>
+<b class="nc"><i>95</i>&nbsp;    vgroup.addGap(10);</b>
+<b class="nc"><i>96</i>&nbsp;    vgroup.addGroup(layout.createParallelGroup().addComponent(label3).addComponent(label));</b>
+<b class="nc"><i>97</i>&nbsp;    vgroup.addGap(10);</b>
+<b class="nc"><i>98</i>&nbsp;    vgroup.addGroup(layout.createParallelGroup().addComponent(label1).addComponent(source));</b>
+<b class="nc"><i>99</i>&nbsp;    vgroup.addGap(10);</b>
+<b class="nc"><i>100</i>&nbsp;    vgroup.addGroup(layout.createParallelGroup().addComponent(label2).addComponent(destination));</b>
+<b class="nc"><i>101</i>&nbsp;    vgroup.addGap(10);</b>
+<b class="nc"><i>102</i>&nbsp;    vgroup.addGroup(layout.createParallelGroup().addComponent(label4).addComponent(weight));</b>
+<b class="nc"><i>103</i>&nbsp;    vgroup.addGap(10);</b>
+<b class="nc"><i>104</i>&nbsp;    vgroup.addGroup(layout.createParallelGroup().addComponent(button));</b>
+<b class="nc"><i>105</i>&nbsp;    vgroup.addGap(10);</b>
+<b class="nc"><i>106</i>&nbsp;    layout.setVerticalGroup(vgroup);</b>
+<i>107</i>&nbsp;
+<b class="nc"><i>108</i>&nbsp;    button.addActionListener(e -&gt; {</b>
+<b class="nc"><i>109</i>&nbsp;      owner.setEdgeLabel(label.getText());</b>
+<b class="nc"><i>110</i>&nbsp;      owner.setWeight(Double.valueOf(weight.getText()));</b>
+<b class="nc"><i>111</i>&nbsp;      owner.setVertexList(</b>
+<b class="nc"><i>112</i>&nbsp;          Arrays.asList((Vertex) source.getSelectedItem(), (Vertex) destination.getSelectedItem()));</b>
+<b class="nc"><i>113</i>&nbsp;      dialog.dispose();</b>
+<i>114</i>&nbsp;    });
+<b class="nc"><i>115</i>&nbsp;    dialog.setContentPane(panel);</b>
+<b class="nc"><i>116</i>&nbsp;    dialog.setVisible(true);</b>
+<i>117</i>&nbsp;  }
+<i>118</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

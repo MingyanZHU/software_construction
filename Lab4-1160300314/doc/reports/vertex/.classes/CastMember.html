@@ -1,0 +1,185 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CastMember</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">vertex</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CastMember (vertex)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CastMember</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.1%
+  </span>
+  <span class="absValue">
+    (27/ 29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package vertex;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import exception.IllegalParamsNumberException;
+<i>4</i>&nbsp;import exception.IllegalVertexParamsException;
+<i>5</i>&nbsp;import java.util.Objects;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * Describe the cast People in Movie Graph with his/her age and gender.
+<i>9</i>&nbsp; *
+<i>10</i>&nbsp; * @author Zhu Mingyan
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public abstract class CastMember extends Vertex {
+<i>13</i>&nbsp;  /*
+<i>14</i>&nbsp;  AF: Represents the node of actor or director in Movie Graph
+<i>15</i>&nbsp;  RI: Age of cast is an integer above zero.
+<i>16</i>&nbsp;      Gender of cast is &#39;M&#39; or &#39;F&#39;.
+<i>17</i>&nbsp;  Safety for Rep Exposure:
+<i>18</i>&nbsp;      Other fields except label are modified by private. Clients can not access the field by other
+<i>19</i>&nbsp;      function except getter function and fillVertexInfo which is strictly limited.
+<i>20</i>&nbsp;   */
+<i>21</i>&nbsp;
+<b class="fc"><i>22</i>&nbsp;  private int age = 18;</b>
+<b class="fc"><i>23</i>&nbsp;  private String gender = &quot;M&quot;;</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;  public CastMember(String label) throws IllegalVertexParamsException {
+<b class="fc"><i>26</i>&nbsp;    super(label);</b>
+<b class="fc"><i>27</i>&nbsp;  }</b>
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;  @Override
+<i>30</i>&nbsp;  protected void checkRep() throws IllegalVertexParamsException {
+<b class="fc"><i>31</i>&nbsp;    super.checkRep();</b>
+<b class="fc"><i>32</i>&nbsp;    if (gender == null) {</b>
+<b class="fc"><i>33</i>&nbsp;      throw new IllegalVertexParamsException(&quot;Fill vertex in MovieGraph with null gender!&quot;);</b>
+<i>34</i>&nbsp;    }
+<b class="fc"><i>35</i>&nbsp;    if (age &lt;= 0 || (!gender.equals(&quot;M&quot;) &amp;&amp; !gender.equals(&quot;F&quot;))) {</b>
+<b class="fc"><i>36</i>&nbsp;      throw new IllegalVertexParamsException(&quot;Fill vertex in MovieGraph with illegal params!&quot;);</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;    //        assert age &gt; 0;
+<i>39</i>&nbsp;    //        assert gender != null &amp;&amp; (gender.equals(&quot;M&quot;) || gender.equals(&quot;F&quot;));
+<b class="fc"><i>40</i>&nbsp;  }</b>
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;  /**
+<i>43</i>&nbsp;   * Fill the other fields in CastMember with a string array with two strings, which is age and
+<i>44</i>&nbsp;   * gender of the cast in order.
+<i>45</i>&nbsp;   *
+<i>46</i>&nbsp;   * @param args String array
+<i>47</i>&nbsp;   */
+<i>48</i>&nbsp;  @Override
+<i>49</i>&nbsp;  public void fillVertexInfo(String[] args)
+<i>50</i>&nbsp;      throws IllegalParamsNumberException, IllegalVertexParamsException {
+<b class="fc"><i>51</i>&nbsp;    if (args == null) {</b>
+<b class="fc"><i>52</i>&nbsp;      throw new IllegalParamsNumberException(&quot;Fill vertices in MovieGraph with null args!&quot;);</b>
+<i>53</i>&nbsp;    }
+<b class="fc"><i>54</i>&nbsp;    if (args.length != 2) {</b>
+<b class="fc"><i>55</i>&nbsp;      throw new IllegalParamsNumberException(</b>
+<i>56</i>&nbsp;          &quot;Fill vertices in Movie Graph with &quot; + args.length + &quot; param(s)&quot;);
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;    //        this.age = Integer.valueOf(args[0]);
+<b class="fc"><i>59</i>&nbsp;    this.age = Integer.parseInt(args[1]);</b>
+<b class="fc"><i>60</i>&nbsp;    this.gender = args[0];</b>
+<b class="fc"><i>61</i>&nbsp;    checkRep();</b>
+<b class="fc"><i>62</i>&nbsp;  }</b>
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;  /**
+<i>65</i>&nbsp;   * Get the age of the cast.
+<i>66</i>&nbsp;   *
+<i>67</i>&nbsp;   * @return an integer describing age
+<i>68</i>&nbsp;   */
+<i>69</i>&nbsp;  public int getAge() {
+<b class="fc"><i>70</i>&nbsp;    return age;</b>
+<i>71</i>&nbsp;  }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;  /**
+<i>74</i>&nbsp;   * Get the gender of the cast.
+<i>75</i>&nbsp;   *
+<i>76</i>&nbsp;   * @return &#39;M&#39; or &#39;F&#39;
+<i>77</i>&nbsp;   */
+<i>78</i>&nbsp;  public String getGender() {
+<b class="fc"><i>79</i>&nbsp;    return gender;</b>
+<i>80</i>&nbsp;  }
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;  @Override
+<i>83</i>&nbsp;  public boolean equals(Object o) {
+<b class="fc"><i>84</i>&nbsp;    if (this == o) {</b>
+<b class="nc"><i>85</i>&nbsp;      return true;</b>
+<i>86</i>&nbsp;    }
+<b class="fc"><i>87</i>&nbsp;    if (!(o instanceof CastMember)) {</b>
+<b class="nc"><i>88</i>&nbsp;      return false;</b>
+<i>89</i>&nbsp;    }
+<b class="fc"><i>90</i>&nbsp;    if (!super.equals(o)) {</b>
+<b class="fc"><i>91</i>&nbsp;      return false;</b>
+<i>92</i>&nbsp;    }
+<b class="fc"><i>93</i>&nbsp;    CastMember that = (CastMember) o;</b>
+<b class="fc"><i>94</i>&nbsp;    return age == that.age &amp;&amp; gender.equals(that.gender);</b>
+<i>95</i>&nbsp;  }
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;  @Override
+<i>98</i>&nbsp;  public int hashCode() {
+<i>99</i>&nbsp;
+<b class="fc"><i>100</i>&nbsp;    return Objects.hash(super.hashCode(), age, gender);</b>
+<i>101</i>&nbsp;  }
+<i>102</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

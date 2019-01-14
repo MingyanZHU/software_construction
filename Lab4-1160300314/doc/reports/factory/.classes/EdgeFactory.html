@@ -1,0 +1,142 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: EdgeFactory</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">factory</a> ]
+</div>
+
+<h1>Coverage Summary for Class: EdgeFactory (factory)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EdgeFactory</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94.7%
+  </span>
+  <span class="absValue">
+    (18/ 19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package factory;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import edge.CommentTie;
+<i>4</i>&nbsp;import edge.Edge;
+<i>5</i>&nbsp;import edge.ForwardTie;
+<i>6</i>&nbsp;import edge.FriendTie;
+<i>7</i>&nbsp;import edge.MovieActorRelation;
+<i>8</i>&nbsp;import edge.MovieDirectorRelation;
+<i>9</i>&nbsp;import edge.NetworkConnection;
+<i>10</i>&nbsp;import edge.WordNeighborhood;
+<i>11</i>&nbsp;import exception.InputFileAgainException;
+<i>12</i>&nbsp;import java.util.List;
+<i>13</i>&nbsp;import vertex.Vertex;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;/**
+<i>16</i>&nbsp; * A factory that used to create instances of edges.
+<i>17</i>&nbsp; *
+<i>18</i>&nbsp; * @author Zhu Mingyan
+<i>19</i>&nbsp; */
+<b class="fc"><i>20</i>&nbsp;public class EdgeFactory {</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;  /**
+<i>23</i>&nbsp;   * Create an instance of determined type with all params provided.
+<i>24</i>&nbsp;   *
+<i>25</i>&nbsp;   * @param label the label string of instance which is non-null and non-empty string
+<i>26</i>&nbsp;   * @param type the type of this instance you want to which should be in all types we have been
+<i>27</i>&nbsp;   *        defined.
+<i>28</i>&nbsp;   * @param weight the weight of this edge instance if this edge is unweighted edge weight should be
+<i>29</i>&nbsp;   *        -1 otherwise should be above 0.
+<i>30</i>&nbsp;   * @param vertices all vertices should in this edge. If this edge is directed, the former should
+<i>31</i>&nbsp;   *        be the source vertex and the latter should be the destination.
+<i>32</i>&nbsp;   *        If this edge is a loop, vertices should have exactly one vertex.
+<i>33</i>&nbsp;   * @return an instance of the determined type and provided params
+<i>34</i>&nbsp;   */
+<i>35</i>&nbsp;  public static Edge createEdge(String label, String type, double weight, List&lt;Vertex&gt; vertices)
+<i>36</i>&nbsp;      throws InputFileAgainException {
+<i>37</i>&nbsp;    Edge edge;
+<b class="fc"><i>38</i>&nbsp;    if (type.equals(&quot;WordNeighborhood&quot;)) {</b>
+<b class="fc"><i>39</i>&nbsp;      edge = new WordNeighborhood(label, weight);</b>
+<b class="fc"><i>40</i>&nbsp;    } else if (type.equals(&quot;NetworkConnection&quot;)) {</b>
+<b class="fc"><i>41</i>&nbsp;      edge = new NetworkConnection(label, weight);</b>
+<b class="fc"><i>42</i>&nbsp;    } else if (type.equals(&quot;MovieDirectorRelation&quot;)) {</b>
+<b class="fc"><i>43</i>&nbsp;      edge = new MovieDirectorRelation(label, weight);</b>
+<b class="fc"><i>44</i>&nbsp;    } else if (type.equals(&quot;MovieActorRelation&quot;)) {</b>
+<b class="fc"><i>45</i>&nbsp;      edge = new MovieActorRelation(label, weight);</b>
+<b class="fc"><i>46</i>&nbsp;    } else if (type.equals(&quot;FriendTie&quot;)) {</b>
+<b class="fc"><i>47</i>&nbsp;      edge = new FriendTie(label, weight);</b>
+<b class="fc"><i>48</i>&nbsp;    } else if (type.equals(&quot;ForwardTie&quot;)) {</b>
+<b class="fc"><i>49</i>&nbsp;      edge = new ForwardTie(label, weight);</b>
+<b class="fc"><i>50</i>&nbsp;    } else if (type.equals(&quot;CommentTie&quot;)) {</b>
+<b class="fc"><i>51</i>&nbsp;      edge = new CommentTie(label, weight);</b>
+<i>52</i>&nbsp;    } else {
+<b class="nc"><i>53</i>&nbsp;      edge = null;</b>
+<i>54</i>&nbsp;    }
+<b class="fc"><i>55</i>&nbsp;    assert edge != null;</b>
+<b class="fc"><i>56</i>&nbsp;    edge.addVertices(vertices);</b>
+<b class="fc"><i>57</i>&nbsp;    return edge;</b>
+<i>58</i>&nbsp;  }
+<i>59</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

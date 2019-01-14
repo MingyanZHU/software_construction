@@ -1,0 +1,227 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Edge</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">edge</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Edge (edge)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Edge</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96%
+  </span>
+  <span class="absValue">
+    (24/ 25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package edge;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import exception.IllegalEdgeParamsException;
+<i>4</i>&nbsp;import exception.InputFileAgainException;
+<i>5</i>&nbsp;import java.util.List;
+<i>6</i>&nbsp;import java.util.Objects;
+<i>7</i>&nbsp;import java.util.Set;
+<i>8</i>&nbsp;import java.util.regex.Matcher;
+<i>9</i>&nbsp;import java.util.regex.Pattern;
+<i>10</i>&nbsp;import vertex.Vertex;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;/**
+<i>13</i>&nbsp; * Describe the edge of graph with its label and weight.
+<i>14</i>&nbsp; *
+<i>15</i>&nbsp; * @author Zhu Mingyan
+<i>16</i>&nbsp; */
+<i>17</i>&nbsp;public abstract class Edge {
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;  /*
+<i>20</i>&nbsp;  AF: Represents an edge of graph with label and weight.
+<i>21</i>&nbsp;  RI: label of edge is non-null and non-empty string consisting of [A-Za-z_0-9] and is unique.
+<i>22</i>&nbsp;      weight of edge is -1 or a decimal above 0.
+<i>23</i>&nbsp;  Safety for Rep Exposure:
+<i>24</i>&nbsp;      All fields in edge are modified by key word private and final.
+<i>25</i>&nbsp;      Clients can not change them except Constructor of edge.
+<i>26</i>&nbsp;   */
+<i>27</i>&nbsp;  private final String label;
+<i>28</i>&nbsp;  private final double weight;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;  /**
+<i>31</i>&nbsp;   * Get an instance of edge with its label and weight.
+<i>32</i>&nbsp;   */
+<b class="fc"><i>33</i>&nbsp;  public Edge(String label, double weight) throws IllegalEdgeParamsException {</b>
+<b class="fc"><i>34</i>&nbsp;    this.label = label;</b>
+<b class="fc"><i>35</i>&nbsp;    this.weight = weight;</b>
+<b class="fc"><i>36</i>&nbsp;    if (label == null) {</b>
+<b class="fc"><i>37</i>&nbsp;      throw new IllegalEdgeParamsException(&quot;Label of edge should not be null!&quot;);</b>
+<i>38</i>&nbsp;    }
+<b class="fc"><i>39</i>&nbsp;    if (label.length() == 0) {</b>
+<b class="fc"><i>40</i>&nbsp;      throw new IllegalEdgeParamsException(&quot;Label of edge should not be empty string&quot;);</b>
+<i>41</i>&nbsp;    }
+<b class="fc"><i>42</i>&nbsp;    Pattern pattern = Pattern.compile(&quot;^[\\w]+$&quot;);</b>
+<b class="fc"><i>43</i>&nbsp;    Matcher matcher = pattern.matcher(label);</b>
+<b class="fc"><i>44</i>&nbsp;    if (!matcher.matches()) {</b>
+<b class="fc"><i>45</i>&nbsp;      throw new IllegalEdgeParamsException(label + &quot; should not be label of edge &quot;</b>
+<i>46</i>&nbsp;          + &quot;because it not consists of [\\w]&quot;);
+<i>47</i>&nbsp;    }
+<b class="fc"><i>48</i>&nbsp;  }</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;  protected void checkRep() throws InputFileAgainException {
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    //        assert label != null &amp;&amp; label.length() != 0;
+<i>53</i>&nbsp;    //        assert matcher.matches();
+<b class="fc"><i>54</i>&nbsp;    if (Math.abs(weight + 1) &gt;= 0.00001</b>
+<b class="fc"><i>55</i>&nbsp;        &amp;&amp; Double.doubleToLongBits(weight) &lt;= Double.doubleToLongBits(0)) {</b>
+<b class="fc"><i>56</i>&nbsp;      throw new IllegalEdgeParamsException(weight + &quot; of edge is illegal&quot;);</b>
+<i>57</i>&nbsp;    }
+<b class="fc"><i>58</i>&nbsp;  }</b>
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;  /**
+<i>61</i>&nbsp;   * Get label of edge.
+<i>62</i>&nbsp;   *
+<i>63</i>&nbsp;   * @return label string
+<i>64</i>&nbsp;   */
+<i>65</i>&nbsp;  public String getLabel() {
+<b class="fc"><i>66</i>&nbsp;    return label;</b>
+<i>67</i>&nbsp;  }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;  /**
+<i>70</i>&nbsp;   * Get the weight of this edge.
+<i>71</i>&nbsp;   *
+<i>72</i>&nbsp;   * @return a decimal of -1 if this is an edge without weights or above 0
+<i>73</i>&nbsp;   */
+<i>74</i>&nbsp;  public double getWeight() {
+<b class="fc"><i>75</i>&nbsp;    return weight;</b>
+<i>76</i>&nbsp;  }
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;  /**
+<i>79</i>&nbsp;   * Fill the vertices of edge. If it is a directed edge, list of vertices should consist source
+<i>80</i>&nbsp;   * vertex and destination vertex in order. If it is a undirected edge, list of vertices should
+<i>81</i>&nbsp;   * consist with exactly two vertices in any order or only one vertex only if it&#39;s a loop. If it is
+<i>82</i>&nbsp;   * a hyper edge, lise of vertices should consist with one vertex at least or more than one
+<i>83</i>&nbsp;   * vertices in any order.
+<i>84</i>&nbsp;   *
+<i>85</i>&nbsp;   * @return true if add vertices successfully, otherwise false
+<i>86</i>&nbsp;   */
+<i>87</i>&nbsp;  public abstract boolean addVertices(List&lt;Vertex&gt; vertices) throws InputFileAgainException;
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;  /**
+<i>90</i>&nbsp;   * Determine if there is this vertex in this edge.
+<i>91</i>&nbsp;   *
+<i>92</i>&nbsp;   * @param v the vertex need to determine
+<i>93</i>&nbsp;   * @return true if this vertex in this edge, otherwise false
+<i>94</i>&nbsp;   */
+<i>95</i>&nbsp;  public abstract boolean containVertex(Vertex v);
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;  /**
+<i>98</i>&nbsp;   * Get all vertices in this edge.
+<i>99</i>&nbsp;   *
+<i>100</i>&nbsp;   * @return a set consists of all vertices in this edge
+<i>101</i>&nbsp;   */
+<i>102</i>&nbsp;  public abstract Set&lt;Vertex&gt; vertices();
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;  /**
+<i>105</i>&nbsp;   * Get all the source vertices of this edge.
+<i>106</i>&nbsp;   *
+<i>107</i>&nbsp;   * @return a set consists of all source vertices of this edge
+<i>108</i>&nbsp;   */
+<i>109</i>&nbsp;  public abstract Set&lt;Vertex&gt; sourceVertices();
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;  /**
+<i>112</i>&nbsp;   * Get all the destination(target) vertices of this edge.
+<i>113</i>&nbsp;   *
+<i>114</i>&nbsp;   * @return a set consists of all destination(target) vertices of this edge
+<i>115</i>&nbsp;   */
+<i>116</i>&nbsp;  public abstract Set&lt;Vertex&gt; targetVertices();
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;  // 抽象类Edge所有的具体子类均重写了toString()方法
+<i>119</i>&nbsp;  //    @Override
+<i>120</i>&nbsp;  //    public String toString() {
+<i>121</i>&nbsp;  //        return &quot;Edge{&quot; +
+<i>122</i>&nbsp;  //                &quot;label=&#39;&quot; + label + &#39;\&#39;&#39; +
+<i>123</i>&nbsp;  //                &quot;, weight=&quot; + weight +
+<i>124</i>&nbsp;  //                &#39;}&#39;;
+<i>125</i>&nbsp;  //    }
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;  @Override
+<i>128</i>&nbsp;  public boolean equals(Object o) {
+<b class="fc"><i>129</i>&nbsp;    if (this == o) {</b>
+<b class="fc"><i>130</i>&nbsp;      return true;</b>
+<i>131</i>&nbsp;    }
+<b class="fc"><i>132</i>&nbsp;    if (!(o instanceof Edge)) {</b>
+<b class="nc"><i>133</i>&nbsp;      return false;</b>
+<i>134</i>&nbsp;    }
+<b class="fc"><i>135</i>&nbsp;    Edge edge = (Edge) o;</b>
+<b class="fc"><i>136</i>&nbsp;    return Double.compare(edge.weight, weight) == 0 &amp;&amp; label.equals(edge.label);</b>
+<i>137</i>&nbsp;  }
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;  @Override
+<i>140</i>&nbsp;  public int hashCode() {
+<i>141</i>&nbsp;
+<b class="fc"><i>142</i>&nbsp;    return Objects.hash(label, weight);</b>
+<i>143</i>&nbsp;  }
+<i>144</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

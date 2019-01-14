@@ -1,0 +1,13 @@
+Attaching to process ID 13660, please wait...
+Debugger attached successfully.
+Server compiler detected.
+JVM version is 25.131-b11
+class_loader	classes	bytes	parent_loader	alive?	type
+
+<bootstrap>	811	1476436	  null  	live	<internal>
+0x0000000080079680	1	880	  null  	dead	sun/reflect/DelegatingClassLoader@0x0000000100009df8
+0x0000000080018648	196	398506	0x00000000800186a8	live	sun/misc/Launcher$AppClassLoader@0x000000010000f6a0
+0x00000000800186a8	8	15664	  null  	live	sun/misc/Launcher$ExtClassLoader@0x000000010000fa48
+0x000000008013d4d8	0	0	0x0000000080018648	dead	java/util/ResourceBundle$RBClassLoader@0x000000010008e9b8
+
+total = 5	1016	1891486	    N/A    	alive=3, dead=2	    N/A    

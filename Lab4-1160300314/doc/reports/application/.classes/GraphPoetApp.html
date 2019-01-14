@@ -1,0 +1,189 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GraphPoetApp</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">application</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GraphPoetApp (application)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GraphPoetApp</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 35)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package application;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import edge.Edge;
+<i>4</i>&nbsp;import exception.InputFileAgainException;
+<i>5</i>&nbsp;import factory.GraphFactory;
+<i>6</i>&nbsp;import factory.LoggerFactory;
+<i>7</i>&nbsp;import graph.Graph;
+<i>8</i>&nbsp;import java.io.IOException;
+<i>9</i>&nbsp;import java.util.Set;
+<i>10</i>&nbsp;import javax.swing.JOptionPane;
+<i>11</i>&nbsp;import org.apache.log4j.Logger;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;/**
+<i>14</i>&nbsp; * GraphPoet GUI Application.
+<i>15</i>&nbsp; *
+<i>16</i>&nbsp; * @author Zhu Mingyan
+<i>17</i>&nbsp; */
+<i>18</i>&nbsp;public class GraphPoetApp {
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;  /*
+<i>21</i>&nbsp;  AF: Represents a GUI Application of GraphPoet
+<i>22</i>&nbsp;  RI: all fields should be non-null
+<i>23</i>&nbsp;      instance of SubClass of GraphGui should connected with Graph instance
+<i>24</i>&nbsp;  Safety for Rep Exposure:
+<i>25</i>&nbsp;      All fields are modified by key word private and there is
+<i>26</i>&nbsp;        no other setter function except Constructor
+<i>27</i>&nbsp;   */
+<i>28</i>&nbsp;  private GraphPoetAppGui graphPoetAppGui;
+<i>29</i>&nbsp;  private Graph graph;
+<b class="nc"><i>30</i>&nbsp;  private static final Logger LOGGER = LoggerFactory.createLogger(GraphPoetApp.class);</b>
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;  /**
+<i>33</i>&nbsp;   * Constructor of GraphPoetApp with params file.
+<i>34</i>&nbsp;   */
+<b class="nc"><i>35</i>&nbsp;  public GraphPoetApp() {</b>
+<b class="nc"><i>36</i>&nbsp;    String filePath = JOptionPane</b>
+<b class="nc"><i>37</i>&nbsp;        .showInputDialog(&quot;Please input the file path!&quot;, &quot;src/txt/inputGraphPoet.txt&quot;);</b>
+<i>38</i>&nbsp;    while (true) {
+<i>39</i>&nbsp;      try {
+<b class="nc"><i>40</i>&nbsp;        LOGGER.debug(&quot;Read file from &quot; + &#39;\&quot;&#39; + filePath + &#39;\&quot;&#39;);</b>
+<b class="nc"><i>41</i>&nbsp;        if (filePath == null) {</b>
+<b class="nc"><i>42</i>&nbsp;          throw new RuntimeException(&quot;Cannot read from null file path!&quot;);</b>
+<i>43</i>&nbsp;        }
+<b class="nc"><i>44</i>&nbsp;        this.graph = GraphFactory.createGraph(filePath);</b>
+<b class="nc"><i>45</i>&nbsp;        graphPoetAppGui = new GraphPoetAppGui(graph);</b>
+<i>46</i>&nbsp;        while (true) {
+<i>47</i>&nbsp;          int limit;
+<i>48</i>&nbsp;          try {
+<b class="nc"><i>49</i>&nbsp;            String n = JOptionPane</b>
+<b class="nc"><i>50</i>&nbsp;                .showInputDialog(&quot;Please input the n of weight you wanna to limit£¡&quot;);</b>
+<i>51</i>&nbsp;            //                        limit = Integer.valueOf(n);
+<b class="nc"><i>52</i>&nbsp;            limit = Integer.parseInt(n);</b>
+<b class="nc"><i>53</i>&nbsp;            limitWeight(limit);</b>
+<b class="nc"><i>54</i>&nbsp;            LOGGER.info(&quot;Limit weight can not be less than &quot; + n + &quot;!&quot;);</b>
+<b class="nc"><i>55</i>&nbsp;            break;</b>
+<b class="nc"><i>56</i>&nbsp;          } catch (InputFileAgainException | NumberFormatException e) {</b>
+<b class="nc"><i>57</i>&nbsp;            LOGGER.error(e.getMessage(), e);</b>
+<b class="nc"><i>58</i>&nbsp;          }</b>
+<i>59</i>&nbsp;        }
+<b class="nc"><i>60</i>&nbsp;        break;</b>
+<b class="nc"><i>61</i>&nbsp;      } catch (InputFileAgainException | IOException e) {</b>
+<b class="nc"><i>62</i>&nbsp;        LOGGER.error(e.getMessage(), e);</b>
+<b class="nc"><i>63</i>&nbsp;        filePath = JOptionPane.showInputDialog(&quot;Please input the file path!&quot;,</b>
+<i>64</i>&nbsp;            &quot;src/txt/inputGraphPoet.txt&quot;);
+<i>65</i>&nbsp;        //                System.out.println(&quot;The path input before with errors,
+<i>66</i>&nbsp;        //                please input another file path!&quot;);
+<i>67</i>&nbsp;        //                System.out.println(&quot;such as \&quot;src/txt/inputSocialNetwork.txt\&quot;&quot;);
+<i>68</i>&nbsp;        //                System.out.println(&quot;Attention do not enter file path with any spaces!&quot;);
+<i>69</i>&nbsp;        //                Scanner in = new Scanner(System.in);
+<i>70</i>&nbsp;        //                filePath = in.next();
+<b class="nc"><i>71</i>&nbsp;        LOGGER.info(&quot;Exchange file path to &quot; + filePath);</b>
+<b class="nc"><i>72</i>&nbsp;      }</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;  }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;  /**
+<i>77</i>&nbsp;   * Make the GUI App visible.
+<i>78</i>&nbsp;   */
+<i>79</i>&nbsp;  public void visible() {
+<b class="nc"><i>80</i>&nbsp;    this.graphPoetAppGui.visible();</b>
+<i>81</i>&nbsp;  }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;  /**
+<i>84</i>&nbsp;   * Limit the weight of edges.
+<i>85</i>&nbsp;   *
+<i>86</i>&nbsp;   * @param n the limit.
+<i>87</i>&nbsp;   * @throws InputFileAgainException if n &lt;= 1.
+<i>88</i>&nbsp;   */
+<i>89</i>&nbsp;  public void limitWeight(int n) throws InputFileAgainException {
+<b class="nc"><i>90</i>&nbsp;    if (n &lt;= 1) {</b>
+<b class="nc"><i>91</i>&nbsp;      throw new InputFileAgainException(&quot;The limit n inputs is less than 1&quot;);</b>
+<i>92</i>&nbsp;    }
+<b class="nc"><i>93</i>&nbsp;    Set&lt;Edge&gt; edges = graph.edges();</b>
+<b class="nc"><i>94</i>&nbsp;    for (Edge edge : edges) {</b>
+<b class="nc"><i>95</i>&nbsp;      if (edge.getWeight() &lt; n) {</b>
+<b class="nc"><i>96</i>&nbsp;        graph.removeEdge(edge);</b>
+<i>97</i>&nbsp;      }
+<b class="nc"><i>98</i>&nbsp;    }</b>
+<b class="nc"><i>99</i>&nbsp;    graphPoetAppGui = new GraphPoetAppGui(graph);</b>
+<i>100</i>&nbsp;  }
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;  public static void main(String[] args) {
+<b class="nc"><i>103</i>&nbsp;    GraphPoetApp graphPoetApp = new GraphPoetApp();</b>
+<b class="nc"><i>104</i>&nbsp;    graphPoetApp.visible();</b>
+<i>105</i>&nbsp;  }
+<i>106</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

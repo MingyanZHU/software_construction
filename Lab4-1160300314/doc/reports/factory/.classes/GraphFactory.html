@@ -1,0 +1,419 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GraphFactory</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">factory</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GraphFactory (factory)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GraphFactory</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    76.3%
+  </span>
+  <span class="absValue">
+    (145/ 190)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package factory;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import edge.DirectedEdge;
+<i>4</i>&nbsp;import edge.Edge;
+<i>5</i>&nbsp;import edge.UndirectedEdge;
+<i>6</i>&nbsp;import exception.ContinueRunningException;
+<i>7</i>&nbsp;import exception.DuplicateLabelsException;
+<i>8</i>&nbsp;import exception.IllegalEdgeTypeException;
+<i>9</i>&nbsp;import exception.IllegalGrammarTextException;
+<i>10</i>&nbsp;import exception.IllegalVertexTypeException;
+<i>11</i>&nbsp;import exception.InputFileAgainException;
+<i>12</i>&nbsp;import exception.LackVerticesHyperEdgeException;
+<i>13</i>&nbsp;import exception.UndefinedVertexException;
+<i>14</i>&nbsp;import exception.UndirectedEdgeWithDirectionException;
+<i>15</i>&nbsp;import graph.Graph;
+<i>16</i>&nbsp;import graph.GraphPoet;
+<i>17</i>&nbsp;import graph.MovieGraph;
+<i>18</i>&nbsp;import graph.NetworkTopology;
+<i>19</i>&nbsp;import graph.SocialNetwork;
+<i>20</i>&nbsp;import helper.ParseCommandHelper;
+<i>21</i>&nbsp;import java.io.BufferedReader;
+<i>22</i>&nbsp;import java.io.IOException;
+<i>23</i>&nbsp;import java.io.InputStreamReader;
+<i>24</i>&nbsp;import java.rmi.Naming;
+<i>25</i>&nbsp;import java.util.ArrayList;
+<i>26</i>&nbsp;import java.util.Arrays;
+<i>27</i>&nbsp;import java.util.HashSet;
+<i>28</i>&nbsp;import java.util.List;
+<i>29</i>&nbsp;import java.util.Set;
+<i>30</i>&nbsp;import java.util.regex.Matcher;
+<i>31</i>&nbsp;import java.util.regex.Pattern;
+<i>32</i>&nbsp;import org.apache.log4j.Logger;
+<i>33</i>&nbsp;import strategy.BufferInputStrategy;
+<i>34</i>&nbsp;import strategy.InputStrategy;
+<i>35</i>&nbsp;import vertex.Vertex;
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;/**
+<i>38</i>&nbsp; * A factory that created instances of graph from file.
+<i>39</i>&nbsp; *
+<i>40</i>&nbsp; * @author Zhu Mingyan
+<i>41</i>&nbsp; */
+<b class="fc"><i>42</i>&nbsp;public class GraphFactory {</b>
+<i>43</i>&nbsp;
+<b class="fc"><i>44</i>&nbsp;  private static final Logger LOGGER = LoggerFactory.createLogger(GraphFactory.class);</b>
+<b class="fc"><i>45</i>&nbsp;  private static String graphType = &quot;&quot;;</b>
+<b class="fc"><i>46</i>&nbsp;  private static Set&lt;String&gt; vertexType = new HashSet&lt;&gt;();</b>
+<b class="fc"><i>47</i>&nbsp;  private static Set&lt;String&gt; edgeType = new HashSet&lt;&gt;();</b>
+<b class="fc"><i>48</i>&nbsp;  private static Set&lt;String&gt; labelSet = new HashSet&lt;&gt;();</b>
+<i>49</i>&nbsp;
+<b class="fc"><i>50</i>&nbsp;  private static int vertexExtraLabel = 1;</b>
+<b class="fc"><i>51</i>&nbsp;  private static int edgeExtraLabel = 1;</b>
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;  /**
+<i>54</i>&nbsp;   * Create an instance from params file.
+<i>55</i>&nbsp;   *
+<i>56</i>&nbsp;   * @param filePath params file path that must existed and path is non-empty and non-null string.
+<i>57</i>&nbsp;   * @return an instance of the determined file.
+<i>58</i>&nbsp;   * @throws InputFileAgainException when the input file is illegal.
+<i>59</i>&nbsp;   */
+<i>60</i>&nbsp;  public static Graph createGraph(String filePath) throws InputFileAgainException, IOException {
+<b class="fc"><i>61</i>&nbsp;    Graph graph = null;</b>
+<b class="fc"><i>62</i>&nbsp;    InputStrategy in = null;</b>
+<b class="fc"><i>63</i>&nbsp;    vertexType = new HashSet&lt;&gt;();</b>
+<b class="fc"><i>64</i>&nbsp;    edgeType = new HashSet&lt;&gt;();</b>
+<b class="fc"><i>65</i>&nbsp;    labelSet = new HashSet&lt;&gt;();</b>
+<b class="fc"><i>66</i>&nbsp;    vertexExtraLabel = 1;</b>
+<b class="fc"><i>67</i>&nbsp;    edgeExtraLabel = 1;</b>
+<i>68</i>&nbsp;    try {
+<b class="fc"><i>69</i>&nbsp;      in = new BufferInputStrategy(filePath);</b>
+<i>70</i>&nbsp;      String input;
+<b class="fc"><i>71</i>&nbsp;      while ((input = in.readLine()) != null) {</b>
+<b class="fc"><i>72</i>&nbsp;        List&lt;String&gt; list = ParseCommandHelper.fileCommandHelper(input);</b>
+<b class="fc"><i>73</i>&nbsp;        if (list.size() == 0) {</b>
+<b class="fc"><i>74</i>&nbsp;          continue;</b>
+<i>75</i>&nbsp;        }
+<b class="fc"><i>76</i>&nbsp;        switch (list.get(0)) {</b>
+<i>77</i>&nbsp;          case &quot;GraphType&quot;:
+<b class="fc"><i>78</i>&nbsp;            assert list.size() == 2;</b>
+<b class="fc"><i>79</i>&nbsp;            graphType = list.get(1);</b>
+<b class="fc"><i>80</i>&nbsp;            break;</b>
+<i>81</i>&nbsp;          case &quot;GraphName&quot;:
+<b class="fc"><i>82</i>&nbsp;            assert list.size() == 2;</b>
+<b class="fc"><i>83</i>&nbsp;            graph = graphIni(graphType, list.get(1));</b>
+<b class="fc"><i>84</i>&nbsp;            break;</b>
+<i>85</i>&nbsp;          case &quot;VertexType&quot;:
+<b class="fc"><i>86</i>&nbsp;            assert list.size() &gt;= 2;</b>
+<b class="fc"><i>87</i>&nbsp;            for (int i = 1; i &lt; list.size(); i++) {</b>
+<b class="fc"><i>88</i>&nbsp;              vertexType.add(list.get(i));</b>
+<i>89</i>&nbsp;            }
+<b class="fc"><i>90</i>&nbsp;            vertexType = legalVertexType();</b>
+<b class="fc"><i>91</i>&nbsp;            break;</b>
+<i>92</i>&nbsp;          case &quot;Vertex&quot;:
+<i>93</i>&nbsp;            // 在ParseCommandHelper中可以保证Vertex命令中包含至少3个元素
+<i>94</i>&nbsp;            //                        assert list.size() &gt;= 3 &amp;&amp; vertexType.contains(list.get(2));
+<b class="fc"><i>95</i>&nbsp;            if (!vertexType.contains(list.get(2))) {</b>
+<i>96</i>&nbsp;              // 如果在该类型图中加入了没有事先声明类型的顶点 会throw IllegalVertexTypeException
+<b class="nc"><i>97</i>&nbsp;              throw new IllegalVertexTypeException(list.get(2) + &quot; is an illegal vertex type in &quot;</b>
+<b class="nc"><i>98</i>&nbsp;                  + graph.getClass().getSimpleName());</b>
+<i>99</i>&nbsp;            }
+<b class="fc"><i>100</i>&nbsp;            list.set(1, modifyDuplicateLabels(list.get(1)));</b>
+<b class="fc"><i>101</i>&nbsp;            if (list.size() == 3) {</b>
+<b class="fc"><i>102</i>&nbsp;              graph.addVertex(VertexFactory.createVertex(list.get(1), list.get(2), null));</b>
+<i>103</i>&nbsp;            } else {
+<b class="fc"><i>104</i>&nbsp;              graph.addVertex(VertexFactory.createVertex(list.get(1), list.get(2),</b>
+<b class="fc"><i>105</i>&nbsp;                  list.subList(3, list.size()).toArray(new String[0])));</b>
+<i>106</i>&nbsp;            }
+<i>107</i>&nbsp;
+<b class="fc"><i>108</i>&nbsp;            break;</b>
+<i>109</i>&nbsp;          case &quot;EdgeType&quot;:
+<i>110</i>&nbsp;            // 在ParseCommandHelper可以保证EdgeType至少有两个分量
+<i>111</i>&nbsp;            //                        assert list.size() &gt;= 2;
+<b class="fc"><i>112</i>&nbsp;            for (int i = 1; i &lt; list.size(); i++) {</b>
+<b class="fc"><i>113</i>&nbsp;              edgeType.add(list.get(i));</b>
+<i>114</i>&nbsp;            }
+<b class="fc"><i>115</i>&nbsp;            edgeType = legalEdgeType();</b>
+<b class="fc"><i>116</i>&nbsp;            break;</b>
+<i>117</i>&nbsp;          case &quot;Edge&quot;:
+<i>118</i>&nbsp;            try {
+<b class="fc"><i>119</i>&nbsp;              if (!edgeType.contains(list.get(2))) {</b>
+<b class="nc"><i>120</i>&nbsp;                throw new IllegalEdgeTypeException(list.get(2) + &quot; is an illegal edge type!&quot;);</b>
+<i>121</i>&nbsp;              }
+<i>122</i>&nbsp;              // 在ParseCommandHelper可以保证edge的输入定有7个分量
+<i>123</i>&nbsp;              //                        assert list.size() == 7 &amp;&amp; edgeType.contains(list.get(2));
+<i>124</i>&nbsp;              // 可以增加寻找标志进行优化
+<b class="fc"><i>125</i>&nbsp;              Vertex vertex1 = null;</b>
+<b class="fc"><i>126</i>&nbsp;              Vertex vertex2 = null;</b>
+<b class="fc"><i>127</i>&nbsp;              Set&lt;Vertex&gt; vertexSet = graph.vertices();</b>
+<b class="fc"><i>128</i>&nbsp;              for (Vertex vertex : vertexSet) {</b>
+<b class="fc"><i>129</i>&nbsp;                if (vertex.getLabel().equals(list.get(4))) {</b>
+<b class="fc"><i>130</i>&nbsp;                  vertex1 = vertex.clone();</b>
+<i>131</i>&nbsp;                }
+<b class="fc"><i>132</i>&nbsp;                if (vertex.getLabel().equals(list.get(5))) {</b>
+<b class="fc"><i>133</i>&nbsp;                  vertex2 = vertex.clone();</b>
+<i>134</i>&nbsp;                }
+<b class="fc"><i>135</i>&nbsp;              }</b>
+<b class="fc"><i>136</i>&nbsp;              if (vertex1 == null &amp;&amp; vertex2 == null) {</b>
+<b class="nc"><i>137</i>&nbsp;                throw new UndefinedVertexException(</b>
+<b class="nc"><i>138</i>&nbsp;                    list.get(4) + &quot; and &quot; + list.get(5) + &quot; are undefined&quot;);</b>
+<b class="fc"><i>139</i>&nbsp;              } else if (vertex1 == null) {</b>
+<b class="nc"><i>140</i>&nbsp;                throw new UndefinedVertexException(list.get(4) + &quot; is undefined!&quot;);</b>
+<b class="fc"><i>141</i>&nbsp;              } else if (vertex2 == null) {</b>
+<b class="nc"><i>142</i>&nbsp;                throw new UndefinedVertexException(list.get(5) + &quot; is undefined!&quot;);</b>
+<i>143</i>&nbsp;              }
+<b class="fc"><i>144</i>&nbsp;              for (Object edge : graph.edges()) {</b>
+<b class="fc"><i>145</i>&nbsp;                if (!(edge instanceof Edge)) {</b>
+<b class="nc"><i>146</i>&nbsp;                  continue;</b>
+<i>147</i>&nbsp;                }
+<b class="fc"><i>148</i>&nbsp;                Edge edge1 = (Edge) edge;</b>
+<b class="fc"><i>149</i>&nbsp;                if (edge instanceof UndirectedEdge) {</b>
+<b class="fc"><i>150</i>&nbsp;                  if (list.get(2).equals(edge.getClass().getSimpleName())</b>
+<b class="fc"><i>151</i>&nbsp;                      &amp;&amp; edge1.containVertex(vertex1) &amp;&amp; edge1.containVertex(vertex2)) {</b>
+<b class="nc"><i>152</i>&nbsp;                    throw new ContinueRunningException(list.get(1) + &quot; has been multi defined!&quot;);</b>
+<i>153</i>&nbsp;                  }
+<i>154</i>&nbsp;                }
+<b class="fc"><i>155</i>&nbsp;                if (edge instanceof DirectedEdge) {</b>
+<b class="fc"><i>156</i>&nbsp;                  if (list.get(2).equals(edge.getClass().getSimpleName())</b>
+<b class="fc"><i>157</i>&nbsp;                      &amp;&amp; edge1.sourceVertices().contains(vertex1)</b>
+<b class="fc"><i>158</i>&nbsp;                      &amp;&amp; edge1.targetVertices().contains(vertex2)) {</b>
+<b class="fc"><i>159</i>&nbsp;                    throw new ContinueRunningException(list.get(1) + &quot; has been multi defined!&quot;);</b>
+<i>160</i>&nbsp;                  }
+<i>161</i>&nbsp;                }
+<b class="fc"><i>162</i>&nbsp;              }</b>
+<b class="fc"><i>163</i>&nbsp;              list.set(1, modifyDuplicateLabels(list.get(1)));</b>
+<b class="fc"><i>164</i>&nbsp;              Edge newEdge = EdgeFactory</b>
+<b class="fc"><i>165</i>&nbsp;                  .createEdge(list.get(1), list.get(2), Double.valueOf(list.get(3)),</b>
+<b class="fc"><i>166</i>&nbsp;                      Arrays.asList(vertex1, vertex2));</b>
+<b class="fc"><i>167</i>&nbsp;              graph.addEdge(newEdge);</b>
+<b class="fc"><i>168</i>&nbsp;              if (newEdge instanceof DirectedEdge &amp;&amp; list.get(6).length() == 2) {</b>
+<b class="nc"><i>169</i>&nbsp;                throw new UndirectedEdgeWithDirectionException(</b>
+<b class="nc"><i>170</i>&nbsp;                    list.get(2) + &quot; use as UndirectedEdge&quot;);</b>
+<i>171</i>&nbsp;              }
+<b class="fc"><i>172</i>&nbsp;              if (newEdge instanceof UndirectedEdge &amp;&amp; list.get(6).length() == 3) {</b>
+<b class="nc"><i>173</i>&nbsp;                throw new UndirectedEdgeWithDirectionException(</b>
+<b class="nc"><i>174</i>&nbsp;                    list.get(2) + &quot; use as DirectedEdge&quot;);</b>
+<i>175</i>&nbsp;              }
+<b class="fc"><i>176</i>&nbsp;            } catch (ContinueRunningException e) {</b>
+<b class="fc"><i>177</i>&nbsp;              LOGGER.error(e.getMessage(), e);</b>
+<b class="fc"><i>178</i>&nbsp;            }</b>
+<b class="fc"><i>179</i>&nbsp;            break;</b>
+<i>180</i>&nbsp;          case &quot;HyperEdge&quot;:
+<i>181</i>&nbsp;            //                        assert list.size() &gt;= 5;
+<b class="fc"><i>182</i>&nbsp;            Set&lt;Vertex&gt; vertexSet1 = graph.vertices();</b>
+<b class="fc"><i>183</i>&nbsp;            List&lt;Vertex&gt; vertexList = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>184</i>&nbsp;            for (int i = 3; i &lt; list.size(); i++) {</b>
+<b class="fc"><i>185</i>&nbsp;              for (Vertex vertex : vertexSet1) {</b>
+<b class="fc"><i>186</i>&nbsp;                if (vertex.getLabel().equals(list.get(i))) {</b>
+<b class="fc"><i>187</i>&nbsp;                  vertexList.add(vertex.clone());</b>
+<b class="fc"><i>188</i>&nbsp;                  break;</b>
+<i>189</i>&nbsp;                }
+<b class="fc"><i>190</i>&nbsp;              }</b>
+<i>191</i>&nbsp;            }
+<b class="fc"><i>192</i>&nbsp;            if (vertexList.size() + 3 != list.size()) {</b>
+<b class="nc"><i>193</i>&nbsp;              throw new UndefinedVertexException(&quot;Some vertices are not defined!&quot; + list.subList(3,</b>
+<b class="nc"><i>194</i>&nbsp;                  list.size()).toString());</b>
+<i>195</i>&nbsp;            }
+<b class="fc"><i>196</i>&nbsp;            if (vertexList.size() &lt; 2) {</b>
+<b class="nc"><i>197</i>&nbsp;              throw new LackVerticesHyperEdgeException(&quot;HyperEdge only contains one vertex!&quot;);</b>
+<i>198</i>&nbsp;            }
+<i>199</i>&nbsp;            //                        assert vertexList.size() + 3 == list.size();
+<b class="fc"><i>200</i>&nbsp;            graph.addEdge(HyperEdgeFactory.createEdge(list.get(1), list.get(2), vertexList));</b>
+<b class="fc"><i>201</i>&nbsp;            break;</b>
+<i>202</i>&nbsp;          default:
+<b class="nc"><i>203</i>&nbsp;            assert false;</b>
+<i>204</i>&nbsp;        }
+<b class="fc"><i>205</i>&nbsp;      }</b>
+<b class="nc"><i>206</i>&nbsp;    } catch (IllegalGrammarTextException e) {</b>
+<b class="nc"><i>207</i>&nbsp;      throw new InputFileAgainException(</b>
+<b class="nc"><i>208</i>&nbsp;          String.valueOf(in.getLineNumber() + &quot;  :&quot; + e.getMessage()));</b>
+<b class="nc"><i>209</i>&nbsp;    } catch (CloneNotSupportedException e) {</b>
+<b class="nc"><i>210</i>&nbsp;      e.printStackTrace();</b>
+<i>211</i>&nbsp;    } finally {
+<b class="fc"><i>212</i>&nbsp;      if (in != null) {</b>
+<b class="fc"><i>213</i>&nbsp;        in.close();</b>
+<i>214</i>&nbsp;      }
+<i>215</i>&nbsp;    }
+<b class="fc"><i>216</i>&nbsp;    return graph;</b>
+<i>217</i>&nbsp;  }
+<i>218</i>&nbsp;
+<i>219</i>&nbsp;  private static Graph graphIni(String graphType, String graphName) throws InputFileAgainException {
+<i>220</i>&nbsp;    /**
+<i>221</i>&nbsp;     * Create an instance of determined graph type and graph name.
+<i>222</i>&nbsp;     */
+<i>223</i>&nbsp;    Graph graph;
+<b class="fc"><i>224</i>&nbsp;    Pattern pattern = Pattern.compile(&quot;^[\\w]+$&quot;);</b>
+<b class="fc"><i>225</i>&nbsp;    Matcher matcher = pattern.matcher(graphName);</b>
+<b class="fc"><i>226</i>&nbsp;    if(!matcher.find()) {</b>
+<b class="nc"><i>227</i>&nbsp;      throw new InputFileAgainException(graphName + &quot; is illegal in [\\w]+&quot;);</b>
+<i>228</i>&nbsp;    }
+<b class="fc"><i>229</i>&nbsp;    if (graphType.equals(&quot;GraphPoet&quot;)) {</b>
+<b class="fc"><i>230</i>&nbsp;      graph = new GraphPoet(graphName);</b>
+<b class="fc"><i>231</i>&nbsp;    } else if (graphType.equals(&quot;SocialNetwork&quot;)) {</b>
+<b class="fc"><i>232</i>&nbsp;      graph = new SocialNetwork(graphName);</b>
+<b class="fc"><i>233</i>&nbsp;    } else if (graphType.equals(&quot;NetworkTopology&quot;)) {</b>
+<b class="fc"><i>234</i>&nbsp;      graph = new NetworkTopology(graphName);</b>
+<b class="fc"><i>235</i>&nbsp;    } else if (graphType.equals(&quot;MovieGraph&quot;)) {</b>
+<b class="fc"><i>236</i>&nbsp;      graph = new MovieGraph(graphName);</b>
+<i>237</i>&nbsp;    } else {
+<b class="nc"><i>238</i>&nbsp;      graph = null;</b>
+<i>239</i>&nbsp;    }
+<b class="fc"><i>240</i>&nbsp;    return graph;</b>
+<i>241</i>&nbsp;  }
+<i>242</i>&nbsp;
+<i>243</i>&nbsp;  private static Set legalVertexType() throws InputFileAgainException {
+<b class="fc"><i>244</i>&nbsp;    Set&lt;String&gt; validGraphPoetVertexType = new HashSet&lt;&gt;(Arrays.asList(&quot;Word&quot;));</b>
+<b class="fc"><i>245</i>&nbsp;    Set&lt;String&gt; validSocialNetworkVertexType = new HashSet&lt;&gt;(Arrays.asList(&quot;Person&quot;));</b>
+<b class="fc"><i>246</i>&nbsp;    Set&lt;String&gt; validNetworkTopologyVertexType = new HashSet&lt;&gt;(</b>
+<b class="fc"><i>247</i>&nbsp;        Arrays.asList(&quot;Computer&quot;, &quot;Server&quot;, &quot;Router&quot;, &quot;WirelessRouter&quot;));</b>
+<b class="fc"><i>248</i>&nbsp;    Set&lt;String&gt; validMovieGraphVertexType = new HashSet&lt;&gt;(</b>
+<b class="fc"><i>249</i>&nbsp;        Arrays.asList(&quot;Movie&quot;, &quot;Actor&quot;, &quot;Director&quot;));</b>
+<b class="fc"><i>250</i>&nbsp;    if (graphType.equals(&quot;GraphPoet&quot;)) {</b>
+<b class="fc"><i>251</i>&nbsp;      if (validGraphPoetVertexType.containsAll(vertexType)) {</b>
+<b class="fc"><i>252</i>&nbsp;        return vertexType;</b>
+<i>253</i>&nbsp;      } else {
+<b class="nc"><i>254</i>&nbsp;        throw new IllegalVertexTypeException(</b>
+<b class="nc"><i>255</i>&nbsp;            vertexType.toString() + &quot; are not defined in GraphPoet!&quot;);</b>
+<i>256</i>&nbsp;      }
+<b class="fc"><i>257</i>&nbsp;    } else if (graphType.equals(&quot;SocialNetwork&quot;)) {</b>
+<b class="fc"><i>258</i>&nbsp;      if (validSocialNetworkVertexType.containsAll(vertexType)) {</b>
+<b class="fc"><i>259</i>&nbsp;        return vertexType;</b>
+<i>260</i>&nbsp;      } else {
+<b class="nc"><i>261</i>&nbsp;        throw new IllegalVertexTypeException(</b>
+<b class="nc"><i>262</i>&nbsp;            vertexType.toString() + &quot; are not defined in SocialNetwork!&quot;);</b>
+<i>263</i>&nbsp;      }
+<b class="fc"><i>264</i>&nbsp;    } else if (graphType.equals(&quot;NetworkTopology&quot;)) {</b>
+<b class="fc"><i>265</i>&nbsp;      if (validNetworkTopologyVertexType.containsAll(vertexType)) {</b>
+<b class="fc"><i>266</i>&nbsp;        return vertexType;</b>
+<i>267</i>&nbsp;      } else {
+<b class="nc"><i>268</i>&nbsp;        throw new IllegalVertexTypeException(</b>
+<b class="nc"><i>269</i>&nbsp;            vertexType.toString() + &quot; are not defined in NetworkTopology!&quot;);</b>
+<i>270</i>&nbsp;      }
+<b class="fc"><i>271</i>&nbsp;    } else if (graphType.equals(&quot;MovieGraph&quot;)) {</b>
+<b class="fc"><i>272</i>&nbsp;      if (validMovieGraphVertexType.containsAll(vertexType)) {</b>
+<b class="fc"><i>273</i>&nbsp;        return vertexType;</b>
+<i>274</i>&nbsp;      } else {
+<b class="nc"><i>275</i>&nbsp;        throw new IllegalVertexTypeException(</b>
+<b class="nc"><i>276</i>&nbsp;            vertexType.toString() + &quot; are not defined in MovieGraph!&quot;);</b>
+<i>277</i>&nbsp;      }
+<i>278</i>&nbsp;    } else {
+<b class="nc"><i>279</i>&nbsp;      throw new InputFileAgainException(&quot;Undefined Graph type!&quot;);</b>
+<i>280</i>&nbsp;    }
+<i>281</i>&nbsp;  }
+<i>282</i>&nbsp;
+<i>283</i>&nbsp;  private static String modifyDuplicateLabels(String label) {
+<i>284</i>&nbsp;    try {
+<b class="fc"><i>285</i>&nbsp;      if (labelSet.contains(label)) {</b>
+<b class="nc"><i>286</i>&nbsp;        throw new DuplicateLabelsException(label + &quot; has been used!&quot;);</b>
+<i>287</i>&nbsp;      }
+<b class="nc"><i>288</i>&nbsp;    } catch (ContinueRunningException e) {</b>
+<b class="nc"><i>289</i>&nbsp;      LOGGER.error(e.getMessage(), e);</b>
+<b class="nc"><i>290</i>&nbsp;      label += (&quot;00&quot; + String.valueOf(edgeExtraLabel++));</b>
+<b class="nc"><i>291</i>&nbsp;      LOGGER.info(&quot;We change it to &quot; + label);</b>
+<i>292</i>&nbsp;    } finally {
+<b class="fc"><i>293</i>&nbsp;      labelSet.add(label);</b>
+<b class="fc"><i>294</i>&nbsp;    }</b>
+<b class="fc"><i>295</i>&nbsp;    return label;</b>
+<i>296</i>&nbsp;  }
+<i>297</i>&nbsp;
+<i>298</i>&nbsp;  private static Set legalEdgeType() throws InputFileAgainException {
+<b class="fc"><i>299</i>&nbsp;    Set&lt;String&gt; validGraphPoetEdgeType = new HashSet&lt;&gt;(Arrays.asList(&quot;WordNeighborhood&quot;));</b>
+<b class="fc"><i>300</i>&nbsp;    Set&lt;String&gt; validSocialNetworkEdgeType = new HashSet&lt;&gt;(Arrays.asList(&quot;ForwardTie&quot;, &quot;FriendTie&quot;,</b>
+<i>301</i>&nbsp;        &quot;CommentTie&quot;));
+<b class="fc"><i>302</i>&nbsp;    Set&lt;String&gt; validNetworkTopologyEdgeType = new HashSet&lt;&gt;(Arrays.asList(&quot;NetworkConnection&quot;));</b>
+<b class="fc"><i>303</i>&nbsp;    Set&lt;String&gt; validMovieGraphEdgeType = new HashSet&lt;&gt;(Arrays.asList(&quot;MovieActorRelation&quot;,</b>
+<i>304</i>&nbsp;        &quot;MovieDirectorRelation&quot;, &quot;SameMovieHyperEdge&quot;));
+<b class="fc"><i>305</i>&nbsp;    if (graphType.equals(&quot;GraphPoet&quot;)) {</b>
+<b class="fc"><i>306</i>&nbsp;      if (validGraphPoetEdgeType.containsAll(edgeType)) {</b>
+<b class="fc"><i>307</i>&nbsp;        return edgeType;</b>
+<i>308</i>&nbsp;      } else {
+<b class="nc"><i>309</i>&nbsp;        throw new IllegalEdgeTypeException(edgeType.toString() + &quot; are not defined in GraphPoet&quot;);</b>
+<i>310</i>&nbsp;      }
+<b class="fc"><i>311</i>&nbsp;    } else if (graphType.equals(&quot;SocialNetwork&quot;)) {</b>
+<b class="fc"><i>312</i>&nbsp;      if (validSocialNetworkEdgeType.containsAll(edgeType)) {</b>
+<b class="fc"><i>313</i>&nbsp;        return edgeType;</b>
+<i>314</i>&nbsp;      } else {
+<b class="nc"><i>315</i>&nbsp;        throw new IllegalEdgeTypeException(</b>
+<b class="nc"><i>316</i>&nbsp;            edgeType.toString() + &quot; are not defined in SocialNetwork&quot;);</b>
+<i>317</i>&nbsp;      }
+<b class="fc"><i>318</i>&nbsp;    } else if (graphType.equals(&quot;NetworkTopology&quot;)) {</b>
+<b class="fc"><i>319</i>&nbsp;      if (validNetworkTopologyEdgeType.containsAll(edgeType)) {</b>
+<b class="fc"><i>320</i>&nbsp;        return edgeType;</b>
+<i>321</i>&nbsp;      } else {
+<b class="nc"><i>322</i>&nbsp;        throw new IllegalEdgeTypeException(</b>
+<b class="nc"><i>323</i>&nbsp;            edgeType.toString() + &quot; are not defined in NetworkTopology&quot;);</b>
+<i>324</i>&nbsp;      }
+<b class="fc"><i>325</i>&nbsp;    } else if (graphType.equals(&quot;MovieGraph&quot;)) {</b>
+<i>326</i>&nbsp;      // TODO 没有有效地处理超边
+<b class="fc"><i>327</i>&nbsp;      if (validMovieGraphEdgeType.containsAll(edgeType)) {</b>
+<b class="fc"><i>328</i>&nbsp;        return edgeType;</b>
+<i>329</i>&nbsp;      } else {
+<b class="nc"><i>330</i>&nbsp;        throw new IllegalEdgeTypeException(edgeType.toString() + &quot; are not defined in MovieGraph&quot;);</b>
+<i>331</i>&nbsp;      }
+<i>332</i>&nbsp;    } else {
+<b class="nc"><i>333</i>&nbsp;      throw new InputFileAgainException(&quot;Undefined Graph type!&quot;);</b>
+<i>334</i>&nbsp;    }
+<i>335</i>&nbsp;  }
+<i>336</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

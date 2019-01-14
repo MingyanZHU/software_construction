@@ -1,0 +1,828 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GraphGui</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">application.guihelper</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GraphGui (application.guihelper)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GraphGui</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 35)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 331)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GraphGui$RightPanel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 63)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 39)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 394)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package application.guihelper;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import edge.DirectedEdge;
+<i>4</i>&nbsp;import edge.Edge;
+<i>5</i>&nbsp;import edge.HyperEdge;
+<i>6</i>&nbsp;import edge.UndirectedEdge;
+<i>7</i>&nbsp;import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
+<i>8</i>&nbsp;import edu.uci.ics.jung.visualization.Layer;
+<i>9</i>&nbsp;import edu.uci.ics.jung.visualization.VisualizationViewer;
+<i>10</i>&nbsp;import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
+<i>11</i>&nbsp;import edu.uci.ics.jung.visualization.control.ScalingControl;
+<i>12</i>&nbsp;import exception.InputFileAgainException;
+<i>13</i>&nbsp;import factory.EdgeFactory;
+<i>14</i>&nbsp;import factory.HyperEdgeFactory;
+<i>15</i>&nbsp;import factory.LoggerFactory;
+<i>16</i>&nbsp;import factory.VertexFactory;
+<i>17</i>&nbsp;import graph.Graph;
+<i>18</i>&nbsp;import helper.GraphMetrics;
+<i>19</i>&nbsp;import helper.GraphVisualizationHelper;
+<i>20</i>&nbsp;import helper.OutputGraph;
+<i>21</i>&nbsp;import java.awt.BorderLayout;
+<i>22</i>&nbsp;import java.awt.Color;
+<i>23</i>&nbsp;import java.awt.Dimension;
+<i>24</i>&nbsp;import java.awt.Font;
+<i>25</i>&nbsp;import java.awt.event.ActionEvent;
+<i>26</i>&nbsp;import java.awt.event.ActionListener;
+<i>27</i>&nbsp;import java.io.BufferedWriter;
+<i>28</i>&nbsp;import java.io.File;
+<i>29</i>&nbsp;import java.io.FileOutputStream;
+<i>30</i>&nbsp;import java.io.FileWriter;
+<i>31</i>&nbsp;import java.io.IOException;
+<i>32</i>&nbsp;import java.io.OutputStreamWriter;
+<i>33</i>&nbsp;import java.io.Writer;
+<i>34</i>&nbsp;import java.util.ArrayList;
+<i>35</i>&nbsp;import java.util.Arrays;
+<i>36</i>&nbsp;import java.util.List;
+<i>37</i>&nbsp;import java.util.Set;
+<i>38</i>&nbsp;import javax.swing.GroupLayout;
+<i>39</i>&nbsp;import javax.swing.JButton;
+<i>40</i>&nbsp;import javax.swing.JFrame;
+<i>41</i>&nbsp;import javax.swing.JLabel;
+<i>42</i>&nbsp;import javax.swing.JMenu;
+<i>43</i>&nbsp;import javax.swing.JMenuBar;
+<i>44</i>&nbsp;import javax.swing.JMenuItem;
+<i>45</i>&nbsp;import javax.swing.JOptionPane;
+<i>46</i>&nbsp;import javax.swing.JPanel;
+<i>47</i>&nbsp;import javax.swing.JScrollPane;
+<i>48</i>&nbsp;import javax.swing.JTextArea;
+<i>49</i>&nbsp;import javax.swing.UIManager;
+<i>50</i>&nbsp;import javax.swing.UnsupportedLookAndFeelException;
+<i>51</i>&nbsp;import org.apache.log4j.Logger;
+<i>52</i>&nbsp;import vertex.Vertex;
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;/**
+<i>55</i>&nbsp; * Used to help display the visualization of Graph App.
+<i>56</i>&nbsp; *
+<i>57</i>&nbsp; * @author Zhu Mingyan
+<i>58</i>&nbsp; */
+<b class="nc"><i>59</i>&nbsp;public class GraphGui extends JFrame {</b>
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;  /*
+<i>62</i>&nbsp;  AF: Represents a Frame which used to display graph visualization.
+<i>63</i>&nbsp;  RI: graph, visualizationViewer and panel which used to display graph should not be non-null
+<i>64</i>&nbsp;  Safety for Rep Exposure:
+<i>65</i>&nbsp;      All fields are modified by key word private and all setter
+<i>66</i>&nbsp;      we provided is based on Graph Interface.
+<i>67</i>&nbsp;   */
+<i>68</i>&nbsp;  private Graph graph;
+<i>69</i>&nbsp;  private VisualizationViewer viewer;
+<i>70</i>&nbsp;  private JPanel panel;
+<b class="nc"><i>71</i>&nbsp;  private static final Logger LOGGER = LoggerFactory.createLogger(GraphGui.class);</b>
+<i>72</i>&nbsp;  private GraphZoomScrollPane[] scrollPane;
+<i>73</i>&nbsp;
+<b class="nc"><i>74</i>&nbsp;  private JMenuBar bar = new JMenuBar();</b>
+<b class="nc"><i>75</i>&nbsp;  private JMenu menuHelp = new JMenu(&quot;Help(F)&quot;);</b>
+<b class="nc"><i>76</i>&nbsp;  private JMenuItem addVertex = new JMenuItem(&quot;Add Vertex&quot;);</b>
+<b class="nc"><i>77</i>&nbsp;  private JMenuItem modifyVertex = new JMenuItem(&quot;Modify Vertex&quot;);</b>
+<b class="nc"><i>78</i>&nbsp;  private JMenuItem deleteVertex = new JMenuItem(&quot;Delete Vertex&quot;);</b>
+<b class="nc"><i>79</i>&nbsp;  private JMenuItem addEdge = new JMenuItem(&quot;Add Edge&quot;);</b>
+<b class="nc"><i>80</i>&nbsp;  private JMenuItem modifyEdge = new JMenuItem(&quot;Modify Edge&quot;);</b>
+<b class="nc"><i>81</i>&nbsp;  private JMenuItem deleteEdge = new JMenuItem(&quot;Delete Edge&quot;);</b>
+<b class="nc"><i>82</i>&nbsp;  private JMenuItem outputGraph = new JMenuItem(&quot;Output Graph Info&quot;);</b>
+<i>83</i>&nbsp;
+<b class="nc"><i>84</i>&nbsp;  private JMenu menuCalculate = new JMenu(&quot;Calculate(C)&quot;);</b>
+<b class="nc"><i>85</i>&nbsp;  private JMenuItem graphDegreeCentrality = new JMenuItem(&quot;Graph Degree Centrality&quot;);</b>
+<b class="nc"><i>86</i>&nbsp;  private JMenuItem radius = new JMenuItem(&quot;Radius&quot;);</b>
+<b class="nc"><i>87</i>&nbsp;  private JMenuItem distance = new JMenuItem(&quot;Calculate Distance&quot;);</b>
+<b class="nc"><i>88</i>&nbsp;  private JMenuItem diameter = new JMenuItem(&quot;Diameter&quot;);</b>
+<i>89</i>&nbsp;
+<b class="nc"><i>90</i>&nbsp;  private JMenuItem getDegreeCentrality = new JMenuItem(&quot;Vertex Degree Centrality&quot;);</b>
+<b class="nc"><i>91</i>&nbsp;  private JMenuItem getClosenessCentrality = new JMenuItem(&quot;Vertex ClosenessCentrality&quot;);</b>
+<b class="nc"><i>92</i>&nbsp;  private JMenuItem getBetweennessCentrality = new JMenuItem(&quot;Vertex BetweennessCentrality&quot;);</b>
+<b class="nc"><i>93</i>&nbsp;  private JMenuItem getEccentricity = new JMenuItem(&quot;Vertex Eccentricity&quot;);</b>
+<i>94</i>&nbsp;
+<b class="nc"><i>95</i>&nbsp;  private JMenu logQuery = new JMenu(&quot;log(L)&quot;);</b>
+<b class="nc"><i>96</i>&nbsp;  private JMenuItem query = new JMenuItem(&quot;Log Query&quot;);</b>
+<i>97</i>&nbsp;
+<b class="nc"><i>98</i>&nbsp;  private String vertexLabel = &quot;&quot;;</b>
+<b class="nc"><i>99</i>&nbsp;  private String edgeLabel = &quot;&quot;;</b>
+<i>100</i>&nbsp;  private String[] args;
+<i>101</i>&nbsp;  private Vertex source;
+<i>102</i>&nbsp;  private Vertex destination;
+<i>103</i>&nbsp;  private double weight;
+<i>104</i>&nbsp;  private List&lt;Vertex&gt; vertexList;
+<i>105</i>&nbsp;
+<i>106</i>&nbsp;  /**
+<i>107</i>&nbsp;   * Create instance from a graph instance.
+<i>108</i>&nbsp;   */
+<b class="nc"><i>109</i>&nbsp;  public GraphGui(Graph graph) {</b>
+<i>110</i>&nbsp;    try {
+<b class="nc"><i>111</i>&nbsp;      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());</b>
+<b class="nc"><i>112</i>&nbsp;    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException</b>
+<i>113</i>&nbsp;        | UnsupportedLookAndFeelException e) {
+<b class="nc"><i>114</i>&nbsp;      e.printStackTrace();</b>
+<b class="nc"><i>115</i>&nbsp;    }</b>
+<b class="nc"><i>116</i>&nbsp;    this.graph = graph;</b>
+<b class="nc"><i>117</i>&nbsp;    this.viewer = GraphVisualizationHelper.getJung(this.graph);</b>
+<b class="nc"><i>118</i>&nbsp;    this.panel = new RightPanel(this.viewer);</b>
+<b class="nc"><i>119</i>&nbsp;    this.setTitle(&quot;Graph&quot;);</b>
+<b class="nc"><i>120</i>&nbsp;    this.setSize(1100, 850);</b>
+<b class="nc"><i>121</i>&nbsp;    this.setLocationRelativeTo(null);</b>
+<b class="nc"><i>122</i>&nbsp;    this.getContentPane().setLayout(new BorderLayout(5, 10));</b>
+<i>123</i>&nbsp;
+<b class="nc"><i>124</i>&nbsp;    scrollPane = new GraphZoomScrollPane[]{new GraphZoomScrollPane(viewer)};</b>
+<b class="nc"><i>125</i>&nbsp;    this.getContentPane().add(scrollPane[0], BorderLayout.WEST);</b>
+<b class="nc"><i>126</i>&nbsp;    this.getContentPane().add(panel, BorderLayout.EAST);</b>
+<i>127</i>&nbsp;
+<b class="nc"><i>128</i>&nbsp;    menuHelp.setMnemonic(&#39;F&#39;); // Alt + F快捷键</b>
+<b class="nc"><i>129</i>&nbsp;    menuHelp.add(addVertex);</b>
+<b class="nc"><i>130</i>&nbsp;    menuHelp.add(deleteVertex);</b>
+<b class="nc"><i>131</i>&nbsp;    menuHelp.add(modifyVertex);</b>
+<b class="nc"><i>132</i>&nbsp;    menuHelp.add(addEdge);</b>
+<b class="nc"><i>133</i>&nbsp;    menuHelp.add(deleteEdge);</b>
+<b class="nc"><i>134</i>&nbsp;    menuHelp.add(modifyEdge);</b>
+<b class="nc"><i>135</i>&nbsp;    menuHelp.add(outputGraph);</b>
+<i>136</i>&nbsp;
+<b class="nc"><i>137</i>&nbsp;    menuCalculate.setMnemonic(&#39;C&#39;);</b>
+<b class="nc"><i>138</i>&nbsp;    menuCalculate.add(graphDegreeCentrality);</b>
+<b class="nc"><i>139</i>&nbsp;    menuCalculate.add(radius);</b>
+<b class="nc"><i>140</i>&nbsp;    menuCalculate.add(diameter);</b>
+<b class="nc"><i>141</i>&nbsp;    menuCalculate.add(getDegreeCentrality);</b>
+<b class="nc"><i>142</i>&nbsp;    menuCalculate.add(getClosenessCentrality);</b>
+<b class="nc"><i>143</i>&nbsp;    menuCalculate.add(getBetweennessCentrality);</b>
+<b class="nc"><i>144</i>&nbsp;    menuCalculate.add(getEccentricity);</b>
+<b class="nc"><i>145</i>&nbsp;    menuCalculate.add(distance);</b>
+<i>146</i>&nbsp;
+<b class="nc"><i>147</i>&nbsp;    logQuery.add(query);</b>
+<b class="nc"><i>148</i>&nbsp;    logQuery.setMnemonic(&#39;L&#39;);</b>
+<i>149</i>&nbsp;
+<b class="nc"><i>150</i>&nbsp;    bar.add(menuHelp);</b>
+<b class="nc"><i>151</i>&nbsp;    bar.add(menuCalculate);</b>
+<b class="nc"><i>152</i>&nbsp;    bar.add(logQuery);</b>
+<b class="nc"><i>153</i>&nbsp;    addListener();</b>
+<i>154</i>&nbsp;
+<b class="nc"><i>155</i>&nbsp;    this.setJMenuBar(bar);</b>
+<b class="nc"><i>156</i>&nbsp;    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</b>
+<i>157</i>&nbsp;  }
+<i>158</i>&nbsp;
+<i>159</i>&nbsp;  private void iniRep() {
+<b class="nc"><i>160</i>&nbsp;    this.vertexList = null;</b>
+<b class="nc"><i>161</i>&nbsp;    this.weight = 0;</b>
+<b class="nc"><i>162</i>&nbsp;    this.vertexLabel = &quot;&quot;;</b>
+<b class="nc"><i>163</i>&nbsp;    this.source = null;</b>
+<b class="nc"><i>164</i>&nbsp;    this.destination = null;</b>
+<b class="nc"><i>165</i>&nbsp;    this.args = null;</b>
+<i>166</i>&nbsp;  }
+<i>167</i>&nbsp;
+<i>168</i>&nbsp;  /**
+<i>169</i>&nbsp;   * Add edge into Graph.
+<i>170</i>&nbsp;   *
+<i>171</i>&nbsp;   * @param edge its Type should be one of all edge types we have defined and is non-null
+<i>172</i>&nbsp;   * @return true if adding successfully, otherwise false
+<i>173</i>&nbsp;   */
+<i>174</i>&nbsp;  public boolean addEdgeInGraph(Edge edge) throws InputFileAgainException {
+<b class="nc"><i>175</i>&nbsp;    return graph.addEdge(edge);</b>
+<i>176</i>&nbsp;  }
+<i>177</i>&nbsp;
+<i>178</i>&nbsp;  /**
+<i>179</i>&nbsp;   * Add vertex into Graph.
+<i>180</i>&nbsp;   *
+<i>181</i>&nbsp;   * @param vertex its Type should be one of all vertex types we have defined before and is
+<i>182</i>&nbsp;   *        non-null
+<i>183</i>&nbsp;   * @return true if adding successfully, otherwise false
+<i>184</i>&nbsp;   */
+<i>185</i>&nbsp;  public boolean addVertexInGraph(Vertex vertex) {
+<b class="nc"><i>186</i>&nbsp;    return graph.addVertex(vertex);</b>
+<i>187</i>&nbsp;  }
+<i>188</i>&nbsp;
+<i>189</i>&nbsp;  private void addListener() {
+<b class="nc"><i>190</i>&nbsp;    outputGraph.addActionListener(e -&gt; {</b>
+<b class="nc"><i>191</i>&nbsp;      String string = JOptionPane.showInputDialog(&quot;Please input file name you wanna output to&quot;);</b>
+<b class="nc"><i>192</i>&nbsp;      String fileName = &quot;src/txt/&quot; + string + &quot;.txt&quot;;</b>
+<i>193</i>&nbsp;      //      OutputStreamWriter writer;
+<i>194</i>&nbsp;      //      BufferedWriter bufferedWriter;
+<i>195</i>&nbsp;      try {
+<b class="nc"><i>196</i>&nbsp;        OutputGraph.outputGraph(graph, fileName);</b>
+<i>197</i>&nbsp;        //        writer = new OutputStreamWriter(new FileOutputStream(fileName), &quot;utf-8&quot;);
+<i>198</i>&nbsp;        //        bufferedWriter = new BufferedWriter(writer);
+<i>199</i>&nbsp;        //        bufferedWriter.write(OutputGraph.outputGraph(graph));
+<i>200</i>&nbsp;        //        bufferedWriter.flush();
+<i>201</i>&nbsp;        //        bufferedWriter.close();
+<b class="nc"><i>202</i>&nbsp;        JOptionPane.showMessageDialog(null, &quot;Output to src/txt/&quot;</b>
+<i>203</i>&nbsp;            + string + &quot;.txt successfully!&quot;);
+<b class="nc"><i>204</i>&nbsp;        LOGGER.debug(&quot;Output the graph into &quot; + fileName + &quot; successfully!&quot;);</b>
+<b class="nc"><i>205</i>&nbsp;      } catch (IOException e1) {</b>
+<b class="nc"><i>206</i>&nbsp;        LOGGER.error(e1.getMessage());</b>
+<b class="nc"><i>207</i>&nbsp;      }</b>
+<i>208</i>&nbsp;    });
+<b class="nc"><i>209</i>&nbsp;    query.addActionListener(e -&gt; new LoggingQuery());</b>
+<b class="nc"><i>210</i>&nbsp;    addVertex.addActionListener(e -&gt; {</b>
+<b class="nc"><i>211</i>&nbsp;      String[] strings = {&quot;Word&quot;, &quot;Person&quot;, &quot;Computer&quot;, &quot;Router&quot;, &quot;Server&quot;, &quot;Actor&quot;, &quot;Director&quot;,</b>
+<i>212</i>&nbsp;          &quot;Movie&quot;};
+<i>213</i>&nbsp;
+<b class="nc"><i>214</i>&nbsp;      String input = (String) JOptionPane.showInputDialog(null,</b>
+<i>215</i>&nbsp;          &quot;请选择需要增加Vertex的类型:\n&quot;, &quot;Add Vertex&quot;, JOptionPane.QUESTION_MESSAGE,
+<i>216</i>&nbsp;          null, strings, strings[0]);
+<b class="nc"><i>217</i>&nbsp;      if (input != null) {</b>
+<b class="nc"><i>218</i>&nbsp;        switch (input) {</b>
+<i>219</i>&nbsp;          case &quot;Computer&quot;:
+<i>220</i>&nbsp;          case &quot;Router&quot;:
+<i>221</i>&nbsp;          case &quot;Server&quot;:
+<i>222</i>&nbsp;          case &quot;WirelessRouter&quot;:
+<b class="nc"><i>223</i>&nbsp;            NetworkEquipmentDialog networkEquipmentDialog = new NetworkEquipmentDialog(this, this);</b>
+<b class="nc"><i>224</i>&nbsp;            break;</b>
+<i>225</i>&nbsp;          case &quot;Movie&quot;:
+<b class="nc"><i>226</i>&nbsp;            MovieDialog movieDialog = new MovieDialog(this, this);</b>
+<b class="nc"><i>227</i>&nbsp;            break;</b>
+<i>228</i>&nbsp;          case &quot;Person&quot;:
+<b class="nc"><i>229</i>&nbsp;            PersonDialog personDialog = new PersonDialog(this, this);</b>
+<b class="nc"><i>230</i>&nbsp;            break;</b>
+<i>231</i>&nbsp;          case &quot;Actor&quot;:
+<i>232</i>&nbsp;          case &quot;Director&quot;:
+<b class="nc"><i>233</i>&nbsp;            CastMemberDialog castMemberDialog = new CastMemberDialog(this, this);</b>
+<b class="nc"><i>234</i>&nbsp;            break;</b>
+<i>235</i>&nbsp;          default:
+<b class="nc"><i>236</i>&nbsp;            WordDialog wordDialog = new WordDialog(this, this);</b>
+<i>237</i>&nbsp;            break;
+<i>238</i>&nbsp;        }
+<b class="nc"><i>239</i>&nbsp;        if (vertexLabel.length() != 0) {</b>
+<b class="nc"><i>240</i>&nbsp;          Vertex vertex = null;</b>
+<i>241</i>&nbsp;          try {
+<b class="nc"><i>242</i>&nbsp;            vertex = VertexFactory.createVertex(vertexLabel, input, args);</b>
+<b class="nc"><i>243</i>&nbsp;            if (addVertexInGraph(vertex)) {</b>
+<b class="nc"><i>244</i>&nbsp;              LOGGER.debug(&quot;Add vertex &quot; + vertexLabel + &quot; in Graph &quot;);</b>
+<i>245</i>&nbsp;            }
+<b class="nc"><i>246</i>&nbsp;            refreshPanel();</b>
+<b class="nc"><i>247</i>&nbsp;            iniRep();</b>
+<b class="nc"><i>248</i>&nbsp;          } catch (InputFileAgainException e1) {</b>
+<b class="nc"><i>249</i>&nbsp;            LOGGER.error(e1.getMessage(), e1);</b>
+<b class="nc"><i>250</i>&nbsp;          }</b>
+<i>251</i>&nbsp;        }
+<i>252</i>&nbsp;      }
+<i>253</i>&nbsp;    });
+<i>254</i>&nbsp;
+<b class="nc"><i>255</i>&nbsp;    deleteVertex.addActionListener(e -&gt; {</b>
+<b class="nc"><i>256</i>&nbsp;      Set&lt;Vertex&gt; vertexSet = this.graph.vertices();</b>
+<b class="nc"><i>257</i>&nbsp;      Object[] vertices = vertexSet.toArray();</b>
+<b class="nc"><i>258</i>&nbsp;      Vertex chosenVertex = (Vertex) JOptionPane.showInputDialog(null,</b>
+<i>259</i>&nbsp;          &quot;Choose the vertex you want to delete:\n&quot;,
+<i>260</i>&nbsp;          &quot;Delete Vertex&quot;, JOptionPane.WARNING_MESSAGE, null, vertices, vertices[0]);
+<b class="nc"><i>261</i>&nbsp;      if (this.graph.removeVertex(chosenVertex)) {</b>
+<b class="nc"><i>262</i>&nbsp;        LOGGER.debug(&quot;Delete vertex &quot; + chosenVertex.getLabel() + &quot; from Graph&quot;);</b>
+<i>263</i>&nbsp;      }
+<b class="nc"><i>264</i>&nbsp;      refreshPanel();</b>
+<i>265</i>&nbsp;    });
+<i>266</i>&nbsp;
+<b class="nc"><i>267</i>&nbsp;    deleteEdge.addActionListener(e -&gt; {</b>
+<b class="nc"><i>268</i>&nbsp;      Set&lt;Edge&gt; edgeSet = this.graph.edges();</b>
+<b class="nc"><i>269</i>&nbsp;      Object[] edges = edgeSet.toArray();</b>
+<b class="nc"><i>270</i>&nbsp;      Edge chosenEdge = (Edge) JOptionPane.showInputDialog(null,</b>
+<i>271</i>&nbsp;          &quot;Choose the edge you want to delete:\n&quot;,
+<i>272</i>&nbsp;          &quot;Delete Edge&quot;, JOptionPane.WARNING_MESSAGE, null, edges, edges[0]);
+<i>273</i>&nbsp;      try {
+<b class="nc"><i>274</i>&nbsp;        if (this.graph.removeEdge(chosenEdge)) {</b>
+<b class="nc"><i>275</i>&nbsp;          LOGGER.debug(&quot;Delete edge &quot; + chosenEdge.getLabel() + &quot; from Graph&quot;);</b>
+<i>276</i>&nbsp;        }
+<b class="nc"><i>277</i>&nbsp;        refreshPanel();</b>
+<b class="nc"><i>278</i>&nbsp;      } catch (InputFileAgainException e1) {</b>
+<b class="nc"><i>279</i>&nbsp;        LOGGER.error(e1.getMessage(), e1);</b>
+<b class="nc"><i>280</i>&nbsp;      }</b>
+<i>281</i>&nbsp;    });
+<i>282</i>&nbsp;
+<b class="nc"><i>283</i>&nbsp;    modifyEdge.addActionListener(e -&gt; {</b>
+<b class="nc"><i>284</i>&nbsp;      Set&lt;Edge&gt; edgeSet = this.graph.edges();</b>
+<b class="nc"><i>285</i>&nbsp;      Object[] edges = edgeSet.toArray();</b>
+<b class="nc"><i>286</i>&nbsp;      Edge chosenEdge = (Edge) JOptionPane.showInputDialog(null,</b>
+<i>287</i>&nbsp;          &quot;Choose the edge you want to delete:\n&quot;,
+<i>288</i>&nbsp;          &quot;Delete Edge&quot;, JOptionPane.WARNING_MESSAGE, null, edges, edges[0]);
+<b class="nc"><i>289</i>&nbsp;      String edgeType = chosenEdge.getClass().getSimpleName();</b>
+<b class="nc"><i>290</i>&nbsp;      switch (edgeType) {</b>
+<i>291</i>&nbsp;        case &quot;SameMovieHyperEdge&quot;:
+<b class="nc"><i>292</i>&nbsp;          HyperEdgeDialog hyperEdgeDialog = new HyperEdgeDialog(this, this, chosenEdge);</b>
+<b class="nc"><i>293</i>&nbsp;          if (edgeLabel.length() != 0 &amp;&amp; vertexList != null) {</b>
+<b class="nc"><i>294</i>&nbsp;            Edge edge = null;</b>
+<i>295</i>&nbsp;            try {
+<b class="nc"><i>296</i>&nbsp;              edge = HyperEdgeFactory.createEdge(edgeLabel, edgeType, vertexList);</b>
+<b class="nc"><i>297</i>&nbsp;              replaceEdge(chosenEdge, edge);</b>
+<b class="nc"><i>298</i>&nbsp;              refreshPanel();</b>
+<b class="nc"><i>299</i>&nbsp;              LOGGER.debug(&quot;Modify edge &quot; + chosenEdge.toString() + &quot; to &quot; + edge.toString());</b>
+<b class="nc"><i>300</i>&nbsp;              iniRep();</b>
+<b class="nc"><i>301</i>&nbsp;            } catch (InputFileAgainException e1) {</b>
+<b class="nc"><i>302</i>&nbsp;              LOGGER.error(e1.getMessage(), e1);</b>
+<b class="nc"><i>303</i>&nbsp;            }</b>
+<b class="nc"><i>304</i>&nbsp;          }</b>
+<i>305</i>&nbsp;          break;
+<i>306</i>&nbsp;        default:
+<b class="nc"><i>307</i>&nbsp;          EdgeDialog edgeDialog = new EdgeDialog(this, this, chosenEdge);</b>
+<b class="nc"><i>308</i>&nbsp;          if (edgeLabel.length() != 0 &amp;&amp; weight != 0 &amp;&amp; vertexList != null) {</b>
+<b class="nc"><i>309</i>&nbsp;            Edge edge = null;</b>
+<i>310</i>&nbsp;            try {
+<b class="nc"><i>311</i>&nbsp;              edge = EdgeFactory.createEdge(edgeLabel, edgeType, weight, vertexList);</b>
+<b class="nc"><i>312</i>&nbsp;              replaceEdge(chosenEdge, edge);</b>
+<b class="nc"><i>313</i>&nbsp;              refreshPanel();</b>
+<b class="nc"><i>314</i>&nbsp;              LOGGER.debug(&quot;Modify edge &quot; + chosenEdge.toString() + &quot; to &quot; + edge.toString());</b>
+<b class="nc"><i>315</i>&nbsp;              iniRep();</b>
+<b class="nc"><i>316</i>&nbsp;            } catch (InputFileAgainException e1) {</b>
+<b class="nc"><i>317</i>&nbsp;              LOGGER.error(e1.getMessage(), e1);</b>
+<b class="nc"><i>318</i>&nbsp;            }</b>
+<i>319</i>&nbsp;          }
+<i>320</i>&nbsp;          break;
+<i>321</i>&nbsp;      }
+<i>322</i>&nbsp;    });
+<i>323</i>&nbsp;
+<b class="nc"><i>324</i>&nbsp;    graphDegreeCentrality.addActionListener(e -&gt; {</b>
+<b class="nc"><i>325</i>&nbsp;      double tempDegreeCentrality = GraphMetrics.degreeCentrality(graph);</b>
+<b class="nc"><i>326</i>&nbsp;      JOptionPane.showMessageDialog(this, &quot;Graph degree centrality:&quot; + tempDegreeCentrality);</b>
+<i>327</i>&nbsp;    });
+<i>328</i>&nbsp;
+<b class="nc"><i>329</i>&nbsp;    radius.addActionListener(e -&gt; {</b>
+<b class="nc"><i>330</i>&nbsp;      double tempRadius = GraphMetrics.radius(graph);</b>
+<b class="nc"><i>331</i>&nbsp;      JOptionPane.showMessageDialog(this, &quot;Graph Radius:&quot; + tempRadius);</b>
+<i>332</i>&nbsp;    });
+<i>333</i>&nbsp;
+<b class="nc"><i>334</i>&nbsp;    diameter.addActionListener(e -&gt; {</b>
+<b class="nc"><i>335</i>&nbsp;      double tempDiameter = GraphMetrics.diameter(graph);</b>
+<b class="nc"><i>336</i>&nbsp;      JOptionPane.showMessageDialog(this, &quot;Graph Diameter:&quot; + tempDiameter);</b>
+<i>337</i>&nbsp;    });
+<i>338</i>&nbsp;
+<b class="nc"><i>339</i>&nbsp;    getDegreeCentrality.addActionListener(e -&gt; {</b>
+<b class="nc"><i>340</i>&nbsp;      Set&lt;Vertex&gt; vertexSet = graph.vertices();</b>
+<b class="nc"><i>341</i>&nbsp;      Vertex chosenVertex = (Vertex) JOptionPane.showInputDialog(this,</b>
+<i>342</i>&nbsp;          &quot;请选择需要进行计算的顶点:\n&quot;,
+<b class="nc"><i>343</i>&nbsp;          &quot;Calculate&quot;, JOptionPane.QUESTION_MESSAGE, null, vertexSet.toArray(),</b>
+<b class="nc"><i>344</i>&nbsp;          vertexSet.toArray()[0]);</b>
+<b class="nc"><i>345</i>&nbsp;      double tempDegree = GraphMetrics.degreeCentrality(graph, chosenVertex);</b>
+<b class="nc"><i>346</i>&nbsp;      JOptionPane</b>
+<b class="nc"><i>347</i>&nbsp;          .showMessageDialog(this, chosenVertex.getLabel()</b>
+<i>348</i>&nbsp;              + &quot; degree Centrality:&quot; + tempDegree);
+<i>349</i>&nbsp;    });
+<i>350</i>&nbsp;
+<b class="nc"><i>351</i>&nbsp;    getClosenessCentrality.addActionListener(e -&gt; {</b>
+<b class="nc"><i>352</i>&nbsp;      Set&lt;Vertex&gt; vertexSet = graph.vertices();</b>
+<b class="nc"><i>353</i>&nbsp;      Vertex chosenVertex = (Vertex) JOptionPane.showInputDialog(this,</b>
+<i>354</i>&nbsp;          &quot;请选择需要进行计算的顶点:\n&quot;, &quot;Calculate&quot;, JOptionPane.QUESTION_MESSAGE,
+<b class="nc"><i>355</i>&nbsp;          null, vertexSet.toArray(),</b>
+<b class="nc"><i>356</i>&nbsp;          vertexSet.toArray()[0]);</b>
+<b class="nc"><i>357</i>&nbsp;      double tempClosenessCentrality = GraphMetrics.closenessCentrality(graph, chosenVertex);</b>
+<b class="nc"><i>358</i>&nbsp;      JOptionPane.showMessageDialog(this,</b>
+<b class="nc"><i>359</i>&nbsp;          chosenVertex.getLabel() + &quot; closeness Centrality:&quot; + tempClosenessCentrality);</b>
+<i>360</i>&nbsp;    });
+<i>361</i>&nbsp;
+<b class="nc"><i>362</i>&nbsp;    getBetweennessCentrality.addActionListener(e -&gt; {</b>
+<b class="nc"><i>363</i>&nbsp;      Set&lt;Vertex&gt; vertexSet = graph.vertices();</b>
+<b class="nc"><i>364</i>&nbsp;      Vertex chosenVertex = (Vertex) JOptionPane.showInputDialog(this,</b>
+<i>365</i>&nbsp;          &quot;请选择需要进行计算的顶点:\n&quot;, &quot;Calculate&quot;, JOptionPane.QUESTION_MESSAGE,
+<b class="nc"><i>366</i>&nbsp;          null, vertexSet.toArray(),</b>
+<b class="nc"><i>367</i>&nbsp;          vertexSet.toArray()[0]);</b>
+<b class="nc"><i>368</i>&nbsp;      double tempBetweennessCentrality = GraphMetrics.betweennessCentrality(graph, chosenVertex);</b>
+<b class="nc"><i>369</i>&nbsp;      JOptionPane.showMessageDialog(this,</b>
+<b class="nc"><i>370</i>&nbsp;          chosenVertex.getLabel() + &quot; betweenness Centrality:&quot; + tempBetweennessCentrality);</b>
+<i>371</i>&nbsp;    });
+<i>372</i>&nbsp;
+<b class="nc"><i>373</i>&nbsp;    getEccentricity.addActionListener(e -&gt; {</b>
+<b class="nc"><i>374</i>&nbsp;      Set&lt;Vertex&gt; vertexSet = graph.vertices();</b>
+<b class="nc"><i>375</i>&nbsp;      Vertex chosenVertex = (Vertex) JOptionPane.showInputDialog(this,</b>
+<i>376</i>&nbsp;          &quot;请选择需要进行计算的顶点:\n&quot;,
+<b class="nc"><i>377</i>&nbsp;          &quot;Calculate&quot;, JOptionPane.QUESTION_MESSAGE, null, vertexSet.toArray(),</b>
+<b class="nc"><i>378</i>&nbsp;          vertexSet.toArray()[0]);</b>
+<b class="nc"><i>379</i>&nbsp;      double tempEccentricity = GraphMetrics.eccentricity(graph, chosenVertex);</b>
+<b class="nc"><i>380</i>&nbsp;      JOptionPane.showMessageDialog(this, chosenVertex.getLabel()</b>
+<i>381</i>&nbsp;          + &quot; eccentricity:&quot; + tempEccentricity);
+<i>382</i>&nbsp;    });
+<i>383</i>&nbsp;
+<b class="nc"><i>384</i>&nbsp;    distance.addActionListener(e -&gt; {</b>
+<b class="nc"><i>385</i>&nbsp;      DistanceDialog distanceDialog = new DistanceDialog(this, this);</b>
+<b class="nc"><i>386</i>&nbsp;      if (source != null &amp;&amp; destination != null) {</b>
+<b class="nc"><i>387</i>&nbsp;        JOptionPane.showMessageDialog(this, source.getLabel() + &quot;-&gt;&quot;</b>
+<b class="nc"><i>388</i>&nbsp;            + destination.getLabel() + &quot;:&quot; + GraphMetrics.distance(graph, source, destination));</b>
+<i>389</i>&nbsp;      }
+<b class="nc"><i>390</i>&nbsp;      setSource(null);</b>
+<b class="nc"><i>391</i>&nbsp;      setDestination(null);</b>
+<i>392</i>&nbsp;    });
+<i>393</i>&nbsp;
+<b class="nc"><i>394</i>&nbsp;    modifyVertex.addActionListener(e -&gt; {</b>
+<b class="nc"><i>395</i>&nbsp;      Set&lt;Vertex&gt; vertexSet = this.graph.vertices();</b>
+<b class="nc"><i>396</i>&nbsp;      Object[] vertices = vertexSet.toArray();</b>
+<b class="nc"><i>397</i>&nbsp;      Vertex chosenVertex = (Vertex) JOptionPane.showInputDialog(null,</b>
+<i>398</i>&nbsp;          &quot;Choose the vertex you want to modify:\n&quot;,
+<i>399</i>&nbsp;          &quot;Modify Vertex&quot;, JOptionPane.WARNING_MESSAGE,
+<i>400</i>&nbsp;          null, vertices, vertices[0]);
+<b class="nc"><i>401</i>&nbsp;      if (chosenVertex != null) {</b>
+<b class="nc"><i>402</i>&nbsp;        String vertexType = chosenVertex.getClass().getSimpleName();</b>
+<b class="nc"><i>403</i>&nbsp;        switch (vertexType) {</b>
+<i>404</i>&nbsp;          case &quot;Computer&quot;:
+<i>405</i>&nbsp;          case &quot;Router&quot;:
+<i>406</i>&nbsp;          case &quot;Server&quot;:
+<i>407</i>&nbsp;          case &quot;WirelessRouter&quot;:
+<b class="nc"><i>408</i>&nbsp;            NetworkEquipmentDialog networkEquipmentDialog</b>
+<i>409</i>&nbsp;                = new NetworkEquipmentDialog(this, this, chosenVertex);
+<b class="nc"><i>410</i>&nbsp;            break;</b>
+<i>411</i>&nbsp;          case &quot;Movie&quot;:
+<b class="nc"><i>412</i>&nbsp;            MovieDialog movieDialog = new MovieDialog(this, this, chosenVertex);</b>
+<b class="nc"><i>413</i>&nbsp;            break;</b>
+<i>414</i>&nbsp;          case &quot;Person&quot;:
+<b class="nc"><i>415</i>&nbsp;            PersonDialog personDialog = new PersonDialog(this, this, chosenVertex);</b>
+<b class="nc"><i>416</i>&nbsp;            break;</b>
+<i>417</i>&nbsp;          case &quot;Actor&quot;:
+<i>418</i>&nbsp;          case &quot;Director&quot;:
+<b class="nc"><i>419</i>&nbsp;            CastMemberDialog castMemberDialog = new CastMemberDialog(this, this, chosenVertex);</b>
+<b class="nc"><i>420</i>&nbsp;            break;</b>
+<i>421</i>&nbsp;          default:
+<b class="nc"><i>422</i>&nbsp;            WordDialog wordDialog = new WordDialog(this, this, chosenVertex);</b>
+<i>423</i>&nbsp;            break;
+<i>424</i>&nbsp;        }
+<b class="nc"><i>425</i>&nbsp;        if (vertexLabel.length() != 0) {</b>
+<b class="nc"><i>426</i>&nbsp;          Vertex vertex = null;</b>
+<i>427</i>&nbsp;          try {
+<b class="nc"><i>428</i>&nbsp;            vertex = VertexFactory</b>
+<b class="nc"><i>429</i>&nbsp;                .createVertex(vertexLabel, chosenVertex.getClass().getSimpleName(), args);</b>
+<b class="nc"><i>430</i>&nbsp;            replaceVertex(chosenVertex, vertex);</b>
+<b class="nc"><i>431</i>&nbsp;            graph.removeVertex(chosenVertex);</b>
+<b class="nc"><i>432</i>&nbsp;            refreshPanel();</b>
+<b class="nc"><i>433</i>&nbsp;            LOGGER.debug(</b>
+<b class="nc"><i>434</i>&nbsp;                &quot;Modify vertex from &quot; + chosenVertex.toString() + &quot; to &quot; + vertex.toString());</b>
+<b class="nc"><i>435</i>&nbsp;            iniRep();</b>
+<b class="nc"><i>436</i>&nbsp;          } catch (InputFileAgainException e1) {</b>
+<b class="nc"><i>437</i>&nbsp;            LOGGER.error(&quot;Modify vertex with wrong number of params&quot;, e1);</b>
+<b class="nc"><i>438</i>&nbsp;          }</b>
+<i>439</i>&nbsp;        }
+<i>440</i>&nbsp;      }
+<i>441</i>&nbsp;    });
+<i>442</i>&nbsp;
+<b class="nc"><i>443</i>&nbsp;    addEdge.addActionListener(e -&gt; {</b>
+<b class="nc"><i>444</i>&nbsp;      String[] typesOfEdge = {&quot;CommentTie&quot;, &quot;ForwardTie&quot;, &quot;FriendTie&quot;, &quot;MovieActorRelation&quot;,</b>
+<i>445</i>&nbsp;          &quot;MovieDirectorRelation&quot;, &quot;NetworkConnection&quot;, &quot;WordNeighborhood&quot;, &quot;SameMovieHyperEdge&quot;};
+<b class="nc"><i>446</i>&nbsp;      String chosenType = (String) JOptionPane.showInputDialog(null,</b>
+<i>447</i>&nbsp;          &quot;Choose the Type of edge you want add:\n&quot;,
+<i>448</i>&nbsp;          &quot;Add Edge&quot;, JOptionPane.QUESTION_MESSAGE, null, typesOfEdge, typesOfEdge[0]);
+<b class="nc"><i>449</i>&nbsp;      switch (chosenType) {</b>
+<i>450</i>&nbsp;        case &quot;CommentTie&quot;:
+<i>451</i>&nbsp;        case &quot;ForwardTie&quot;:
+<i>452</i>&nbsp;        case &quot;FriendTie&quot;:
+<i>453</i>&nbsp;        case &quot;MovieActorRelation&quot;:
+<i>454</i>&nbsp;        case &quot;MovieDirectorRelation&quot;:
+<i>455</i>&nbsp;        case &quot;NetworkConnection&quot;:
+<i>456</i>&nbsp;        case &quot;WordNeighborhood&quot;:
+<b class="nc"><i>457</i>&nbsp;          EdgeDialog edgeDialog = new EdgeDialog(this, this);</b>
+<b class="nc"><i>458</i>&nbsp;          break;</b>
+<i>459</i>&nbsp;        case &quot;SameMovieHyperEdge&quot;:
+<b class="nc"><i>460</i>&nbsp;          HyperEdgeDialog hyperEdgeDialog = new HyperEdgeDialog(this, this);</b>
+<b class="nc"><i>461</i>&nbsp;          if (edgeLabel.length() != 0 &amp;&amp; vertexList != null) {</b>
+<b class="nc"><i>462</i>&nbsp;            HyperEdge hyperEdge = null;</b>
+<i>463</i>&nbsp;            try {
+<b class="nc"><i>464</i>&nbsp;              hyperEdge = HyperEdgeFactory.createEdge(edgeLabel, chosenType, vertexList);</b>
+<b class="nc"><i>465</i>&nbsp;              if (addEdgeInGraph(hyperEdge)) {</b>
+<b class="nc"><i>466</i>&nbsp;                LOGGER.debug(&quot;Add HyperEdge &quot; + edgeLabel);</b>
+<i>467</i>&nbsp;              }
+<b class="nc"><i>468</i>&nbsp;              refreshPanel();</b>
+<b class="nc"><i>469</i>&nbsp;              iniRep();</b>
+<b class="nc"><i>470</i>&nbsp;            } catch (InputFileAgainException e1) {</b>
+<b class="nc"><i>471</i>&nbsp;              LOGGER.error(e1.getMessage(), e1);</b>
+<b class="nc"><i>472</i>&nbsp;            }</b>
+<b class="nc"><i>473</i>&nbsp;          }</b>
+<i>474</i>&nbsp;          break;
+<i>475</i>&nbsp;        default:
+<b class="nc"><i>476</i>&nbsp;          throw new RuntimeException(&quot;Can not reach this!&quot;);</b>
+<i>477</i>&nbsp;      }
+<b class="nc"><i>478</i>&nbsp;      if (edgeLabel.length() != 0 &amp;&amp; weight != 0 &amp;&amp; vertexList != null) {</b>
+<b class="nc"><i>479</i>&nbsp;        Edge edge = null;</b>
+<i>480</i>&nbsp;        try {
+<b class="nc"><i>481</i>&nbsp;          edge = EdgeFactory.createEdge(edgeLabel, chosenType, weight, vertexList);</b>
+<b class="nc"><i>482</i>&nbsp;          if (addEdgeInGraph(edge)) {</b>
+<b class="nc"><i>483</i>&nbsp;            LOGGER.debug(&quot;Add edge &quot; + edgeLabel);</b>
+<i>484</i>&nbsp;          }
+<b class="nc"><i>485</i>&nbsp;          refreshPanel();</b>
+<b class="nc"><i>486</i>&nbsp;          iniRep();</b>
+<b class="nc"><i>487</i>&nbsp;        } catch (InputFileAgainException e1) {</b>
+<b class="nc"><i>488</i>&nbsp;          LOGGER.error(e1.getMessage(), e1);</b>
+<b class="nc"><i>489</i>&nbsp;        }</b>
+<i>490</i>&nbsp;      }
+<i>491</i>&nbsp;    });
+<i>492</i>&nbsp;  }
+<i>493</i>&nbsp;
+<i>494</i>&nbsp;  /**
+<i>495</i>&nbsp;   * Make the visualization of graph visible.
+<i>496</i>&nbsp;   */
+<i>497</i>&nbsp;  public void visible() {
+<b class="nc"><i>498</i>&nbsp;    LOGGER.info(&quot;Set the GUI visible!&quot;);</b>
+<b class="nc"><i>499</i>&nbsp;    this.setVisible(true);</b>
+<i>500</i>&nbsp;  }
+<i>501</i>&nbsp;
+<i>502</i>&nbsp;  /*
+<i>503</i>&nbsp;   * Set the new label of latter vertex or the label of new vertex
+<i>504</i>&nbsp;   *
+<i>505</i>&nbsp;   * @param label non-null and non-empty string
+<i>506</i>&nbsp;   */
+<i>507</i>&nbsp;  protected void setVertexLabel(String label) {
+<b class="nc"><i>508</i>&nbsp;    this.vertexLabel = label;</b>
+<i>509</i>&nbsp;  }
+<i>510</i>&nbsp;
+<i>511</i>&nbsp;  /*
+<i>512</i>&nbsp;   * Set the new label of latter edge or the label of new edge
+<i>513</i>&nbsp;   *
+<i>514</i>&nbsp;   * @param label non-null and non-empty string
+<i>515</i>&nbsp;   */
+<i>516</i>&nbsp;  protected void setEdgeLabel(String label) {
+<b class="nc"><i>517</i>&nbsp;    this.edgeLabel = label;</b>
+<i>518</i>&nbsp;  }
+<i>519</i>&nbsp;
+<i>520</i>&nbsp;  /*
+<i>521</i>&nbsp;   * Fill the args of vertex
+<i>522</i>&nbsp;   *
+<i>523</i>&nbsp;   * @param args non-null and non-empty string array
+<i>524</i>&nbsp;   */
+<i>525</i>&nbsp;  protected void setArgs(String[] args) {
+<b class="nc"><i>526</i>&nbsp;    this.args = args;</b>
+<i>527</i>&nbsp;  }
+<i>528</i>&nbsp;
+<i>529</i>&nbsp;  /*
+<i>530</i>&nbsp;   * Get all vertices in graph
+<i>531</i>&nbsp;   *
+<i>532</i>&nbsp;   * @return a set of vertices
+<i>533</i>&nbsp;   */
+<i>534</i>&nbsp;  protected Set&lt;Vertex&gt; getVertices() {
+<b class="nc"><i>535</i>&nbsp;    return this.graph.vertices();</b>
+<i>536</i>&nbsp;  }
+<i>537</i>&nbsp;
+<i>538</i>&nbsp;  /*
+<i>539</i>&nbsp;  Replace vertex with new Vertex and change all edges connected the old one to the new one.
+<i>540</i>&nbsp;   */
+<i>541</i>&nbsp;  private void replaceVertex(Vertex vertex, Vertex newVertex) {
+<i>542</i>&nbsp;    try {
+<b class="nc"><i>543</i>&nbsp;      Set&lt;Edge&gt; edgeSet = graph.edges();</b>
+<b class="nc"><i>544</i>&nbsp;      for (Edge edge : edgeSet) {</b>
+<b class="nc"><i>545</i>&nbsp;        if (edge instanceof DirectedEdge) {</b>
+<b class="nc"><i>546</i>&nbsp;          List&lt;Vertex&gt; source = new ArrayList&lt;&gt;(edge.sourceVertices());</b>
+<b class="nc"><i>547</i>&nbsp;          List&lt;Vertex&gt; target = new ArrayList&lt;&gt;(edge.targetVertices());</b>
+<b class="nc"><i>548</i>&nbsp;          if (source.contains(vertex) &amp;&amp; target.contains(vertex)) {</b>
+<b class="nc"><i>549</i>&nbsp;            graph.removeEdge(edge);</b>
+<b class="nc"><i>550</i>&nbsp;            Edge tempEdge = EdgeFactory</b>
+<b class="nc"><i>551</i>&nbsp;                .createEdge(edge.getLabel(), edge.getClass().getSimpleName(), edge.getWeight(),</b>
+<b class="nc"><i>552</i>&nbsp;                    Arrays.asList(newVertex, newVertex));</b>
+<b class="nc"><i>553</i>&nbsp;            graph.addEdge(tempEdge);</b>
+<b class="nc"><i>554</i>&nbsp;          } else if (source.contains(vertex)) {</b>
+<b class="nc"><i>555</i>&nbsp;            graph.removeEdge(edge);</b>
+<b class="nc"><i>556</i>&nbsp;            Edge tempEdge = EdgeFactory</b>
+<b class="nc"><i>557</i>&nbsp;                .createEdge(edge.getLabel(), edge.getClass().getSimpleName(), edge.getWeight(),</b>
+<b class="nc"><i>558</i>&nbsp;                    Arrays.asList(newVertex, target.get(0)));</b>
+<b class="nc"><i>559</i>&nbsp;            graph.addEdge(tempEdge);</b>
+<b class="nc"><i>560</i>&nbsp;          } else if (target.contains(vertex)) {</b>
+<b class="nc"><i>561</i>&nbsp;            graph.removeEdge(edge);</b>
+<b class="nc"><i>562</i>&nbsp;            Edge tempEdge = EdgeFactory</b>
+<b class="nc"><i>563</i>&nbsp;                .createEdge(edge.getLabel(), edge.getClass().getSimpleName(), edge.getWeight(),</b>
+<b class="nc"><i>564</i>&nbsp;                    Arrays.asList(source.get(0), newVertex));</b>
+<b class="nc"><i>565</i>&nbsp;            graph.addEdge(tempEdge);</b>
+<i>566</i>&nbsp;          }
+<b class="nc"><i>567</i>&nbsp;        } else if (edge instanceof UndirectedEdge) {</b>
+<b class="nc"><i>568</i>&nbsp;          Set&lt;Vertex&gt; vertices = edge.vertices();</b>
+<b class="nc"><i>569</i>&nbsp;          List&lt;Vertex&gt; vertexList = new ArrayList&lt;&gt;(vertices);</b>
+<b class="nc"><i>570</i>&nbsp;          if (vertexList.size() == 1 &amp;&amp; vertices.contains(vertex)) {</b>
+<b class="nc"><i>571</i>&nbsp;            graph.removeEdge(edge);</b>
+<b class="nc"><i>572</i>&nbsp;            Edge tempEdge = EdgeFactory</b>
+<b class="nc"><i>573</i>&nbsp;                .createEdge(edge.getLabel(), edge.getClass().getSimpleName(), edge.getWeight(),</b>
+<b class="nc"><i>574</i>&nbsp;                    Arrays.asList(newVertex));</b>
+<b class="nc"><i>575</i>&nbsp;            graph.addEdge(tempEdge);</b>
+<b class="nc"><i>576</i>&nbsp;          } else if (vertices.contains(vertex)) {</b>
+<b class="nc"><i>577</i>&nbsp;            vertexList.remove(vertex);</b>
+<b class="nc"><i>578</i>&nbsp;            graph.removeEdge(edge);</b>
+<b class="nc"><i>579</i>&nbsp;            Edge tempEdge = EdgeFactory</b>
+<b class="nc"><i>580</i>&nbsp;                .createEdge(edge.getLabel(), edge.getClass().getSimpleName(), edge.getWeight(),</b>
+<b class="nc"><i>581</i>&nbsp;                    Arrays.asList(vertexList.get(0), newVertex));</b>
+<b class="nc"><i>582</i>&nbsp;            graph.addEdge(tempEdge);</b>
+<i>583</i>&nbsp;          }
+<b class="nc"><i>584</i>&nbsp;        } else {</b>
+<b class="nc"><i>585</i>&nbsp;          Set&lt;Vertex&gt; vertexSet = edge.vertices();</b>
+<b class="nc"><i>586</i>&nbsp;          if (vertexSet.contains(vertex)) {</b>
+<b class="nc"><i>587</i>&nbsp;            vertexSet.remove(vertex);</b>
+<b class="nc"><i>588</i>&nbsp;            vertexSet.add(newVertex);</b>
+<b class="nc"><i>589</i>&nbsp;            graph.removeEdge(edge);</b>
+<b class="nc"><i>590</i>&nbsp;            HyperEdge hyperEdge = null;</b>
+<b class="nc"><i>591</i>&nbsp;            hyperEdge = HyperEdgeFactory</b>
+<b class="nc"><i>592</i>&nbsp;                .createEdge(edge.getLabel(), edge.getClass().getSimpleName(),</b>
+<i>593</i>&nbsp;                    new ArrayList&lt;&gt;(vertexSet));
+<b class="nc"><i>594</i>&nbsp;            graph.addEdge(hyperEdge);</b>
+<i>595</i>&nbsp;          }
+<i>596</i>&nbsp;        }
+<b class="nc"><i>597</i>&nbsp;      }</b>
+<b class="nc"><i>598</i>&nbsp;    } catch (InputFileAgainException e) {</b>
+<b class="nc"><i>599</i>&nbsp;      e.printStackTrace();</b>
+<b class="nc"><i>600</i>&nbsp;    }</b>
+<i>601</i>&nbsp;  }
+<i>602</i>&nbsp;
+<i>603</i>&nbsp;  private void replaceEdge(Edge edge, Edge newEdge) throws InputFileAgainException {
+<b class="nc"><i>604</i>&nbsp;    graph.removeEdge(edge);</b>
+<b class="nc"><i>605</i>&nbsp;    graph.addEdge(newEdge);</b>
+<i>606</i>&nbsp;  }
+<i>607</i>&nbsp;
+<i>608</i>&nbsp;  protected void setSource(Vertex vertex) {
+<b class="nc"><i>609</i>&nbsp;    this.source = vertex;</b>
+<i>610</i>&nbsp;  }
+<i>611</i>&nbsp;
+<i>612</i>&nbsp;  protected void setDestination(Vertex vertex) {
+<b class="nc"><i>613</i>&nbsp;    this.destination = vertex;</b>
+<i>614</i>&nbsp;  }
+<i>615</i>&nbsp;
+<i>616</i>&nbsp;  protected void setWeight(double weight) {
+<b class="nc"><i>617</i>&nbsp;    this.weight = weight;</b>
+<i>618</i>&nbsp;  }
+<i>619</i>&nbsp;
+<i>620</i>&nbsp;  protected void setVertexList(List&lt;Vertex&gt; list) {
+<b class="nc"><i>621</i>&nbsp;    this.vertexList = list;</b>
+<i>622</i>&nbsp;  }
+<i>623</i>&nbsp;
+<i>624</i>&nbsp;  private void refreshPanel() {
+<b class="nc"><i>625</i>&nbsp;    this.viewer = GraphVisualizationHelper.getJung(graph);</b>
+<b class="nc"><i>626</i>&nbsp;    this.getContentPane().removeAll();</b>
+<b class="nc"><i>627</i>&nbsp;    this.scrollPane[0] = new GraphZoomScrollPane(this.viewer);</b>
+<b class="nc"><i>628</i>&nbsp;    panel = new RightPanel(this.viewer);</b>
+<b class="nc"><i>629</i>&nbsp;    this.getContentPane().add(scrollPane[0], BorderLayout.WEST);</b>
+<b class="nc"><i>630</i>&nbsp;    this.getContentPane().add(panel, BorderLayout.EAST);</b>
+<b class="nc"><i>631</i>&nbsp;    this.getContentPane().invalidate();</b>
+<b class="nc"><i>632</i>&nbsp;    this.getContentPane().validate();</b>
+<b class="nc"><i>633</i>&nbsp;    this.getContentPane().repaint();</b>
+<i>634</i>&nbsp;  }
+<i>635</i>&nbsp;
+<i>636</i>&nbsp;  //    public static void main(String[] args) {
+<i>637</i>&nbsp;  //        GraphGui tempGraphGUI = new GraphGui(GraphFactory.createGraph(&quot;src/txt/GraphPoet.txt&quot;));
+<i>638</i>&nbsp;  //        tempGraphGUI.visible();
+<i>639</i>&nbsp;  //    }
+<i>640</i>&nbsp;
+<i>641</i>&nbsp;  class RightPanel extends JPanel {
+<i>642</i>&nbsp;
+<b class="nc"><i>643</i>&nbsp;    GroupLayout layout = new GroupLayout(this);</b>
+<b class="nc"><i>644</i>&nbsp;    JLabel label = new JLabel(&quot;Graph Name&quot;);</b>
+<b class="nc"><i>645</i>&nbsp;    JLabel graphName = new JLabel(graph.getGraphName());</b>
+<b class="nc"><i>646</i>&nbsp;    JButton plus = new JButton(&quot;+&quot;);</b>
+<b class="nc"><i>647</i>&nbsp;    JButton minus = new JButton(&quot;-&quot;);</b>
+<b class="nc"><i>648</i>&nbsp;    JButton reset = new JButton(&quot;reset&quot;);</b>
+<b class="nc"><i>649</i>&nbsp;    JTextArea hyperEdge = new JTextArea(10, 15);</b>
+<i>650</i>&nbsp;    JScrollPane scrollPane1;
+<b class="nc"><i>651</i>&nbsp;    int number = 0;</b>
+<i>652</i>&nbsp;
+<b class="nc"><i>653</i>&nbsp;    RightPanel(VisualizationViewer vv) {</b>
+<b class="nc"><i>654</i>&nbsp;      hyperEdge.setFont(new Font(Font.DIALOG, Font.PLAIN, 14));</b>
+<b class="nc"><i>655</i>&nbsp;      hyperEdge.setLineWrap(true);</b>
+<b class="nc"><i>656</i>&nbsp;      hyperEdge.setWrapStyleWord(true);</b>
+<b class="nc"><i>657</i>&nbsp;      hyperEdge.setEditable(false);</b>
+<b class="nc"><i>658</i>&nbsp;      StringBuilder hyperEdgeString = new StringBuilder(&quot;HyperEdge(s):\n&quot;);</b>
+<b class="nc"><i>659</i>&nbsp;      Set&lt;Edge&gt; edges = graph.edges();</b>
+<b class="nc"><i>660</i>&nbsp;      for (Edge edge : edges) {</b>
+<b class="nc"><i>661</i>&nbsp;        if (edge instanceof HyperEdge) {</b>
+<b class="nc"><i>662</i>&nbsp;          hyperEdgeString.append(&quot;\n&quot;).append(String.valueOf(++number)).append(&quot;.\n&quot;)</b>
+<b class="nc"><i>663</i>&nbsp;              .append(edge.vertices());</b>
+<i>664</i>&nbsp;        }
+<b class="nc"><i>665</i>&nbsp;      }</b>
+<b class="nc"><i>666</i>&nbsp;      hyperEdge.setText(hyperEdgeString.toString());</b>
+<i>667</i>&nbsp;
+<b class="nc"><i>668</i>&nbsp;      scrollPane1 = new JScrollPane(hyperEdge);</b>
+<i>669</i>&nbsp;
+<b class="nc"><i>670</i>&nbsp;      final ScalingControl scalingControl = new CrossoverScalingControl();</b>
+<b class="nc"><i>671</i>&nbsp;      plus.setPreferredSize(new Dimension(100, 100));</b>
+<i>672</i>&nbsp;
+<b class="nc"><i>673</i>&nbsp;      plus.addActionListener(e -&gt; scalingControl.scale(vv, 1.1f, vv.getCenter()));</b>
+<i>674</i>&nbsp;
+<b class="nc"><i>675</i>&nbsp;      minus.addActionListener(e -&gt; scalingControl.scale(vv, 1 / 1.1f, vv.getCenter()));</b>
+<i>676</i>&nbsp;
+<b class="nc"><i>677</i>&nbsp;      reset.addActionListener(e -&gt; {</b>
+<b class="nc"><i>678</i>&nbsp;        vv.getRenderContext()</b>
+<b class="nc"><i>679</i>&nbsp;            .getMultiLayerTransformer()</b>
+<b class="nc"><i>680</i>&nbsp;            .getTransformer(Layer.LAYOUT)</b>
+<b class="nc"><i>681</i>&nbsp;            .setToIdentity();</b>
+<b class="nc"><i>682</i>&nbsp;        vv.getRenderContext()</b>
+<b class="nc"><i>683</i>&nbsp;            .getMultiLayerTransformer()</b>
+<b class="nc"><i>684</i>&nbsp;            .getTransformer(Layer.VIEW)</b>
+<b class="nc"><i>685</i>&nbsp;            .setToIdentity();</b>
+<i>686</i>&nbsp;      });
+<i>687</i>&nbsp;
+<b class="nc"><i>688</i>&nbsp;      label.setFont(new Font(&quot;Dialog&quot;, 0, 15));</b>
+<b class="nc"><i>689</i>&nbsp;      graphName.setFont(new Font(&quot;Dialog&quot;, 1, 20));</b>
+<b class="nc"><i>690</i>&nbsp;      graphName.setForeground(Color.BLACK);</b>
+<b class="nc"><i>691</i>&nbsp;      GroupLayout.SequentialGroup hgroup = layout.createSequentialGroup();</b>
+<b class="nc"><i>692</i>&nbsp;      this.setLayout(layout);</b>
+<b class="nc"><i>693</i>&nbsp;      hgroup.addGap(5);</b>
+<b class="nc"><i>694</i>&nbsp;      hgroup.addGroup(layout.createParallelGroup().addComponent(label).addComponent(graphName)</b>
+<b class="nc"><i>695</i>&nbsp;          .addComponent(plus)</b>
+<b class="nc"><i>696</i>&nbsp;          .addComponent(minus)</b>
+<b class="nc"><i>697</i>&nbsp;          .addComponent(reset)</b>
+<b class="nc"><i>698</i>&nbsp;          .addComponent(scrollPane1));</b>
+<b class="nc"><i>699</i>&nbsp;      hgroup.addGap(5);</b>
+<b class="nc"><i>700</i>&nbsp;      layout.setHorizontalGroup(hgroup);</b>
+<i>701</i>&nbsp;
+<b class="nc"><i>702</i>&nbsp;      GroupLayout.SequentialGroup vgroup = layout.createSequentialGroup();</b>
+<b class="nc"><i>703</i>&nbsp;      vgroup.addGap(10);</b>
+<b class="nc"><i>704</i>&nbsp;      vgroup.addGroup(layout.createParallelGroup().addComponent(label));</b>
+<b class="nc"><i>705</i>&nbsp;      vgroup.addGap(10);</b>
+<b class="nc"><i>706</i>&nbsp;      vgroup.addGroup(layout.createParallelGroup().addComponent(graphName));</b>
+<b class="nc"><i>707</i>&nbsp;      vgroup.addGap(10);</b>
+<b class="nc"><i>708</i>&nbsp;      vgroup.addGroup(layout.createParallelGroup().addComponent(plus));</b>
+<b class="nc"><i>709</i>&nbsp;      vgroup.addGap(10);</b>
+<b class="nc"><i>710</i>&nbsp;      vgroup.addGroup(layout.createParallelGroup().addComponent(minus));</b>
+<b class="nc"><i>711</i>&nbsp;      vgroup.addGap(10);</b>
+<b class="nc"><i>712</i>&nbsp;      vgroup.addGroup(layout.createParallelGroup().addComponent(reset));</b>
+<b class="nc"><i>713</i>&nbsp;      vgroup.addGap(10);</b>
+<b class="nc"><i>714</i>&nbsp;      vgroup.addGroup(layout.createParallelGroup().addComponent(scrollPane1));</b>
+<b class="nc"><i>715</i>&nbsp;      vgroup.addGap(10);</b>
+<b class="nc"><i>716</i>&nbsp;      layout.setVerticalGroup(vgroup);</b>
+<i>717</i>&nbsp;    }
+<i>718</i>&nbsp;  }
+<i>719</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

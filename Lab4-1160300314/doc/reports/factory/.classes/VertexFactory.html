@@ -1,0 +1,162 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: VertexFactory</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">factory</a> ]
+</div>
+
+<h1>Coverage Summary for Class: VertexFactory (factory)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VertexFactory</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96.3%
+  </span>
+  <span class="absValue">
+    (26/ 27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package factory;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import exception.IllegalVertexTypeException;
+<i>4</i>&nbsp;import exception.InputFileAgainException;
+<i>5</i>&nbsp;import vertex.Actor;
+<i>6</i>&nbsp;import vertex.Computer;
+<i>7</i>&nbsp;import vertex.Director;
+<i>8</i>&nbsp;import vertex.Movie;
+<i>9</i>&nbsp;import vertex.Person;
+<i>10</i>&nbsp;import vertex.Router;
+<i>11</i>&nbsp;import vertex.Server;
+<i>12</i>&nbsp;import vertex.Vertex;
+<i>13</i>&nbsp;import vertex.WirelessRouter;
+<i>14</i>&nbsp;import vertex.Word;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;/**
+<i>17</i>&nbsp; * A factory that used to create instances of vertices.
+<i>18</i>&nbsp; *
+<i>19</i>&nbsp; * @author Zhu Mingyan
+<i>20</i>&nbsp; */
+<b class="nc"><i>21</i>&nbsp;public class VertexFactory {</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;  /**
+<i>24</i>&nbsp;   * Create an instance of some type with params.
+<i>25</i>&nbsp;   *
+<i>26</i>&nbsp;   * @param label the label string of instance which is a non-null and non-empty string
+<i>27</i>&nbsp;   * @param type the type of vertices that you want to that should in all types we have been
+<i>28</i>&nbsp;   *        defined
+<i>29</i>&nbsp;   * @param args all fields needed when created an instance of determined vertex type
+<i>30</i>&nbsp;   * @return an vertex instance
+<i>31</i>&nbsp;   * @throws InputFileAgainException if type is null string or there is no such type.
+<i>32</i>&nbsp;   */
+<i>33</i>&nbsp;  public static Vertex createVertex(String label, String type, String[] args)
+<i>34</i>&nbsp;      throws InputFileAgainException {
+<i>35</i>&nbsp;    Vertex vertex;
+<b class="fc"><i>36</i>&nbsp;    if (type == null) {</b>
+<b class="fc"><i>37</i>&nbsp;      throw new IllegalVertexTypeException(&quot;Vertex type of inputs is null!&quot;);</b>
+<i>38</i>&nbsp;    }
+<b class="fc"><i>39</i>&nbsp;    switch (type) {</b>
+<i>40</i>&nbsp;      case &quot;Word&quot;:
+<b class="fc"><i>41</i>&nbsp;        vertex = new Word(label);</b>
+<b class="fc"><i>42</i>&nbsp;        return vertex;</b>
+<i>43</i>&nbsp;      case &quot;Computer&quot;:
+<b class="fc"><i>44</i>&nbsp;        vertex = new Computer(label);</b>
+<b class="fc"><i>45</i>&nbsp;        break;</b>
+<i>46</i>&nbsp;      case &quot;Server&quot;:
+<b class="fc"><i>47</i>&nbsp;        vertex = new Server(label);</b>
+<b class="fc"><i>48</i>&nbsp;        break;</b>
+<i>49</i>&nbsp;      case &quot;Router&quot;:
+<b class="fc"><i>50</i>&nbsp;        vertex = new Router(label);</b>
+<b class="fc"><i>51</i>&nbsp;        break;</b>
+<i>52</i>&nbsp;      case &quot;Actor&quot;:
+<b class="fc"><i>53</i>&nbsp;        vertex = new Actor(label);</b>
+<b class="fc"><i>54</i>&nbsp;        break;</b>
+<i>55</i>&nbsp;      case &quot;Director&quot;:
+<b class="fc"><i>56</i>&nbsp;        vertex = new Director(label);</b>
+<b class="fc"><i>57</i>&nbsp;        break;</b>
+<i>58</i>&nbsp;      case &quot;Person&quot;:
+<b class="fc"><i>59</i>&nbsp;        vertex = new Person(label);</b>
+<b class="fc"><i>60</i>&nbsp;        break;</b>
+<i>61</i>&nbsp;      case &quot;Movie&quot;:
+<b class="fc"><i>62</i>&nbsp;        vertex = new Movie(label);</b>
+<b class="fc"><i>63</i>&nbsp;        break;</b>
+<i>64</i>&nbsp;      case &quot;WirelessRouter&quot;:
+<b class="fc"><i>65</i>&nbsp;        vertex = new WirelessRouter(label);</b>
+<b class="fc"><i>66</i>&nbsp;        break;</b>
+<i>67</i>&nbsp;      default:
+<b class="fc"><i>68</i>&nbsp;        vertex = null;</b>
+<i>69</i>&nbsp;        break;
+<i>70</i>&nbsp;    }
+<i>71</i>&nbsp;    //assert vertex != null;
+<b class="fc"><i>72</i>&nbsp;    if (vertex == null) {</b>
+<b class="fc"><i>73</i>&nbsp;      throw new IllegalVertexTypeException(&quot;Using VertexFactory with a non-defined vertex type!&quot;);</b>
+<i>74</i>&nbsp;    }
+<b class="fc"><i>75</i>&nbsp;    vertex.fillVertexInfo(args);</b>
+<b class="fc"><i>76</i>&nbsp;    return vertex;</b>
+<i>77</i>&nbsp;  }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

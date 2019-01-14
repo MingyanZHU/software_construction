@@ -1,0 +1,164 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Caretaker</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">memento</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Caretaker (memento)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Caretaker</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (20/ 20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package memento;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import exception.ContinueRunningException;
+<i>4</i>&nbsp;import java.util.ArrayList;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;/**
+<i>7</i>&nbsp; * Memo manager.
+<i>8</i>&nbsp; *
+<i>9</i>&nbsp; * @author Zhu Mingyan
+<i>10</i>&nbsp; */
+<b class="fc"><i>11</i>&nbsp;public class Caretaker {</b>
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;  // AF: Representing a Caretaker for memo
+<i>14</i>&nbsp;  // RI: mementos should not be null.
+<i>15</i>&nbsp;  // Safety for Rep Exposure:
+<i>16</i>&nbsp;  //      mementos are modified by keyword private. And there is no setter functions.
+<b class="fc"><i>17</i>&nbsp;  private ArrayList&lt;Memento&gt; mementos = new ArrayList&lt;&gt;();</b>
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;  /**
+<i>20</i>&nbsp;   * Add memento at the end.
+<i>21</i>&nbsp;   *
+<i>22</i>&nbsp;   * @param memento needed to be saved.
+<i>23</i>&nbsp;   */
+<i>24</i>&nbsp;  public boolean save(Memento memento) {
+<b class="fc"><i>25</i>&nbsp;    if (memento == null) {</b>
+<b class="fc"><i>26</i>&nbsp;      return false;</b>
+<i>27</i>&nbsp;    } else {
+<b class="fc"><i>28</i>&nbsp;      return mementos.add(memento);</b>
+<i>29</i>&nbsp;    }
+<i>30</i>&nbsp;  }
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;  /**
+<i>33</i>&nbsp;   * Get the latest memento.
+<i>34</i>&nbsp;   *
+<i>35</i>&nbsp;   * @return latest memento.
+<i>36</i>&nbsp;   * @throws ContinueRunningException if mementos is empty.
+<i>37</i>&nbsp;   */
+<i>38</i>&nbsp;  public Memento restore() throws ContinueRunningException {
+<b class="fc"><i>39</i>&nbsp;    if (mementos.isEmpty()) {</b>
+<b class="fc"><i>40</i>&nbsp;      throw new ContinueRunningException(&quot;Can not roll back because of empty mementos!&quot;);</b>
+<i>41</i>&nbsp;    }
+<b class="fc"><i>42</i>&nbsp;    return mementos.get(mementos.size() - 1);</b>
+<i>43</i>&nbsp;  }
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;  /**
+<i>47</i>&nbsp;   * Get the i-th latest memento.
+<i>48</i>&nbsp;   *
+<i>49</i>&nbsp;   * @return the i-th latest memento.
+<i>50</i>&nbsp;   * @throws ContinueRunningException if i &lt; 0 or i &gt; number of memento.
+<i>51</i>&nbsp;   */
+<i>52</i>&nbsp;  public Memento restore(int i) throws ContinueRunningException {
+<b class="fc"><i>53</i>&nbsp;    if (mementos.size() - i &lt; 0 || i &lt; 1) {</b>
+<b class="fc"><i>54</i>&nbsp;      throw new ContinueRunningException(&quot;Cannot rollback so many back&quot;);</b>
+<i>55</i>&nbsp;    }
+<b class="fc"><i>56</i>&nbsp;    Memento answer = mementos.get(mementos.size() - i);</b>
+<b class="fc"><i>57</i>&nbsp;    for (int j = mementos.size() - 1; j &gt; i; j--) {</b>
+<b class="fc"><i>58</i>&nbsp;      Memento memento = mementos.get(j);</b>
+<b class="fc"><i>59</i>&nbsp;      mementos.remove(memento);</b>
+<i>60</i>&nbsp;    }
+<b class="fc"><i>61</i>&nbsp;    return answer;</b>
+<i>62</i>&nbsp;  }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;  //    /**
+<i>65</i>&nbsp;  //     * Get the state recorded in the latest memento.
+<i>66</i>&nbsp;  //     *
+<i>67</i>&nbsp;  //     * @return state
+<i>68</i>&nbsp;  //     */
+<i>69</i>&nbsp;  //    public State getState() {
+<i>70</i>&nbsp;  //        return mementos.get(mementos.size() - 1).getState();
+<i>71</i>&nbsp;  //    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;  @Override
+<i>74</i>&nbsp;  public String toString() {
+<b class="fc"><i>75</i>&nbsp;    StringBuilder stringBuilder = new StringBuilder();</b>
+<b class="fc"><i>76</i>&nbsp;    for (Memento memento : mementos) {</b>
+<b class="fc"><i>77</i>&nbsp;      stringBuilder.append(memento.toString());</b>
+<b class="fc"><i>78</i>&nbsp;    }</b>
+<b class="fc"><i>79</i>&nbsp;    return stringBuilder.toString();</b>
+<i>80</i>&nbsp;  }
+<i>81</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

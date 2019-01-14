@@ -1,0 +1,11 @@
+GraphType = "SocialNetwork"
+GraphName = "SOCIALNETWORK"
+
+VertexType = "Person"
+Vertex = <"Kevin", "Person", <"M", "19">>
+Vertex = <"Amy", "Person", <"F", "18">>
+
+EdgeType = "CommentTie", "FriendTie", "ForwardTie"
+Edge = <"forwardTie", "ForwardTie", "1", "Kevin", "Amy", "Yes">
+Edge = <"commentTie", "CommentTie", "0.5", "Kevin", "Amy", "Yes">
+Edge = <"friendTie", "FriendTie", "0.3", "Amy", "Kevin", "Yes">

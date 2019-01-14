@@ -1,0 +1,126 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GraphPoetAppGui</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">application</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GraphPoetAppGui (application)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GraphPoetAppGui</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 3)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package application;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import application.guihelper.GraphGui;
+<i>4</i>&nbsp;import edge.Edge;
+<i>5</i>&nbsp;import edge.WordNeighborhood;
+<i>6</i>&nbsp;import exception.InputFileAgainException;
+<i>7</i>&nbsp;import graph.Graph;
+<i>8</i>&nbsp;import vertex.Vertex;
+<i>9</i>&nbsp;import vertex.Word;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;/**
+<i>12</i>&nbsp; * Create a GUI visualization of GraphPoet.
+<i>13</i>&nbsp; *
+<i>14</i>&nbsp; * @author Zhu Mingyan
+<i>15</i>&nbsp; */
+<i>16</i>&nbsp;class GraphPoetAppGui extends GraphGui {
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;  GraphPoetAppGui(Graph graph) {
+<b class="nc"><i>19</i>&nbsp;    super(graph);</b>
+<i>20</i>&nbsp;  }
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;  /**
+<i>23</i>&nbsp;   * Add Vertex in GraphPoet.
+<i>24</i>&nbsp;   *
+<i>25</i>&nbsp;   * @param vertex its type should be Word Class we have defined before and is non-null
+<i>26</i>&nbsp;   * @return true if adding successfully, otherwise false
+<i>27</i>&nbsp;   */
+<i>28</i>&nbsp;  @Override
+<i>29</i>&nbsp;  public boolean addVertexInGraph(Vertex vertex) {
+<b class="nc"><i>30</i>&nbsp;    return vertex instanceof Word &amp;&amp; super.addVertexInGraph(vertex);</b>
+<i>31</i>&nbsp;  }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;  /**
+<i>34</i>&nbsp;   * Add edge in GraphPoet.
+<i>35</i>&nbsp;   *
+<i>36</i>&nbsp;   * @param edge its type should be WordNeighborhood Class we have defined and is non-null
+<i>37</i>&nbsp;   * @return true if we add successfully, otherwise false
+<i>38</i>&nbsp;   */
+<i>39</i>&nbsp;  @Override
+<i>40</i>&nbsp;  public boolean addEdgeInGraph(Edge edge) throws InputFileAgainException {
+<b class="nc"><i>41</i>&nbsp;    return edge instanceof WordNeighborhood &amp;&amp; super.addEdgeInGraph(edge);</b>
+<i>42</i>&nbsp;  }
+<i>43</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,179 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Graph</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">graph</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Graph (graph)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Graph</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package graph;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import edge.Edge;
+<i>4</i>&nbsp;import exception.InputFileAgainException;
+<i>5</i>&nbsp;import java.util.List;
+<i>6</i>&nbsp;import java.util.Map;
+<i>7</i>&nbsp;import java.util.Set;
+<i>8</i>&nbsp;import vertex.Vertex;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * Graph Interface with Vertex Class L and Edge Class E.
+<i>12</i>&nbsp; *
+<i>13</i>&nbsp; * @param &lt;L&gt; Vertex Class
+<i>14</i>&nbsp; * @param &lt;E&gt; Edge Class
+<i>15</i>&nbsp; * @author Zhu Mingyan
+<i>16</i>&nbsp; */
+<i>17</i>&nbsp;public interface Graph&lt;L, E&gt; {
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;  /**
+<i>20</i>&nbsp;   * Get an empty graph instance.
+<i>21</i>&nbsp;   *
+<i>22</i>&nbsp;   * @param &lt;L&gt; Vertex Class
+<i>23</i>&nbsp;   * @param &lt;E&gt; Edge Class
+<i>24</i>&nbsp;   * @return an empty Graph
+<i>25</i>&nbsp;   */
+<i>26</i>&nbsp;  static &lt;L extends Vertex, E extends Edge&gt; Graph&lt;L, E&gt; empty() {
+<b class="fc"><i>27</i>&nbsp;    return new ConcreteGraph&lt;&gt;();</b>
+<i>28</i>&nbsp;  }
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;  /**
+<i>31</i>&nbsp;   * Get the name of Graph.
+<i>32</i>&nbsp;   *
+<i>33</i>&nbsp;   * @return label of Graph
+<i>34</i>&nbsp;   */
+<i>35</i>&nbsp;  String getGraphName();
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;  /**
+<i>38</i>&nbsp;   * Add a vertex instance into Graph.
+<i>39</i>&nbsp;   *
+<i>40</i>&nbsp;   * @param v vertex will be added
+<i>41</i>&nbsp;   * @return true if adding successfully, false otherwise
+<i>42</i>&nbsp;   */
+<i>43</i>&nbsp;  boolean addVertex(L v);
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;  /**
+<i>46</i>&nbsp;   * Remove a vertex from Graph, and any edges connected it will be also removed. If it belongs to
+<i>47</i>&nbsp;   * the hyper edge and hyper edge consisted of less than two vertices, the hyper edge will also
+<i>48</i>&nbsp;   * removed; otherwise the hyper edge will not be removed.
+<i>49</i>&nbsp;   *
+<i>50</i>&nbsp;   * @param v vertex will be removed
+<i>51</i>&nbsp;   * @return true if there is such vertex in graph, other false.
+<i>52</i>&nbsp;   */
+<i>53</i>&nbsp;  boolean removeVertex(L v);
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;  /**
+<i>56</i>&nbsp;   * Get all vertices of Graph.
+<i>57</i>&nbsp;   *
+<i>58</i>&nbsp;   * @return a set of all vertices
+<i>59</i>&nbsp;   */
+<i>60</i>&nbsp;  Set&lt;L&gt; vertices();
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;  /**
+<i>63</i>&nbsp;   * Get all edges that to some target vertex.
+<i>64</i>&nbsp;   *
+<i>65</i>&nbsp;   * @return a map with source vertex and weight of edge connected source and target.
+<i>66</i>&nbsp;   */
+<i>67</i>&nbsp;  Map&lt;L, List&lt;Double&gt;&gt; sources(L target);
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;  /**
+<i>70</i>&nbsp;   * Get all edges that from source vertex.
+<i>71</i>&nbsp;   *
+<i>72</i>&nbsp;   * @return a map with target vertex and weight of edge connected source and target.
+<i>73</i>&nbsp;   */
+<i>74</i>&nbsp;  Map&lt;L, List&lt;Double&gt;&gt; targets(L source);
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;  /**
+<i>77</i>&nbsp;   * Add an edge into Graph.
+<i>78</i>&nbsp;   *
+<i>79</i>&nbsp;   * @return true if adding successfully, otherwise false
+<i>80</i>&nbsp;   */
+<i>81</i>&nbsp;  boolean addEdge(E edge) throws InputFileAgainException;
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;  /**
+<i>84</i>&nbsp;   * Remove an edge from Graph.
+<i>85</i>&nbsp;   *
+<i>86</i>&nbsp;   * @return true if there is such an edge in this graph, other false
+<i>87</i>&nbsp;   */
+<i>88</i>&nbsp;  boolean removeEdge(E edge) throws InputFileAgainException;
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;  /**
+<i>91</i>&nbsp;   * Get all edges of this Graph.
+<i>92</i>&nbsp;   *
+<i>93</i>&nbsp;   * @return a set consists of all edges of graph
+<i>94</i>&nbsp;   */
+<i>95</i>&nbsp;  Set&lt;E&gt; edges();
+<i>96</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

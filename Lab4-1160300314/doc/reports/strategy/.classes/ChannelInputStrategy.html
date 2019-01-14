@@ -1,0 +1,153 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ChannelInputStrategy</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">strategy</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ChannelInputStrategy (strategy)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChannelInputStrategy</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package strategy;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.io.File;
+<i>4</i>&nbsp;import java.io.IOException;
+<i>5</i>&nbsp;import java.io.RandomAccessFile;
+<i>6</i>&nbsp;import java.nio.ByteBuffer;
+<i>7</i>&nbsp;import java.nio.channels.FileChannel;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;public class ChannelInputStrategy implements InputStrategy {
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;  private static final int bufSize = 100;
+<i>12</i>&nbsp;  private File file;
+<i>13</i>&nbsp;  private FileChannel fileChannel;
+<i>14</i>&nbsp;  private ByteBuffer byteBuffer;
+<i>15</i>&nbsp;  private long lineNumber;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;  /**
+<i>18</i>&nbsp;   * Use channel strategy read from file.
+<i>19</i>&nbsp;   *
+<i>20</i>&nbsp;   * @param fileName non-null file path
+<i>21</i>&nbsp;   * @throws IOException if there is no such file
+<i>22</i>&nbsp;   */
+<b class="nc"><i>23</i>&nbsp;  public ChannelInputStrategy(String fileName) throws IOException {</b>
+<b class="nc"><i>24</i>&nbsp;    lineNumber = 0;</b>
+<b class="nc"><i>25</i>&nbsp;    file = new File(fileName);</b>
+<b class="nc"><i>26</i>&nbsp;    fileChannel = new RandomAccessFile(file, &quot;r&quot;).getChannel();</b>
+<b class="nc"><i>27</i>&nbsp;    byteBuffer = ByteBuffer.allocate(bufSize);</b>
+<i>28</i>&nbsp;  }
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;  @Override
+<i>31</i>&nbsp;  public String readLine() throws IOException {
+<b class="nc"><i>32</i>&nbsp;    String enterStr = &quot;\n&quot;;</b>
+<b class="nc"><i>33</i>&nbsp;    byte[] bs = new byte[bufSize];</b>
+<b class="nc"><i>34</i>&nbsp;    String line = &quot;&quot;;</b>
+<b class="nc"><i>35</i>&nbsp;    StringBuilder strBuf = new StringBuilder();</b>
+<b class="nc"><i>36</i>&nbsp;    while (fileChannel.read(byteBuffer) != -1) {</b>
+<b class="nc"><i>37</i>&nbsp;      int size = byteBuffer.position();</b>
+<b class="nc"><i>38</i>&nbsp;      byteBuffer.rewind();//将position置为0，为读做准备</b>
+<b class="nc"><i>39</i>&nbsp;      byteBuffer.get(bs);//从上述position=0的位置开始读</b>
+<b class="nc"><i>40</i>&nbsp;      byteBuffer.clear();</b>
+<b class="nc"><i>41</i>&nbsp;      String tempString = new String(bs, 0, size, &quot;utf-8&quot;);</b>
+<b class="nc"><i>42</i>&nbsp;      int fromIndex = 0;</b>
+<b class="nc"><i>43</i>&nbsp;      int endIndex = 0;</b>
+<i>44</i>&nbsp;      //查找换行符符号\n，如果找到了，则写文件，如果没有找到则继续读取
+<b class="nc"><i>45</i>&nbsp;      while ((endIndex = tempString.indexOf(enterStr, fromIndex)) != -1) {</b>
+<b class="nc"><i>46</i>&nbsp;        line = tempString.substring(fromIndex, endIndex);</b>
+<b class="nc"><i>47</i>&nbsp;        line = strBuf.toString() + line;</b>
+<b class="nc"><i>48</i>&nbsp;        strBuf.delete(0, strBuf.length());</b>
+<b class="nc"><i>49</i>&nbsp;        fromIndex = endIndex + 1;</b>
+<i>50</i>&nbsp;      }
+<i>51</i>&nbsp;
+<b class="nc"><i>52</i>&nbsp;      if (size &gt; tempString.length()) {</b>
+<b class="nc"><i>53</i>&nbsp;        strBuf.append(tempString.substring(fromIndex, tempString.length()));</b>
+<i>54</i>&nbsp;      } else {
+<b class="nc"><i>55</i>&nbsp;        strBuf.append(tempString.substring(fromIndex, size));</b>
+<i>56</i>&nbsp;      }
+<b class="nc"><i>57</i>&nbsp;    }</b>
+<b class="nc"><i>58</i>&nbsp;    return line;</b>
+<i>59</i>&nbsp;  }
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;  @Override
+<i>62</i>&nbsp;  public long getLineNumber() {
+<b class="nc"><i>63</i>&nbsp;    return ++lineNumber;</b>
+<i>64</i>&nbsp;  }
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;  @Override
+<i>67</i>&nbsp;  public void close() throws IOException {
+<b class="nc"><i>68</i>&nbsp;    fileChannel.close();</b>
+<i>69</i>&nbsp;  }
+<i>70</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

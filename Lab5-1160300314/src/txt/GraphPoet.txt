@@ -1,0 +1,28 @@
+GraphType = "GraphPoet"
+GraphName = "PoetGraph"
+
+VertexType = "Word"
+Vertex = <"to", "Word">
+Vertex = <"seek", "Word">
+Vertex = <"explore", "Word">
+Vertex = <"strange", "Word">
+Vertex = <"out", "Word">
+Vertex = <"new", "Word">
+Vertex = <"life", "Word">
+Vertex = <"and", "Word">
+Vertex = <"civilizations", "Word">
+Vertex = <"worlds", "Word">
+
+EdgeType = "WordNeighborhood"
+Edge = <"edge1", "WordNeighborhood", "1", "to", "explore", "Yes">
+Edge = <"edge2", "WordNeighborhood", "1", "to", "seek", "Yes">
+Edge = <"edge3", "WordNeighborhood", "1", "seek", "out", "Yes">
+Edge = <"edge4", "WordNeighborhood", "1", "explore", "strange", "Yes">
+Edge = <"edge5", "WordNeighborhood", "1", "out", "new", "Yes">
+Edge = <"edge6", "WordNeighborhood", "1", "strange", "new", "Yes">
+Edge = <"edge7", "WordNeighborhood", "1", "new", "life", "Yes">
+Edge = <"edge8", "WordNeighborhood", "1", "new", "civilizations", "Yes">
+Edge = <"edge9", "WordNeighborhood", "1", "new", "worlds", "Yes">
+Edge = <"edge10", "WordNeighborhood", "1", "life", "and", "Yes">
+Edge = <"edge11", "WordNeighborhood", "1", "and", "new", "Yes">
+Edge = <"edge12", "WordNeighborhood", "1", "worlds", "to", "Yes">

@@ -1,0 +1,215 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: UndirectedEdge</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">edge</a> ]
+</div>
+
+<h1>Coverage Summary for Class: UndirectedEdge (edge)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UndirectedEdge</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.7%
+  </span>
+  <span class="absValue">
+    (44/ 46)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package edge;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import exception.IllegalEdgeParamsException;
+<i>4</i>&nbsp;import exception.IllegalVertexParamsException;
+<i>5</i>&nbsp;import exception.InputFileAgainException;
+<i>6</i>&nbsp;import java.util.HashSet;
+<i>7</i>&nbsp;import java.util.List;
+<i>8</i>&nbsp;import java.util.Objects;
+<i>9</i>&nbsp;import java.util.Set;
+<i>10</i>&nbsp;import vertex.Vertex;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;/**
+<i>13</i>&nbsp; * Describe the undirected edge in graph.
+<i>14</i>&nbsp; *
+<i>15</i>&nbsp; * @author Zhu Mingyan
+<i>16</i>&nbsp; */
+<i>17</i>&nbsp;public class UndirectedEdge extends Edge {
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;  /*
+<i>20</i>&nbsp;  AF: Represents the undirected edge in graph with two vertices.
+<i>21</i>&nbsp;  RI: Any vertex of undirected edge is non-null and an instance of Vertex.
+<i>22</i>&nbsp;  Safety for Rep Exposure:
+<i>23</i>&nbsp;      All fields except label and weight are modified by key word private and clients can access
+<i>24</i>&nbsp;      only by these getter function and change them by the addVertices function which is strictly
+<i>25</i>&nbsp;      limited.
+<i>26</i>&nbsp;   */
+<i>27</i>&nbsp;  private Vertex vertex1;
+<i>28</i>&nbsp;  private Vertex vertex2;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;  public UndirectedEdge(String label, double weight) throws InputFileAgainException {
+<b class="fc"><i>31</i>&nbsp;    super(label, weight);</b>
+<b class="fc"><i>32</i>&nbsp;    super.checkRep();</b>
+<b class="fc"><i>33</i>&nbsp;  }</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;  @Override
+<i>36</i>&nbsp;  protected void checkRep() throws InputFileAgainException {
+<b class="fc"><i>37</i>&nbsp;    super.checkRep();</b>
+<i>38</i>&nbsp;    //    if (vertex1 == null || vertex2 == null) {
+<i>39</i>&nbsp;    //      throw new IllegalEdgeParamsException(&quot;Some vertex in undirected edge is null!&quot;);
+<i>40</i>&nbsp;    //    }
+<i>41</i>&nbsp;    //    assert vertex1 != null;
+<i>42</i>&nbsp;    //    assert vertex2 != null;
+<b class="fc"><i>43</i>&nbsp;  }</b>
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;  @Override
+<i>46</i>&nbsp;  public boolean addVertices(List&lt;Vertex&gt; vertices) throws InputFileAgainException {
+<i>47</i>&nbsp;    //    assert vertices.size() == 1 || vertices.size() == 2;
+<i>48</i>&nbsp;    // If this edge is a loop the size of vertices will be one.
+<b class="fc"><i>49</i>&nbsp;    if (vertices == null) {</b>
+<b class="fc"><i>50</i>&nbsp;      throw new IllegalVertexParamsException(&quot;Vertices of undirected edge is null&quot;);</b>
+<i>51</i>&nbsp;    }
+<b class="fc"><i>52</i>&nbsp;    if (vertices.size() != 2 &amp;&amp; vertices.size() != 1) {</b>
+<b class="fc"><i>53</i>&nbsp;      throw new IllegalVertexParamsException(&quot;Number of vertices in undirected edge is &quot;</b>
+<b class="fc"><i>54</i>&nbsp;          + &quot; illegal with &quot; + vertices.size() + &quot; vertices&quot;);</b>
+<i>55</i>&nbsp;    }
+<b class="fc"><i>56</i>&nbsp;    if (vertices.contains(vertex1) &amp;&amp; vertices.contains(vertex2)) {</b>
+<b class="fc"><i>57</i>&nbsp;      return false;</b>
+<i>58</i>&nbsp;    }
+<i>59</i>&nbsp;    try {
+<b class="fc"><i>60</i>&nbsp;      if (vertices.size() == 1) {</b>
+<b class="fc"><i>61</i>&nbsp;        if (vertices.get(0) == null) {</b>
+<b class="fc"><i>62</i>&nbsp;          throw new IllegalVertexParamsException(&quot;Add null in undirected edge!&quot;);</b>
+<i>63</i>&nbsp;        }
+<b class="fc"><i>64</i>&nbsp;        vertex1 = vertex2 = vertices.get(0).clone();</b>
+<i>65</i>&nbsp;      } else {
+<b class="fc"><i>66</i>&nbsp;        if (vertices.get(0) == null || vertices.get(1) == null) {</b>
+<b class="fc"><i>67</i>&nbsp;          throw new IllegalVertexParamsException(&quot;Add null in undirected edge!&quot;);</b>
+<i>68</i>&nbsp;        }
+<b class="fc"><i>69</i>&nbsp;        vertex1 = vertices.get(0).clone();</b>
+<b class="fc"><i>70</i>&nbsp;        vertex2 = vertices.get(1).clone();</b>
+<i>71</i>&nbsp;      }
+<b class="nc"><i>72</i>&nbsp;    } catch (CloneNotSupportedException e) {</b>
+<b class="nc"><i>73</i>&nbsp;      e.printStackTrace();</b>
+<b class="fc"><i>74</i>&nbsp;    }</b>
+<b class="fc"><i>75</i>&nbsp;    checkRep();</b>
+<b class="fc"><i>76</i>&nbsp;    return true;</b>
+<i>77</i>&nbsp;  }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;  @Override
+<i>80</i>&nbsp;  public boolean containVertex(Vertex v) {
+<b class="fc"><i>81</i>&nbsp;    return vertex1.equals(v) || vertex2.equals(v);</b>
+<i>82</i>&nbsp;  }
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;  @Override
+<i>85</i>&nbsp;  public Set&lt;Vertex&gt; vertices() {
+<b class="fc"><i>86</i>&nbsp;    Set&lt;Vertex&gt; set = new HashSet&lt;&gt;();</b>
+<b class="fc"><i>87</i>&nbsp;    set.add(vertex1);</b>
+<b class="fc"><i>88</i>&nbsp;    set.add(vertex2);</b>
+<b class="fc"><i>89</i>&nbsp;    return set;</b>
+<i>90</i>&nbsp;  }
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;  @Override
+<i>93</i>&nbsp;  public Set&lt;Vertex&gt; sourceVertices() {
+<b class="fc"><i>94</i>&nbsp;    return vertices();</b>
+<i>95</i>&nbsp;  }
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;  @Override
+<i>98</i>&nbsp;  public Set&lt;Vertex&gt; targetVertices() {
+<b class="fc"><i>99</i>&nbsp;    return vertices();</b>
+<i>100</i>&nbsp;  }
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;  @Override
+<i>103</i>&nbsp;  public boolean equals(Object o) {
+<b class="fc"><i>104</i>&nbsp;    if (this == o) {</b>
+<b class="fc"><i>105</i>&nbsp;      return true;</b>
+<i>106</i>&nbsp;    }
+<b class="fc"><i>107</i>&nbsp;    if (!(o instanceof UndirectedEdge)) {</b>
+<b class="fc"><i>108</i>&nbsp;      return false;</b>
+<i>109</i>&nbsp;    }
+<b class="fc"><i>110</i>&nbsp;    if (!super.equals(o)) {</b>
+<b class="fc"><i>111</i>&nbsp;      return false;</b>
+<i>112</i>&nbsp;    }
+<b class="fc"><i>113</i>&nbsp;    UndirectedEdge that = (UndirectedEdge) o;</b>
+<b class="fc"><i>114</i>&nbsp;    return (vertex1.equals(that.vertex1)</b>
+<b class="fc"><i>115</i>&nbsp;        &amp;&amp; vertex2.equals(that.vertex2))</b>
+<b class="fc"><i>116</i>&nbsp;        || (vertex1.equals(that.vertex2)</b>
+<b class="fc"><i>117</i>&nbsp;        &amp;&amp; vertex2.equals(that.vertex1));</b>
+<i>118</i>&nbsp;  }
+<i>119</i>&nbsp;
+<i>120</i>&nbsp;  @Override
+<i>121</i>&nbsp;  public int hashCode() {
+<i>122</i>&nbsp;
+<b class="fc"><i>123</i>&nbsp;    return Objects.hash(super.hashCode(), vertex1, vertex2);</b>
+<i>124</i>&nbsp;  }
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;  @Override
+<i>127</i>&nbsp;  public String toString() {
+<b class="fc"><i>128</i>&nbsp;    return &quot;UndirectedEdge{&quot;</b>
+<b class="fc"><i>129</i>&nbsp;        + &quot;label=&#39;&quot; + getLabel() + &#39;\&#39;&#39; + &quot;, weight=&quot; + getWeight()</b>
+<i>130</i>&nbsp;        + &quot;, vertex1=&quot; + vertex1 + &quot;, vertex2=&quot; + vertex2 + &#39;}&#39;;
+<i>131</i>&nbsp;  }
+<i>132</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

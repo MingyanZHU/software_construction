@@ -1,0 +1,131 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Word</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">vertex</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Word (vertex)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Word</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package vertex;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import exception.IllegalParamsNumberException;
+<i>4</i>&nbsp;import exception.IllegalVertexParamsException;
+<i>5</i>&nbsp;import java.util.Objects;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * Describe the word node of a graph with its label.
+<i>9</i>&nbsp; *
+<i>10</i>&nbsp; * @author Zhu Mingyan
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public class Word extends Vertex {
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;  /*
+<i>15</i>&nbsp;  AF: Represents an word node of Graph Poet.
+<i>16</i>&nbsp;  RI: The label of Word is the word itself.
+<i>17</i>&nbsp;  Safety for Rep Exposure:
+<i>18</i>&nbsp;      There is not other fields expect label in Class Word,
+<i>19</i>&nbsp;      and its super Class Vertex is safe for Rep Exposure.
+<i>20</i>&nbsp;   */
+<i>21</i>&nbsp;  public Word(String label) throws IllegalVertexParamsException {
+<b class="fc"><i>22</i>&nbsp;    super(label);</b>
+<b class="fc"><i>23</i>&nbsp;    super.checkRep();</b>
+<b class="fc"><i>24</i>&nbsp;  }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;  @Override
+<i>27</i>&nbsp;  public void fillVertexInfo(String[] args) throws IllegalParamsNumberException {
+<b class="fc"><i>28</i>&nbsp;    if (args != null) {</b>
+<b class="fc"><i>29</i>&nbsp;      throw new IllegalParamsNumberException(&quot;Class Word do not need any params!&quot;);</b>
+<i>30</i>&nbsp;    }
+<b class="fc"><i>31</i>&nbsp;  }</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;  @Override
+<i>34</i>&nbsp;  public int hashCode() {
+<b class="fc"><i>35</i>&nbsp;    return Objects.hash(super.hashCode(), &quot;Word&quot;);</b>
+<i>36</i>&nbsp;  }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;  @Override
+<i>39</i>&nbsp;  public boolean equals(Object obj) {
+<b class="fc"><i>40</i>&nbsp;    return super.equals(obj);</b>
+<i>41</i>&nbsp;  }
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;  @Override
+<i>44</i>&nbsp;  public String toString() {
+<b class="fc"><i>45</i>&nbsp;    return &quot;Word{&quot; + &quot;word=&#39;&quot; + getLabel() + &#39;\&#39;&#39; + &#39;}&#39;;</b>
+<i>46</i>&nbsp;  }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

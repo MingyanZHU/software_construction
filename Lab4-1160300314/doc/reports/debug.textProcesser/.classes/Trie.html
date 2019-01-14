@@ -1,0 +1,138 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Trie</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">debug.textProcesser</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Trie (debug.textProcesser)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Trie</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    82.1%
+  </span>
+  <span class="absValue">
+    (23/ 28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package debug.textProcesser;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.LinkedList;
+<i>4</i>&nbsp;
+<b class="fc"><i>5</i>&nbsp;public class Trie {</b>
+<i>6</i>&nbsp;
+<b class="fc"><i>7</i>&nbsp;  Node root = new Node(this);</b>
+<i>8</i>&nbsp;  Node pointer;
+<b class="fc"><i>9</i>&nbsp;  LinkedList&lt;Node&gt; nodeSet = new LinkedList&lt;Node&gt;();</b>
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;  // Adds a word to the Trie
+<i>12</i>&nbsp;  public void addWord(String s) {
+<b class="fc"><i>13</i>&nbsp;    char[] arr = s.toCharArray();</b>
+<b class="fc"><i>14</i>&nbsp;    if (pointer == null) {</b>
+<b class="fc"><i>15</i>&nbsp;      pointer = root;</b>
+<i>16</i>&nbsp;    }
+<b class="fc"><i>17</i>&nbsp;    for (char c : arr) {</b>
+<b class="fc"><i>18</i>&nbsp;      pointer.addChild(c);</b>
+<i>19</i>&nbsp;    }
+<i>20</i>&nbsp;
+<b class="fc"><i>21</i>&nbsp;    Node leaf = new Node(true, s.hashCode());</b>
+<b class="fc"><i>22</i>&nbsp;    pointer.addLeafChild(leaf);</b>
+<b class="fc"><i>23</i>&nbsp;    nodeSet.add(leaf);</b>
+<i>24</i>&nbsp;
+<b class="fc"><i>25</i>&nbsp;  }</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;  // Displays the current state of the Trie
+<i>28</i>&nbsp;  public void display() {
+<b class="fc"><i>29</i>&nbsp;    pointer = root;</b>
+<i>30</i>&nbsp;    // ?
+<b class="fc"><i>31</i>&nbsp;    System.out.println(&quot;Node Value: &quot; + pointer + &quot;, Children: &quot; + pointer.childValues().get(0));</b>
+<b class="fc"><i>32</i>&nbsp;    for (Node n : nodeSet) {</b>
+<b class="fc"><i>33</i>&nbsp;      System.out.println();</b>
+<b class="fc"><i>34</i>&nbsp;      System.out.print(&quot;Node Value: &quot; + n + &quot;, Children: &quot;);</b>
+<i>35</i>&nbsp;
+<b class="fc"><i>36</i>&nbsp;      for (int i = 0; i &lt; n.childValues().size(); i++) {</b>
+<b class="fc"><i>37</i>&nbsp;        System.out.println(n.childValues().get(i));</b>
+<i>38</i>&nbsp;      }
+<i>39</i>&nbsp;
+<b class="fc"><i>40</i>&nbsp;      if (n.isLeaf) {</b>
+<b class="fc"><i>41</i>&nbsp;        System.out.print(&quot;, isLeaf: &quot; + n.isLeaf + &quot;, hashcode: &quot; + n);</b>
+<i>42</i>&nbsp;      }
+<b class="fc"><i>43</i>&nbsp;    }</b>
+<b class="fc"><i>44</i>&nbsp;  }</b>
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;  // Prints all the nodes in a nodeSet and displays whether or not they have a
+<i>47</i>&nbsp;  // child that is a leaf
+<i>48</i>&nbsp;  public void hasLeaf() {
+<b class="nc"><i>49</i>&nbsp;    for (Node n : nodeSet) {</b>
+<b class="nc"><i>50</i>&nbsp;      if (n.isLeaf) {</b>
+<b class="nc"><i>51</i>&nbsp;        System.out.println(&quot;true&quot;);</b>
+<i>52</i>&nbsp;      }
+<b class="nc"><i>53</i>&nbsp;    }</b>
+<b class="nc"><i>54</i>&nbsp;  }</b>
+<i>55</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

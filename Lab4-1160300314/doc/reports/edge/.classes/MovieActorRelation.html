@@ -1,0 +1,164 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MovieActorRelation</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">edge</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MovieActorRelation (edge)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MovieActorRelation</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (20/ 20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package edge;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import exception.IllegalEdgeParamsException;
+<i>4</i>&nbsp;import exception.IllegalParamsNumberException;
+<i>5</i>&nbsp;import exception.InputFileAgainException;
+<i>6</i>&nbsp;import java.util.List;
+<i>7</i>&nbsp;import java.util.Objects;
+<i>8</i>&nbsp;import vertex.Actor;
+<i>9</i>&nbsp;import vertex.Movie;
+<i>10</i>&nbsp;import vertex.Vertex;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;/**
+<i>13</i>&nbsp; * Describe the interaction between actors and movies if actor has been in the movie. The weight of
+<i>14</i>&nbsp; * edge is the order of characters.
+<i>15</i>&nbsp; *
+<i>16</i>&nbsp; * @author Zhu Mingyan
+<i>17</i>&nbsp; */
+<i>18</i>&nbsp;public class MovieActorRelation extends UndirectedEdge {
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;  /**
+<i>21</i>&nbsp;   * Edge in Movie Graph which means that the actor has been played in this film.
+<i>22</i>&nbsp;   *
+<i>23</i>&nbsp;   * @param label non-string label
+<i>24</i>&nbsp;   * @param weight requires weight &gt; 0
+<i>25</i>&nbsp;   * @throws InputFileAgainException if weight &lt;= 0
+<i>26</i>&nbsp;   */
+<i>27</i>&nbsp;  public MovieActorRelation(String label, double weight) throws InputFileAgainException {
+<b class="fc"><i>28</i>&nbsp;    super(label, weight);</b>
+<b class="fc"><i>29</i>&nbsp;    if (weight &lt;= 0) {</b>
+<b class="fc"><i>30</i>&nbsp;      throw new IllegalEdgeParamsException(&quot;Weight of Movie Actor Relation is less than 0!&quot;);</b>
+<i>31</i>&nbsp;    }
+<b class="fc"><i>32</i>&nbsp;  }</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;  @Override
+<i>35</i>&nbsp;  protected void checkRep() throws InputFileAgainException {
+<i>36</i>&nbsp;    //    assert this.getWeight() &gt; 0;
+<b class="fc"><i>37</i>&nbsp;    super.checkRep();</b>
+<b class="fc"><i>38</i>&nbsp;  }</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;  /**
+<i>41</i>&nbsp;   * Fill vertices in MovieActorRelation and one of vertices should be an instance of Class Actor
+<i>42</i>&nbsp;   * and the other one should be an instance of Class Movie.
+<i>43</i>&nbsp;   *
+<i>44</i>&nbsp;   * @return true if add vertices successfully, otherwise false
+<i>45</i>&nbsp;   */
+<i>46</i>&nbsp;  @Override
+<i>47</i>&nbsp;  public boolean addVertices(List&lt;Vertex&gt; vertices) throws InputFileAgainException {
+<b class="fc"><i>48</i>&nbsp;    if (vertices == null) {</b>
+<b class="fc"><i>49</i>&nbsp;      throw new IllegalEdgeParamsException(&quot;Add vertices into MovieActorRelation with null args&quot;);</b>
+<i>50</i>&nbsp;    }
+<b class="fc"><i>51</i>&nbsp;    if (vertices.size() != 2) {</b>
+<b class="fc"><i>52</i>&nbsp;      throw new IllegalParamsNumberException(&quot;Add vertices into MovieActorRelation with &quot;</b>
+<b class="fc"><i>53</i>&nbsp;          + vertices.size() + &quot; params&quot;);</b>
+<i>54</i>&nbsp;    }
+<i>55</i>&nbsp;    //    assert vertices.size() == 2 &amp;&amp; (
+<i>56</i>&nbsp;    //        (vertices.get(0) instanceof Actor &amp;&amp; vertices.get(1) instanceof Movie)
+<i>57</i>&nbsp;    //            || (vertices.get(0) instanceof Movie &amp;&amp; vertices.get(1) instanceof Actor));
+<b class="fc"><i>58</i>&nbsp;    if (!((vertices.get(0) instanceof Actor &amp;&amp; vertices.get(1) instanceof Movie)</b>
+<b class="fc"><i>59</i>&nbsp;        || (vertices.get(0) instanceof Movie &amp;&amp; vertices.get(1) instanceof Actor))) {</b>
+<b class="fc"><i>60</i>&nbsp;      throw new IllegalEdgeParamsException(&quot;Add vertices into MovieActorRelation with &quot;</b>
+<b class="fc"><i>61</i>&nbsp;          + vertices.get(0).getClass().getSimpleName() + &quot; and &quot;</b>
+<b class="fc"><i>62</i>&nbsp;          + vertices.get(1).getClass().getSimpleName());</b>
+<i>63</i>&nbsp;    }
+<b class="fc"><i>64</i>&nbsp;    return super.addVertices(vertices);</b>
+<i>65</i>&nbsp;  }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;  @Override
+<i>68</i>&nbsp;  public String toString() {
+<b class="fc"><i>69</i>&nbsp;    return &quot;MovieActorRelation&quot; + super.toString().replace(&quot;UndirectedEdge&quot;, &quot;&quot;);</b>
+<i>70</i>&nbsp;  }
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;  @Override
+<i>73</i>&nbsp;  public boolean equals(Object o) {
+<b class="fc"><i>74</i>&nbsp;    return o instanceof MovieActorRelation &amp;&amp; super.equals(o);</b>
+<i>75</i>&nbsp;  }
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;  @Override
+<i>78</i>&nbsp;  public int hashCode() {
+<b class="fc"><i>79</i>&nbsp;    return Objects.hash(super.hashCode(), &quot;MovieActorRelation&quot;);</b>
+<i>80</i>&nbsp;  }
+<i>81</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-05-20 10:41</div>
+</div>
+</body>
+</html>

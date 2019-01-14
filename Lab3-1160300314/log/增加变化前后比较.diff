@@ -1,0 +1,143 @@
+diff --git a/src/application/GUIHelper/GraphGUI.java b/src/application/GUIHelper/GraphGUI.java
+index 2673220..e1b108f 100644
+--- a/src/application/GUIHelper/GraphGUI.java
++++ b/src/application/GUIHelper/GraphGUI.java
+@@ -173,6 +173,7 @@ public class GraphGUI extends JFrame {
+                     case "Computer":
+                     case "Router":
+                     case "Server":
++                    case "WirelessRouter":
+                         NetworkEquipmentDialog networkEquipmentDialog = new NetworkEquipmentDialog(this, this);
+                         break;
+                     case "Movie":
+@@ -343,6 +344,7 @@ public class GraphGUI extends JFrame {
+                     case "Computer":
+                     case "Router":
+                     case "Server":
++                    case "WirelessRouter":
+                         NetworkEquipmentDialog networkEquipmentDialog
+                                 = new NetworkEquipmentDialog(this, this, chosenVertex);
+                         break;
+diff --git a/src/application/GraphPoetApp.java b/src/application/GraphPoetApp.java
+index 3d695be..abe4dc2 100644
+--- a/src/application/GraphPoetApp.java
++++ b/src/application/GraphPoetApp.java
+@@ -7,6 +7,7 @@ import graph.Graph;
+ import factory.LoggerFactory;
+ import org.apache.log4j.Logger;
+ 
++import javax.swing.*;
+ import java.util.Scanner;
+ import java.util.Set;
+ 
+@@ -38,6 +39,19 @@ public class GraphPoetApp {
+                 LOGGER.debug("Read file from " + '\"' + filePath + '\"');
+                 this.graph = GraphFactory.createGraph(filePath);
+                 graphGUI = new GraphPoetAppGUI(graph);
++                while (true) {
++                    int limit;
++                    try {
++                        String n = JOptionPane.showInputDialog("Please input the n of weight you wanna to limit！");
++                        limit = Integer.valueOf(n);
++                        limitWeight(limit);
++                        break;
++                    } catch (InputFileAgainException e) {
++                        LOGGER.error(e.getMessage(), e);
++                    } catch (NumberFormatException e) {
++                        LOGGER.error(e.getMessage(), e);
++                    }
++                }
+                 break;
+             } catch (InputFileAgainException e) {
+                 LOGGER.error(e.getMessage(), e);
+@@ -58,10 +72,21 @@ public class GraphPoetApp {
+         this.graphGUI.visible();
+     }
+ 
++    public void limitWeight(int n) throws InputFileAgainException {
++        if (n <= 1) {
++            throw new InputFileAgainException("The limit n inputs is less than 1");
++        }
++        Set<Edge> edges = graph.edges();
++        for (Edge edge : edges) {
++            if (edge.getWeight() < n) {
++                graph.removeEdge(edge);
++            }
++        }
++        graphGUI = new GraphPoetAppGUI(graph);
++    }
++
+     public static void main(String[] args) {
+         GraphPoetApp graphPoetApp = new GraphPoetApp("src/txt/inputGraphPoet.txt");
+         graphPoetApp.visible();
+-//        graphPoetApp.limitWeight(2);
+-////        graphPoetApp.visible();
+     }
+ }
+diff --git a/src/factory/GraphFactory.java b/src/factory/GraphFactory.java
+index ddef086..f5b9126 100644
+--- a/src/factory/GraphFactory.java
++++ b/src/factory/GraphFactory.java
+@@ -192,7 +192,7 @@ public class GraphFactory {
+     private static Set legalVertexType() throws InputFileAgainException {
+         Set<String> validGraphPoetVertexType = new HashSet<>(Arrays.asList("Word"));
+         Set<String> validSocialNetworkVertexType = new HashSet<>(Arrays.asList("Person"));
+-        Set<String> validNetworkTopologyVertexType = new HashSet<>(Arrays.asList("Computer", "Server", "Router"));
++        Set<String> validNetworkTopologyVertexType = new HashSet<>(Arrays.asList("Computer", "Server", "Router", "WirelessRouter"));
+         Set<String> validMovieGraphVertexType = new HashSet<>(Arrays.asList("Movie", "Actor", "Director"));
+         if (graphType.equals("GraphPoet")) {
+             if (validGraphPoetVertexType.containsAll(vertexType)) {
+diff --git a/src/factory/VertexFactory.java b/src/factory/VertexFactory.java
+index fb43f0a..c378204 100644
+--- a/src/factory/VertexFactory.java
++++ b/src/factory/VertexFactory.java
+@@ -41,6 +41,8 @@ public class VertexFactory {
+             vertex = new Person(label);
+         } else if (type.equals("Movie")) {
+             vertex = new Movie(label);
++        } else if (type.equals("WirelessRouter")) {
++            vertex = new WirelessRouter(label);
+         } else {
+             vertex = null;
+         }
+diff --git a/src/vertex/WirelessRouter.java b/src/vertex/WirelessRouter.java
+new file mode 100644
+index 0000000..6ba83b1
+--- /dev/null
++++ b/src/vertex/WirelessRouter.java
+@@ -0,0 +1,35 @@
++package vertex;
++
++import exception.IllegalVertexParamsException;
++
++import java.util.Objects;
++
++// TODO
++public class WirelessRouter extends NetworkEquipment {
++    public WirelessRouter(String label) throws IllegalVertexParamsException {
++        super(label);
++        super.checkRep();
++    }
++
++    @Override
++    public String toString() {
++        return "WirelessRouter{" +
++                "hostname='" + getLabel() + '\'' +
++                ", IP='" + getIP() + '\'' +
++                '}';
++    }
++
++    @Override
++    public boolean equals(Object o) {
++        if (this == o) return true;
++        if (!(o instanceof WirelessRouter)) return false;
++        if (!super.equals(o)) return false;
++        WirelessRouter router = (WirelessRouter) o;
++        return this.getIP().equals(router.getIP());
++    }
++
++    @Override
++    public int hashCode() {
++        return Objects.hash(super.hashCode(), "WirelessRouter");
++    }
++}
