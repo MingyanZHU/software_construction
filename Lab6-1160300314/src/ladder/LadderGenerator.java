@@ -15,7 +15,9 @@ public class LadderGenerator {
   /*
   Rep invariant:
     numberOfLadders is equal to Params.n
+    numberOfLadders > 0
     length is equal to Params.h
+    length > 0
   Abstraction function:
     represents a generator can generate ladders with same pedals on them.
   Safety from rep exposure:
@@ -29,11 +31,14 @@ public class LadderGenerator {
   /**
    * Can generating Params.n ladders in config.
    *
-   * @throws ConfigurationException if config is wrong.
+   * @throws Exception if config is wrong or length or numberOfLadders <= 0.
    */
-  public LadderGenerator() throws ConfigurationException {
+  public LadderGenerator() throws Exception {
     this.length = ConfigReader.getConfig(Params.h);
     this.numberOfLadders = ConfigReader.getConfig(Params.n);
+    if (this.length <= 0 || this.numberOfLadders <= 0) {
+    	throw new Exception("length or numberOfLadders <= 0");
+    }
     this.checkRep();
   }
 
@@ -44,6 +49,8 @@ public class LadderGenerator {
 
       assert length == numberOfPedals;
       assert numberOfLadders == number;
+      assert number > 0;
+      assert numberOfPedals > 0;
     } catch (ConfigurationException e) {
       throw new RuntimeException(e);
     }
